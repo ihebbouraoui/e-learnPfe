@@ -1,0 +1,8 @@
+.sideBarFormContainer{
+    display: flex;
+}
+.infoProf{
+    background-color:#f0f2f578 ;
+    padding: 20px;
+    margin: 20px;
+}

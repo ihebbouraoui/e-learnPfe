@@ -1,0 +1,65 @@
+.login{
+    /*background-color: whitesmoke;*/
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+
+
+
+}
+.title{
+    font-size: xxx-large;
+    font-style: italic;
+    font-variant: all-small-caps;
+    font-family: cursive;
+    position: relative;
+    bottom:12%;
+}
+.detail{
+    font-size: large;
+    font-style: italic;
+    color: black;
+}
+.formLogin{
+    box-shadow: 0px 0px 20px 0px;
+    background-color: floralwhite;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    width: 50%;
+    height: 100%;
+}
+.photoBloc{
+    width: 100%;
+    height: 100%;
+}
+.photoE{
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+}
+.loginInput {
+    margin-bottom: 25px;
+    font-size: 18px !important;
+    width: 100%;
+    height: 9%;
+    border-radius: 50px;
+}
+.button{
+    width: 100%;
+    display: flex;
+    height: 63px;
+}
+.btn-login{
+    width: 100%;
+    height: 100%;
+    font-size: 25px;
+    font-family: inherit;
+    font-style: italic;
+    font-stretch: initial;
+    border-radius: 50px;
+    background: #f9dcd6;
+}

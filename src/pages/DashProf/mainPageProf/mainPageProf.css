@@ -1,0 +1,33 @@
+.profil{
+    display: flex;
+    direction: ltr;
+
+}
+.photoSide{
+    width: 20%;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 0 6px 0 #55555533;
+
+}
+.photo{
+    padding: 20px;
+    object-fit: contain;
+    margin: 20px;
+
+}
+.detailSide{
+    width: 40%;
+    display: grid;
+    gap: 10px;
+    padding: 20px;
+    box-shadow: 0 0 6px 0 #55555533;
+   margin:20px
+}
+.achivmentSide{
+    box-shadow: 0 0 6px 0 #55555533;
+    width: 30%;
+    margin: 20px;
+
+}
+

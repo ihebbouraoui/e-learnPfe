@@ -1,0 +1,25 @@
+.tabsForm{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 20px;
+    padding: 20px;
+
+}
+
+.tabsContainer{
+    display: flex;
+}
+.tabs{
+    padding: 20px;
+    margin: 20px;
+    display: flex;
+    cursor: pointer;
+}
+.addPrice{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    min-height: 330px;
+}

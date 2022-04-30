@@ -1,0 +1,64 @@
+.nav{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+
+.home{
+    margin:0 10px;
+    width: 80%;
+    display: flex;
+}
+
+
+.auth{
+    width: 20%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.headerNav{
+    padding: 0 1px !important;
+
+
+}
+
+.logo{
+    object-fit: contain;
+    border-radius: 10px 10px 10px 10px ;
+    margin-left: 29px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100px;
+    height: 70px;
+}
+.homeHome {
+    border-radius: 10px 10px 10px 10px;
+    margin-left: 30px;
+}
+.homeAbout {
+    border-radius: 10px 10px 10px 10px;
+    margin-left: 30px;
+
+}
+.homeProfil{
+    border-radius: 10px 10px 10px 10px;
+    margin-left: 30px;
+}
+.loginLogo{
+    width: 50px;
+    border-radius: 10px 10px 10px 10px;
+
+
+}
+.signLogo{
+    width: 50px;
+    border-radius: 10px 10px 10px 10px;
+
+}
+.ant-layout{
+
+}
+

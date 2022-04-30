@@ -1,0 +1,27 @@
+.formAddDirector{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.sectionItemContainer{
+    color: darkgray;
+
+
+}
+.permissionContainer{
+    padding: 10px 50px;
+    display: inline-grid;
+
+
+}
+.section{
+    font-size: 18px ;
+    font-style: italic;
+    padding: 0 10px;
+    margin: 10px 0;
+}
+.sectionItem{
+    display: flex;
+    padding: 0 10px;
+}

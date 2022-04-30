@@ -1,0 +1,30 @@
+.navbar{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 45px;
+    width: 100%;
+    padding: 0 5vw;
+    background-color: rgb(202 203 204);
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-content: center;
+    z-index: 999999!important;
+
+}
+.navigation{
+    width: 80%;
+}
+.path {
+position: absolute;
+left: 42%;
+align-items: center;
+font-size: 20px;
+font-weight: bold;
+color: dodgerblue;
+}
+.logout{
+    position: absolute;
+    left: 101px;
+}

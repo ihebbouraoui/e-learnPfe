@@ -1,0 +1,4 @@
+.detailEtudiantHaut{
+    display: flex;
+    flex-direction: column;
+}

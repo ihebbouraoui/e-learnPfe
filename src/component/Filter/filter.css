@@ -1,0 +1,17 @@
+.filterContainer {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f2f5;
+    border-radius: 10px;
+}
+
+.filterFormGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.btnCont {
+    display: flex;
+    margin: 20px 0 0 0 ;
+}

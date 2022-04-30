@@ -1,0 +1,114 @@
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 20px;
+    position: relative;
+    right: 10%;
+    width: 80%;
+
+}
+.container{
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #F2F3F5;
+
+}
+.rightSide{
+    width: 30%!important;
+    background-color: white;
+    margin: 10px;
+    padding: 10px;
+}
+.contenu{
+    width: 50% !important;
+    height: 100vh!important;
+    /*background-color: white;*/
+    margin: 10px;
+    padding: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-shadow: 0 0 6px 0 white;
+
+
+}
+.leftSide{
+    width: 30% !important;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 0 6px 0 white;
+
+}
+.anouunces{
+    width: 100%;
+    height: 100%;
+    margin: 10px;
+
+}
+.ant-card {
+    width: unset!important;
+}
+.like{
+    position: relative;
+    top: 151px;
+    right: 804px;
+}
+
+.card{
+    padding: 50px;
+    margin: 50px;
+}
+.ant-layout-header{
+    background: unset!important;
+}
+.searchSvg{
+    width: 16px;
+    /* left: 23px; */
+    position: relative;
+    bottom: 31px;
+    right: 196px;
+}
+.underNav{
+    margin: 10px;
+    padding: 30px;
+    /*border: #00000042 2px solid !important;*/
+    border-radius: 20px;
+    box-shadow: 0 0 6px 0 white !important;
+    background-color: white;
+}
+.logo {
+    width: 50px;
+    border-radius: 50px;
+    position: relative;
+    /* left: 0; */
+    /* right: 64px; */
+    /* direction: rtl; */
+    right: 92%;
+}
+.top{
+    display: flex;
+    box-shadow: 0 0 6px 0 white !important;
+
+}
+
+.myAvatar{
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    position: relative;
+    left:10px
+}
+.add{
+    position: relative;
+    left: 60px;
+}
+.comment {
+    width: 47vw;
+    position: relative;
+    top: 50px;
+}
+.right{
+    display: flex;
+    padding: 10px;
+}

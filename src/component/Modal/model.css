@@ -1,0 +1,33 @@
+.ModalCompContainer{
+    width: calc(100vw - 300px);
+    height: calc(100vh + 50px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999999999999999999999;
+}
+.ModalCenter{
+    background-color: white;
+    max-width: 800px;
+    min-width: 400px;
+    min-height: 400px;
+    border-radius: 20px;
+    box-shadow: 0 0 6px 0 #55555533;
+    padding: 20px;
+    position: relative;
+
+}
+.buttonClose{
+   position: absolute;
+    top:5px;
+    font-weight: bold;
+    font-size: 15px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
