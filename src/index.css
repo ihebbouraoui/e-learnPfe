@@ -6,6 +6,15 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
+
+}
+.ant-layout-content{
+    background-color: #fefefe;
+    background-image: linear-gradient(315deg, #fefefe 0%, #0085e43d 74%);
+}
+.ant-layout-header{
+    background-color: #fefefe;
+    background-image: linear-gradient(315deg, #fefefe 0%, #0085e43d 74%);
 }
 
 code {

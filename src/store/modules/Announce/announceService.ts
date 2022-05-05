@@ -68,3 +68,10 @@ export const postComment=(data:any)=> {
 	})
 }
 
+export const addAnnounce=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/announce/newAnnounce",
+		method:'post',
+		data:data,
+	})
+}

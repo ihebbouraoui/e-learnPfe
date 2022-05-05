@@ -15,7 +15,6 @@ const DetailAnnounce=()=>{
 	return(
 		<div className={"anouunces"}>
 			<AnnounceCard item={announce}/>
-
 		</div>
 	)
 }

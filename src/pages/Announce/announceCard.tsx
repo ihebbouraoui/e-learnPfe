@@ -5,11 +5,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {setSelectedAnnounce} from "../../store/modules/Announce/announceModule";
 import {getAnnounce, postComment} from "../../store/modules/Announce/announceService";
-import {Button} from "antd";
+import {Button, Form} from "antd";
 // @ts-ignore
 import alert from "../../assets/alert-svgrepo-com.svg";
 // @ts-ignore
 import sendMessage from "../../assets/message-svgrepo-com.svg";
+import TextArea from "antd/es/input/TextArea";
+import {getMessage, setMessage} from "../../store/modules/Auth/authService";
+import moment from "moment";
 
 const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 	const navigate = useNavigate()
@@ -47,17 +50,34 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 			}
 		})
 	}
+	const [commentForm] = Form.useForm();
+	const onFinish = (values: any) => {
+		setMessage({
+			messageFrom: userConnect.user.mail,
+			messageTo: item?.postBy?.mail,
+			values: values.type,
+			avatarFrom:userConnect?.user.photo,
+			avatarTo:item?.postBy?.mail
+		})
+		.then((res) => {
+			alert('message sent');
+			commentForm.resetFields();
+			getMessage()
+			.then()
+		})
+	}
+
 	return (
 		<div>
 			<div className="container">
 				<div className="card">
 					<div className="card__header">
 						<img src={item?.photo} className="card__image"
-							 style={{width: '100%'}}/>
+							 style={{width:'300px'}}/>
 					</div>
 					<div className="card__body">
 						<span className="tag tag-brown">{item?.category}</span>
-						<h4 style={{wordBreak: 'break-word'}}>{item.date}</h4>
+						<h4 style={{wordBreak: 'break-word'}}>{moment(item.date).format('YYYY-MM-DD')}</h4>
 						<p style={{wordBreak: 'break-word'}}>{item.data}</p>
 					</div>
 					<div className="card__footer">
@@ -66,34 +86,53 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 								 alt={''}/>
 							<div className="user__info">
 								<h5>{item.postBy.name}</h5>
-								<small>{item.date}</small>
+								<small>{moment(item.date).fromNow()}</small>
 							</div>
 						</div>
 					</div>
 					<div className={'tache'}>
-						{location.pathname === '/social_media' &&
-                        <Button type={'link'} style={{position: 'relative', top: '30px'}}
-                                onClick={() => goToDetail(item)}> انقر لقراءة المزيد </Button>}
+						{window.location.pathname === '/social_media' &&
+                        <Button type={'link'} style={{position: 'relative', top: '30px', fontWeight:'bolder',
+							fontSize:'20px',color:'black'}}
+                            onClick={()=>goToDetail(item)}    > انقر لقراءة المزيد </Button>}
 						<img alt={''}
 							 style={{
 								 position: 'relative',
 								 bottom: '60px',
 								 left: '100px',
 								 width: '30px',
-								 cursor: 'pointer'
+								 cursor: 'pointer',
+
 							 }}
 							 src={alert}/>
-						<img alt={''}
-							 style={{
-								 position: 'relative',
-								 width: '30px',
-								 cursor: 'pointer'
-							 }}
-							 src={sendMessage} onClick={() => changeComme()}/>
+						{/*<img alt={''}*/}
+						{/*	 style={{*/}
+						{/*		 position: 'relative',*/}
+						{/*		 width: '30px',*/}
+						{/*		 cursor: 'pointer'*/}
+						{/*	 }}*/}
+						{/*	 src={sendMessage} onClick={() => changeComme()}/>*/}
+						{window.location.pathname!=='/detailAnnounce' &&
+						<button style={{
+							width: '20%',
+							borderRadius: '30px',
+							backgroundColor: 'rgb(119 125 137 / 75%)',
+							height: '40px',
+							color: 'white',
+							fontSize: '15px',
+							fontStyle: 'italic',
+							position: "relative",
+							top: '10px',
+							left:'50px',
+							fontWeight: 'bolder'
+						}} onClick={()=>changeComme()}> تعليق
+						</button>
+						}
 					</div>
-					{!commentZone && !visible && <div className={'commentZone'}>
+					{(!commentZone && !visible )|| window.location.pathname=='/detailAnnounce' && <div className={'commentZone'}>
                         <div className={'commentaire'} style={{
-							height: `${height}`, background: 'linear-gradient(to right, #FFFFFF, #ECE9E6)'
+							height: `${height}`,  backgroundColor: '#5ca0f2',
+							backgroundImage: 'linear-gradient(315deg, #5ca0f2 0%, #f5f7f6 74%)'
 						}}>
 							{item?.comment?.map((el: any) => (
 								<div style={{display: "flex"}}>
@@ -103,15 +142,16 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 										fontStyle: 'italic',
 										fontSize: '15px',
 										fontWeight: 'bold',
-										paddingRight: '30px',
+										// paddingRight: '30px',
 										margin: '20px',
 										// backgroundColor: '#8080806e',
 										// width: '30%',
-										borderRadius: '40px',
+										backgroundColor: '#5ca0f2',
+										backgroundImage: 'linear-gradient(315deg, #5ca0f2 0%, #f5f7f6 74%)',
+										borderRadius: '10px',
 										paddingTop: '10px',
-										height: '100px%',
 										position: "relative",
-										left: '30px',
+										left: '20px',
 										wordBreak: 'break-word',
 									}}> {el?.data} </p>
 
@@ -122,7 +162,7 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
                         <div className={'zoneInput'} style={{display: 'flex', justifyContent: 'space-evenly'}}>
                             <input placeholder={'ادخل تعليقك هتا'}
                                    style={{
-									   width: '75%',
+									   width: '61%',
 									   height: '57px',
 									   borderRadius: '50px',
 									   fontSize: '15px',
@@ -130,7 +170,9 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 									   fontWeight: 'bold',
 									   color: 'black',
 									   wordBreak: 'break-word',
-									   background:'linear-gradient(to right, #FFFFFF, #ECE9E6)'
+									   // background:'linear-gradient(to right, #FFFFFF, #ECE9E6)',
+									   backgroundColor: '#5ca0f2',
+									   backgroundImage: 'linear-gradient(315deg, #5ca0f2 0%, #f5f7f6 74%)'
 
 
 								   }}
@@ -146,7 +188,7 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 								fontStyle: 'italic',
 								position: "relative",
 								top: '10px',
-								left:'10px',
+								left:'50px',
 								fontWeight: 'bolder'
 							}} onClick={() => postComment({
 								_id: item._id,
@@ -159,10 +201,37 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
                             </button>
                         </div>
 
+
                     </div>}
+
+
 				</div>
 
+				<hr/>
+
 			</div>
+			{window.location.pathname==='/detailAnnounce' &&
+			<div>
+				<Form onFinish={onFinish}
+					  form={commentForm}
+				>
+					<div className={'messageCont'}>
+						<Form.Item label="الرسالة"
+								   name="type"
+								   rules={[{
+									   required: true,
+									   message: 'يجب ادخال الرسالة'
+								   }]}
+								   style={{width: '50%'}}>
+							<TextArea rows={1} style={{borderRadius: 10}}/>
+						</Form.Item>
+						<Button style={{marginRight: "10px"}} htmlType="submit" type="primary">
+                            &#9658;
+						</Button>
+					</div>
+				</Form>
+			</div>
+		}
 
 		</div>
 	)

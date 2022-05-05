@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Routes, Route, Link, BrowserRouter as Router, Navigate} from "react-router-dom";
 
 import './App.css';
@@ -47,11 +47,15 @@ import VideoPlayer from "./components/VideoPlayer";
 import Sidebar from "./components/Sidebar";
 import Notifications from "./components/Notifications"
 import {ContextProvider} from "./Context";
+import MessageHome from "./pages/Message/messageHome";
+import {getMessage} from "./store/modules/Auth/authService";
 
 function App() {
 	const isLoding = useSelector((state: RootState) => state.auth.isLoading)
 	let isLogged = useSelector((state: RootState) => state.auth.isLogged)
 	let userLogged = useSelector((state: RootState) => state.auth.userLogged)
+
+
 	return (
 		<div>
 			<ContextProvider>
@@ -116,9 +120,7 @@ function App() {
 								</Routes>
 							</div>
 						</Router>
-
 						:
-
 						isLogged && userLogged?.user?.role === 'student' ?
 							<Router>
 								<Layout style={{height: "100vh"}} className="layout">
@@ -130,6 +132,7 @@ function App() {
 												<Route path={'/detailAnnounce'} element={<DetailAnnounce/>}/>
 												<Route path={'/chat'} element={<TestChat/>}/>
 												<Route path={'/conversation'} element={<ListConversation/>}/>
+												<Route path={"*"} element={<Home/>}/>
 											</Routes>
 									</Content>
 

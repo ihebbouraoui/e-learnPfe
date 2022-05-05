@@ -1,19 +1,22 @@
 .login{
-    /*background-color: whitesmoke;*/
     width: 100vw;
     height: 100vh;
-    display: flex;
-
-
+    /*display: flex;*/
+    background-color: #63a4ff;
+    background-image: linear-gradient(315deg, #63a4ff 0%, #83eaf1 74%);
 
 }
+.details{
+    font-weight: bold;
+    font-size: 15px;
+}
 .title{
-    font-size: xxx-large;
-    font-style: italic;
-    font-variant: all-small-caps;
-    font-family: cursive;
+    font-weight: bold;
     position: relative;
-    bottom:12%;
+    font-style: italic;
+    font-size: 20px;
+    bottom:15px !important;
+
 }
 .detail{
     font-size: large;
@@ -22,36 +25,32 @@
 }
 .formLogin{
     box-shadow: 0px 0px 20px 0px;
-    background-color: floralwhite;
-
+    background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 50px;
-    width: 50%;
-    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
-.photoBloc{
-    width: 100%;
-    height: 100%;
-}
-.photoE{
-    height: 100%;
-    width: 100%;
-    object-fit: fill;
-}
+
 .loginInput {
     margin-bottom: 25px;
     font-size: 18px !important;
     width: 100%;
     height: 9%;
     border-radius: 50px;
+    font-weight: bold;
 }
 .button{
     width: 100%;
     display: flex;
     height: 63px;
+    font-weight: bold;
+    font-size: 18px;
 }
 .btn-login{
     width: 100%;
@@ -62,4 +61,5 @@
     font-stretch: initial;
     border-radius: 50px;
     background: #f9dcd6;
+
 }

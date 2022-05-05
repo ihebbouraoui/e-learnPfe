@@ -19,8 +19,8 @@ li {
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    background-color: teal;
-    color: #fff;
+    background-color: #85144b;
+    background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
 }
 .nav-links a {
     color: #fff;
@@ -34,8 +34,10 @@ li {
     display: flex;
     gap: 1em;
     font-size: 23px;
-    background-color: cornflowerblue!important;
-    height: 60px!important;
+    /*height: 60px!important;*/
+    width: 100vw !important;
+    background-color: #fefefe;
+    background-image: linear-gradient(315deg, #fefefe 0%, #0085e43d 74%);
 }
 .menu li:hover {
     background-color: white;

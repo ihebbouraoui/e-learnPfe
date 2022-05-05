@@ -52,10 +52,12 @@ const NavbarStudent=()=>{
 <div>
 	<Header>
 		<div className="menu">
-			<li> <NavLink to={'/home'}> الرئيسية </NavLink> </li>
+			<li> <NavLink to={'/social_media'}> الرئيسية </NavLink> </li>
 			<li><NavLink to={'/chat'}> دردشة </NavLink> </li>
 			<li><NavLink to={'/social_media'}> تواصل </NavLink> </li>
 			<li><NavLink to={'/home'}> من نحن </NavLink> </li>
+			<li><NavLink to={'/message'}> message </NavLink> </li>
+
 			<li className="services">
 				<a href="/"><NavLink to={'/home'}> تعديل </NavLink> </a>
 				<ul className="dropdown">

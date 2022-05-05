@@ -1,0 +1,30 @@
+.fromTo{
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    justify-content: space-between;
+    overflow-y: scroll;
+}
+.conv{
+    padding: 20px;
+
+}
+.hederDetail{
+    background-color: #aee1f9;
+    background-image :linear-gradient(315deg, #aee1f9 0%, #f6ebe6 74%);
+
+}
+.convAvatar{
+
+}
+.convVal{
+    width: 100%;
+}
+.typeP{
+    font-weight: bold;
+    color: #212121;
+    font-size: 17px!important;
+    width: 100%;
+    /*background-color: #212121;*/
+
+}

@@ -25,7 +25,7 @@ const Login=()=>{
 	return(
 		<div className={'login'} >
 			<div className={'formLogin'}>
-				<span className={'title'}> Sign in to Website </span>
+				<span className={'title'}> تسجيل الدخول</span>
 				<input className={'loginInput'} placeholder={'البريد الالكتروني'} type={'text'} name={'mail'}
 
 					   onChange={(e) => formLogin(e, 'mail')}
@@ -41,17 +41,15 @@ const Login=()=>{
 					يرجى ادخال البريد الألكتروني و كلمة المرور الخاصة بك و ان كنت غير مسجل فالرجاء النقر على تسجيل الحساب لتنضم الينا
 				</p>
 			     <div className={'button'}>
-					 <button className={'btn-login'} style={{width:"100%",height:'100%'}}
+					 <button className={'btn-login'} style={{width:"100%",height:'100%',margin:'20px',fontWeight:'bold'}}
 							 onClick={() => login(loginFormRef)}> دخول
 					 </button>
-					 <button className={'btn-login'}  style={{width:"100%",height:'100%'}}
+					 <button className={'btn-login'}  style={{width:"100%",height:'100%',margin:'20px',fontWeight:'bold'}}
 							 onClick={() => login(loginFormRef)}> تسجيل حساب
 					 </button>
 				 </div>
 			</div>
-			<div className={'photoBloc'}>
-				<img className={'photoE'} alt={''} src={photo}/>
-			</div>
+
 
 		</div>
 	)
