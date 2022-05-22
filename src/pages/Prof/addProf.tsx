@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import '../Director/director.css'
 // @ts-ignore
 import BackImage from '../../assets/arrow-forward-svgrepo-com.svg'
@@ -15,15 +15,20 @@ const AddProf = () => {
 		navi(-1)
 	}
 	const onSubmit = (data: { [key: string]: string | number }) => {
-		signUpUser({...data, role: 'prof', status: 'true'}).then(() =>
-			setUserToHistory({
-				date: "2012:10:12",
-				mailUser:data.mail,
-				adminID: user.user._id,
-				data: data,
-				type: 'add'
-			}).then()
-		)
+		if (!data.mail ||!data.name ||!data.password ||!data.tel){
+			alert('يجب عليك كاتبة كل الخانات')
+		}else{
+			signUpUser({...data, role: 'prof', status: 'true'}).then(() =>
+				setUserToHistory({
+					date: "2012:10:12",
+					mailUser:data.mail,
+					adminID: user.user._id,
+					data: data,
+					type: 'add'
+				}).then()
+			)
+		}
+
 	}
 	const addProfForm = useRef<{ [key: string]: string | number }>({})
 
@@ -52,7 +57,7 @@ const AddProf = () => {
 					</div>
 
 					<hr style={{marginTop: '20px'}}/>
-					<button className={'btn-success'} onClick={() => onSubmit(addProfForm.current)}> انتهاء</button>
+					<button className={'btn-success'}  onClick={() => onSubmit(addProfForm.current)}> انتهاء</button>
 
 				</div>
 

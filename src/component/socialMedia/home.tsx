@@ -41,9 +41,9 @@ const Home = () => {
 	}
 	const {Option, OptGroup} = Select;
 	const [commentForm] = Form.useForm();
-	const nav=useNavigate()
-	const dispatch=useDispatch()
-	const goToMessage=(item:any)=>{
+	const nav = useNavigate()
+	const dispatch = useDispatch()
+	const goToMessage = (item: any) => {
 		dispatch(setConv(item))
 		nav('message')
 	}
@@ -72,9 +72,15 @@ const Home = () => {
 
 
 	}, []);
-	const onFinish2=(values:any)=>{
+	const onFinish2 = (values: any) => {
 		// console.log(values)
-		addAnnounce({postBy:userConnect.user._id,data:values.data,photo:imageSRC[0],date:moment(),category:values.category}).then()
+		addAnnounce({
+			postBy: userConnect.user._id,
+			data: values.data,
+			photo: imageSRC[0],
+			date: moment(),
+			category: values.category
+		}).then()
 	}
 	return (
 
@@ -83,7 +89,7 @@ const Home = () => {
 			<Modal footer={null} visible={isOpen} onCancel={() => {
 				setIsOpen(false)
 				// window.location.reload()
-			} } width={"30%"}  centered>
+			}} width={"30%"} centered>
 				<div className={'mainAddCard'}
 					 style={{
 						 padding: "14px",
@@ -142,67 +148,72 @@ const Home = () => {
 				</div>
 
 			</Modal>
-			<div className={'container'}>
-               <div className={'rightSide'}>
-				  <Tabs style={{height:'100%'}}>
-					  <TabPane>
-						  <MessageHome listConversations={listConversations}/>
-					  </TabPane>
-				  </Tabs>
+			<div className={'rightSide'}>
+				<Tabs style={{height: '100%'}}>
+					<TabPane>
+						<MessageHome listConversations={listConversations}/>
+					</TabPane>
+				</Tabs>
 
-			   </div>
-				<div className={'contenu'}>
-					<div className={'anouunces'}>
-						{listAnnounce.map((item: any) => (
-							<AnnounceCard item={item}/>
-						))}
-
-					</div>
-				</div>
-				<div className={'leftSide'}>
-					<div className={'hederDetail'} style={{}}>
-						<img alt={''} className={''} src={userConnect.user.photo}
-							 style={{
-								 borderRadius: '50px',
-								 position: 'relative',
-								 right: '45%',
-								 paddingTop: '20px',
-								 paddingBottom: '15px',
-								 width:100
-							 }}/>
-					</div>
-
-					<div className={'detailProfil'}>
-						<Card>
-							<p style={{fontSize:'20px',color:'black',fontWeight:"bold"}}> {userConnect.user.name} </p>
-							<p style={{fontSize:'20px',color:'gray',fontWeight:"bold"}}> {userConnect.user.role}</p>
-
-						</Card>
-
-
-					</div>
-					<div className={'underNav'}>
-						<div className={"top"}>
-							<img alt={''} className={'logo'} src={userConnect.user.photo}/>
-							<input type={'text'} placeholder={'ادخل المعلومات هنا'} style={{
-								width: '85%',
-								backgroundColor: 'white',
-								// border: 'black 2px solid',
-								height: '100%'
-							}} onClick={()=>setIsOpen(true)}/>
-						</div>
-						<hr/>
-						{/*<div className={'bot'}>*/}
-						{/*	<Button className={'btn_add'}*/}
-						{/*			style={{width: '50%', borderRadius: '50px', paddingRight: '10px'}}*/}
-						{/*			icon={<UploadOutlined/>}>Click to Upload</Button>*/}
-						{/*	<Button className={'btn-success'} type={'primary'}*/}
-						{/*			style={{width: '50%', borderRadius: '50px'}}> Add </Button>*/}
-						{/*</div>*/}
-					</div>
+			</div>
+			<div className={'leftSide'}>
+				<div className={'hederDetail'} style={{}}>
+					<img alt={''} className={''} src={userConnect.user.photo}
+						 style={{
+							 borderRadius: '50px',
+							 position: 'relative',
+							 right: '45%',
+							 paddingTop: '20px',
+							 paddingBottom: '15px',
+							 width: 100
+						 }}/>
 				</div>
 
+				<div className={'detailProfil'}>
+					<Card>
+						<p style={{
+							fontSize: '20px',
+							color: 'black',
+							fontWeight: "bold"
+						}}> {userConnect.user.name} </p>
+						<p style={{
+							fontSize: '20px',
+							color: 'gray',
+							fontWeight: "bold"
+						}}> {userConnect.user.role}</p>
 
+					</Card>
+
+
+				</div>
+				<div className={'underNav'}>
+					<div className={"top"}>
+						<img alt={''} className={'logo'} src={userConnect.user.photo}/>
+						<input type={'text'} placeholder={'ادخل المعلومات هنا'} style={{
+							width: '85%',
+							backgroundColor: 'white',
+							// border: 'black 2px solid',
+							height: '100%'
+						}} onClick={() => setIsOpen(true)}/>
+					</div>
+					<hr/>
+					{/*<div className={'bot'}>*/}
+					{/*	<Button className={'btn_add'}*/}
+					{/*			style={{width: '50%', borderRadius: '50px', paddingRight: '10px'}}*/}
+					{/*			icon={<UploadOutlined/>}>Click to Upload</Button>*/}
+					{/*	<Button className={'btn-success'} type={'primary'}*/}
+					{/*			style={{width: '50%', borderRadius: '50px'}}> Add </Button>*/}
+					{/*</div>*/}
+				</div>
+			</div>
+			<div className={'contenu'}>
+				<div style={{
+					marginTop: '20px'
+				}}>
+					{listAnnounce.map((item: any) => (
+						<AnnounceCard item={item}/>
+					))}
+				</div>
 			</div>
 
 		</div>

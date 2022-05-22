@@ -5,17 +5,23 @@ body {
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden !important;
+}
 
+html {
+    overflow-x: hidden !important;
+}
 
-}
-.ant-layout-content{
-    background-color: #fefefe;
-    background-image: linear-gradient(315deg, #fefefe 0%, #0085e43d 74%);
-}
-.ant-layout-header{
-    background-color: #fefefe;
-    background-image: linear-gradient(315deg, #fefefe 0%, #0085e43d 74%);
-}
+/*.ant-layout-content{*/
+/*    background-color: #fefefe!important;*/
+/*    background-image: linear-gradient(315deg, #fefefe 0%, #0085e43d 74%) !important;*/
+
+/*}*/
+
+/*.ant-layout-header{*/
+/*    background-color: #fefefe;*/
+/*    background-image: linear-gradient(315deg, #fefefe 0%, #0085e43d 74%);*/
+/*}*/
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -50,7 +56,6 @@ input {
 
 input:focus-visible {
     outline: unset;
-
 }
 
 button {
@@ -67,10 +72,10 @@ button {
 
 .btn-success {
     background-color: dodgerblue;
-     color: white;
-     height: 50px;
+    color: white;
+    height: 50px;
     font-weight: bold;
-    margin-left:10px
+    margin-left: 10px
 }
 
 .btn-error {
@@ -94,7 +99,7 @@ th {
 
 td {
     border: 3px solid #f0f2f5;
-    height: 50px ;
+    height: 50px;
     padding: 10px;
     text-align: center;
 }
@@ -141,8 +146,12 @@ td {
     }
 }
 
-label{
+label {
     font-weight: bold;
     font-size: 13px;
 
+
+}
+.ant-layout-content {
+    -ms-overflow-style: none;
 }

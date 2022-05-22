@@ -13,6 +13,7 @@ import sendMessage from "../../assets/message-svgrepo-com.svg";
 import TextArea from "antd/es/input/TextArea";
 import {getMessage, setMessage} from "../../store/modules/Auth/authService";
 import moment from "moment";
+import {setLoading} from "../../store/modules/Auth/AuthModule";
 
 const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 	const navigate = useNavigate()
@@ -38,7 +39,9 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 		!visible ? setVisible(visible) : setVisible(!visible)
 	}
 	useEffect(() => {
-		getAnnounce().then()
+		getAnnounce().then(()=>{
+			dispatch(setLoading(true))
+		})
 	}, [])
 	const commentaire = useRef<{ [key: string]: string | number }>({})
 
@@ -56,8 +59,8 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 			messageFrom: userConnect.user.mail,
 			messageTo: item?.postBy?.mail,
 			values: values.type,
-			avatarFrom:userConnect?.user.photo,
-			avatarTo:item?.postBy?.mail
+			avatarFrom: userConnect?.user.photo,
+			avatarTo: item?.postBy?.mail
 		})
 		.then((res) => {
 			alert('message sent');
@@ -71,14 +74,23 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 		<div>
 			<div className="container">
 				<div className="card">
-					<div className="card__header">
-						<img src={item?.photo} className="card__image"
-							 style={{width:'300px'}}/>
-					</div>
+					<img alt={''}
+						 style={{
+							 position: 'absolute',
+							 top: '10px',
+							 left: '10px',
+							 width: '30px',
+							 cursor: 'pointer',
+						 }}
+						 src={alert}/>
 					<div className="card__body">
 						<span className="tag tag-brown">{item?.category}</span>
 						<h4 style={{wordBreak: 'break-word'}}>{moment(item.date).format('YYYY-MM-DD')}</h4>
 						<p style={{wordBreak: 'break-word'}}>{item.data}</p>
+					</div>
+					<div className="card__header">
+						<img src={item?.photo} className="card__image"
+							 style={{width: '100%', objectFit: 'cover', height: '100%', marginBottom: '20px'}} alt={""}/>
 					</div>
 					<div className="card__footer">
 						<div className="user">
@@ -92,66 +104,44 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 					</div>
 					<div className={'tache'}>
 						{window.location.pathname === '/social_media' &&
-                        <Button type={'link'} style={{position: 'relative', top: '30px', fontWeight:'bolder',
-							fontSize:'20px',color:'black'}}
-                            onClick={()=>goToDetail(item)}    > انقر لقراءة المزيد </Button>}
-						<img alt={''}
-							 style={{
-								 position: 'relative',
-								 bottom: '60px',
-								 left: '100px',
-								 width: '30px',
-								 cursor: 'pointer',
-
-							 }}
-							 src={alert}/>
-						{/*<img alt={''}*/}
-						{/*	 style={{*/}
-						{/*		 position: 'relative',*/}
-						{/*		 width: '30px',*/}
-						{/*		 cursor: 'pointer'*/}
-						{/*	 }}*/}
-						{/*	 src={sendMessage} onClick={() => changeComme()}/>*/}
-						{window.location.pathname!=='/detailAnnounce' &&
-						<button style={{
-							width: '20%',
+                        <Button type={'link'} style={{
+							fontWeight: 'bolder',
+							fontSize: '20px', color: 'black',
+							marginLeft: '20px', padding: '5px',
+							height: '40px',
+						}}
+                                onClick={() => goToDetail(item)}> انقر لقراءة المزيد </Button>}
+						{window.location.pathname !== '/detailAnnounce' &&
+                        <button style={{
+							height: '40px',
 							borderRadius: '30px',
 							backgroundColor: 'rgb(119 125 137 / 75%)',
-							height: '40px',
 							color: 'white',
 							fontSize: '15px',
 							fontStyle: 'italic',
-							position: "relative",
-							top: '10px',
-							left:'50px',
 							fontWeight: 'bolder'
-						}} onClick={()=>changeComme()}> تعليق
-						</button>
+						}} onClick={() => changeComme()}> تعليق
+                        </button>
 						}
 					</div>
-					{(!commentZone && !visible )|| window.location.pathname=='/detailAnnounce' && <div className={'commentZone'}>
+					{(!commentZone && !visible) || window.location.pathname !== '/detailAnnounce' &&
+                    <div className={'commentZone'}>
                         <div className={'commentaire'} style={{
-							height: `${height}`,  backgroundColor: '#5ca0f2',
-							backgroundImage: 'linear-gradient(315deg, #5ca0f2 0%, #f5f7f6 74%)'
+							height: `${height}`,
+							marginBottom: '10px',
+							paddingLeft: '10px'
 						}}>
 							{item?.comment?.map((el: any) => (
-								<div style={{display: "flex"}}>
+								<div style={{display: "flex", backgroundColor: '#fff',
+									borderRadius: '20px', margin: '10px 0'}}>
 									<img src={el?.userId?.photo}
 										 style={{margin: "20px", width: '50px', borderRadius: '30px', height: '50px'}}/>
 									<p style={{
 										fontStyle: 'italic',
 										fontSize: '15px',
 										fontWeight: 'bold',
-										// paddingRight: '30px',
 										margin: '20px',
-										// backgroundColor: '#8080806e',
-										// width: '30%',
-										backgroundColor: '#5ca0f2',
-										backgroundImage: 'linear-gradient(315deg, #5ca0f2 0%, #f5f7f6 74%)',
-										borderRadius: '10px',
 										paddingTop: '10px',
-										position: "relative",
-										left: '20px',
 										wordBreak: 'break-word',
 									}}> {el?.data} </p>
 
@@ -159,36 +149,32 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 							))}
 
                         </div>
-                        <div className={'zoneInput'} style={{display: 'flex', justifyContent: 'space-evenly'}}>
+                        <div className={'zoneInput'} style={{
+							display: 'flex',
+							justifyContent: 'space-evenly',
+							alignItems: 'center'
+						}}>
                             <input placeholder={'ادخل تعليقك هتا'}
                                    style={{
-									   width: '61%',
-									   height: '57px',
-									   borderRadius: '50px',
-									   fontSize: '15px',
+									   width: '100%',
+									   height: '40px',
+									   borderRadius: '10px',
+									   fontSize: '12px',
 									   fontStyle: 'italic',
 									   fontWeight: 'bold',
 									   color: 'black',
 									   wordBreak: 'break-word',
-									   // background:'linear-gradient(to right, #FFFFFF, #ECE9E6)',
-									   backgroundColor: '#5ca0f2',
-									   backgroundImage: 'linear-gradient(315deg, #5ca0f2 0%, #f5f7f6 74%)'
-
-
 								   }}
                                    onChange={(e) => newComment(e, 'password')}
                             />
+							<div style={{width: '10px'}} />
                             <button style={{
-								width: '20%',
-								borderRadius: '30px',
+								borderRadius: '10px',
 								backgroundColor: 'rgb(119 125 137 / 75%)',
 								height: '40px',
 								color: 'white',
 								fontSize: '15px',
 								fontStyle: 'italic',
-								position: "relative",
-								top: '10px',
-								left:'50px',
 								fontWeight: 'bolder'
 							}} onClick={() => postComment({
 								_id: item._id,
@@ -210,28 +196,28 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 				<hr/>
 
 			</div>
-			{window.location.pathname==='/detailAnnounce' &&
-			<div>
-				<Form onFinish={onFinish}
-					  form={commentForm}
-				>
-					<div className={'messageCont'}>
-						<Form.Item label="الرسالة"
-								   name="type"
-								   rules={[{
+			{window.location.pathname === '/detailAnnounce' &&
+            <div>
+                <Form onFinish={onFinish}
+                      form={commentForm}
+                >
+                    <div className={'messageCont'}>
+                        <Form.Item label="الرسالة"
+                                   name="type"
+                                   rules={[{
 									   required: true,
 									   message: 'يجب ادخال الرسالة'
 								   }]}
-								   style={{width: '50%'}}>
-							<TextArea rows={1} style={{borderRadius: 10}}/>
-						</Form.Item>
-						<Button style={{marginRight: "10px"}} htmlType="submit" type="primary">
+                                   style={{width: '50%'}}>
+                            <TextArea rows={1} style={{borderRadius: 10}}/>
+                        </Form.Item>
+                        <Button style={{marginRight: "10px"}} htmlType="submit" type="primary">
                             &#9658;
-						</Button>
-					</div>
-				</Form>
-			</div>
-		}
+                        </Button>
+                    </div>
+                </Form>
+            </div>
+			}
 
 		</div>
 	)

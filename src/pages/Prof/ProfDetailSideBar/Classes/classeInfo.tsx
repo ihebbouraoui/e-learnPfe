@@ -4,14 +4,15 @@ import {classTabConst} from "./classInfoConst";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store/store";
 import { getSubjectByIdProfAndClassId} from "../../../../store/modules/Prof/profService";
+import {getAnnounceByIdProf} from "../../../../store/modules/Announce/announceService";
 
 const ClasseInfo=()=>{
 	const profClass=useSelector((state:RootState)=>state.prof.prof_class)
 	const select_Prof=useSelector((state:RootState)=>state.prof.selected_Prof)
 	const [tableModel, setTableModel] = useState(classTabConst)
 	useEffect(()=>{
-		getSubjectByIdProfAndClassId({id_Prof:select_Prof._id}).then((res:any)=>{
-		initTable(res)
+		getAnnounceByIdProf({postBy:select_Prof._id}).then((res:any)=>{
+			console.log(res)
 		})
 	},[])
 

@@ -1,12 +1,13 @@
-import React, {useEffect, useRef} from "react";
+import React, {useRef, useState} from "react";
 import './login.css'
 import {AuthLogin} from "../../store/modules/Auth/authService";
 import {useDispatch} from "react-redux";
 // @ts-ignore
 import photo from '../../assets/e-learning-mfc-min.jpg'
-const Login=()=>{
-	const loginFormRef = useRef<{ [key: string]: string | number }>({})
 
+const Login=()=>{
+
+	const loginFormRef = useRef<{ [key: string]: string | number }>({})
 	const formLogin = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
 		loginFormRef.current[name] = event.target.value.trim();
 		Object.keys(loginFormRef.current).forEach((key) => {
@@ -17,7 +18,7 @@ const Login=()=>{
 	}
 	const login=(data:any)=>{
 		AuthLogin({mail:data.current.mail,password:data.current.password}).then((res:any)=>{
-			localStorage.setItem('token',JSON.stringify(res.token))
+			localStorage.setItem('user',JSON.stringify(res.user))
 		})
 	}
 	const dispatch=useDispatch()
@@ -54,5 +55,11 @@ const Login=()=>{
 		</div>
 	)
 
+
 }
+
+
+
+
+
 export default Login

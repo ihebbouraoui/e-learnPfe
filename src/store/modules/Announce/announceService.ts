@@ -1,6 +1,6 @@
 import {ApiCall} from "../../ApiCall";
 import {store} from "../../store";
-import {setListAnnounce, setListComment, setListSignal} from "./announceModule";
+import {setListAnnounce, setListComment, setListSignal, setProfAnnounce} from "./announceModule";
 import {setLoading} from "../Auth/AuthModule";
 
 
@@ -11,6 +11,17 @@ export const getAnnounce=()=>{
 		successFunction:(res:any)=>{
 			store.dispatch(setLoading(true))
 			store.dispatch(setListAnnounce(res))
+		}
+	})
+}
+export const getAnnounceByIdProf=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/announce/getAnnounceById/",
+		method:'get',
+		data,
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+			store.dispatch(setProfAnnounce(res))
 		}
 	})
 }

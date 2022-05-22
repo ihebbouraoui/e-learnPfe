@@ -14,8 +14,6 @@ import {getUserById} from "../../../store/modules/Director/directorService";
 
 const MainPageProf = () => {
 	let UserLogged = useSelector((state: RootState) => state.auth.userLogged)
-	const token = useSelector((state: RootState) => state.auth.token)
-	console.log(token)
 	const dispatch = useDispatch()
 	const [isModal, setModal] = useState(false)
 
@@ -30,8 +28,10 @@ const MainPageProf = () => {
 		if (event?.target?.files) {
 			toBase64(event.target.files[0]).then((res: any) => {
 				setImageSRC([...imageSRC, res as string]);
+				console.log(UserLogged)
 				updateProf({photo: res}, UserLogged?.user?._id).then(() => {
 					dispatch(setUserLogged({...UserLogged, photo: res}))
+					console.log(UserLogged)
 				})
 			})
 		}
@@ -48,15 +48,15 @@ const MainPageProf = () => {
 	}
 	const onSubmit = (data: { [key: string]: string | number }) => {
 		updateProf(data, UserLogged?.user?._id).then((res: any) => {
-			dispatch((setUserLogged({...res})))
-
+			// localStorage.setItem('user',JSON.stringify({...res.user}))
+			dispatch((setUserLogged({user:res,token:UserLogged?.token})))
 		})
 	}
 	return (
 		<div className={'profil'}>
 			<div className={'photoSide'}>
 				<img src={UserLogged?.user?.photo} className={'photo'} alt={''}/>
-				<input type={'file'} onChange={(e:any)=>uploadImage(e)}/>
+				<input type={'file'} onChange={(e:any)=>uploadImage(e)} />
 			</div>
 			<div className={'detailSide'}>
 				<label htmlFor={'name'}> الاسم:<input id={'name'}

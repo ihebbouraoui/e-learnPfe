@@ -12,11 +12,14 @@ import {Button} from "antd";
 // @ts-ignore
 import mesMessage from '../../../assets/open-email-message-svgrepo-com.svg'
 import "./navbarStudent.css"
+import {useDispatch} from "react-redux";
 const NavbarStudent=()=>{
+	const dispatch=useDispatch()
 	const logout=()=>{
-		store.dispatch(setLogged(false))
-		store.dispatch(setLoading(true))
-		store.dispatch(setUserLogged(''))
+		localStorage.removeItem('user');
+		dispatch(setUserLogged(''))
+		dispatch(setLogged(false))
+		dispatch(setLoading(false))
 
 	}
 	return(
@@ -50,7 +53,15 @@ const NavbarStudent=()=>{
 	// 	</Header>
 	// )
 <div>
-	<Header>
+	<Header style={{
+		position: 'fixed',
+		top: 0,
+		left: 0,
+		zIndex: 99,
+		width: '100vw',
+		height: '70px',
+		boxShadow: '0px 6px 20px 0px #d5d5d5'
+	}}>
 		<div className="menu">
 			<li> <NavLink to={'/social_media'}> الرئيسية </NavLink> </li>
 			<li><NavLink to={'/chat'}> دردشة </NavLink> </li>

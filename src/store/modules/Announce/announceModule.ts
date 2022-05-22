@@ -6,6 +6,7 @@ export interface announceInterface {
 	list_Comment:Array<any>
 	selectedAnnounce:any
 	list_signal:Array<any>
+	profAnnounce:Array<any>
 
 
 }
@@ -14,7 +15,8 @@ const initialValues: announceInterface = {
 	list_Announce:[],
 	list_Comment: [],
 	selectedAnnounce:undefined,
-	list_signal:[]
+	list_signal:[],
+	profAnnounce:[]
 
 }
 export const AnnounceStore = createSlice({
@@ -33,8 +35,11 @@ export const AnnounceStore = createSlice({
 		setListSignal: (state, action: PayloadAction<any>) => {
 			state.selectedAnnounce=action.payload
 		},
+		setProfAnnounce: (state, action: PayloadAction<any>) => {
+			state.profAnnounce=action.payload
+		},
 
 
 	}
 })
-export const {setListAnnounce,setListComment,setSelectedAnnounce,setListSignal} = AnnounceStore.actions;
+export const {setListAnnounce,setListComment,setSelectedAnnounce,setListSignal,setProfAnnounce} = AnnounceStore.actions;

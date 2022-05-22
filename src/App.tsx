@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Routes, Route, Link, BrowserRouter as Router, Navigate} from "react-router-dom";
+import React, {useEffect, useRef, useState} from 'react';
+import {Routes, Route, Link, BrowserRouter as Router, Navigate, useNavigate} from "react-router-dom";
 
 import './App.css';
 import "antd/dist/antd.css";
@@ -29,7 +29,7 @@ import AddNewDirector from "./pages/Director/addNewDirector";
 import ListConversation from './component/Message/listConvertation'
 // @ts-ignore
 import loader from './assets/loader-svgrepo-com.svg'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store/store";
 import Login from "./component/Authentification/Login";
 import MyClass from "./pages/DashProf/myClassProf/myClass";
@@ -49,22 +49,36 @@ import Notifications from "./components/Notifications"
 import {ContextProvider} from "./Context";
 import MessageHome from "./pages/Message/messageHome";
 import {getMessage} from "./store/modules/Auth/authService";
+import {setLoading, setLogged, setUserLogged} from "./store/modules/Auth/AuthModule";
 
 function App() {
 	const isLoding = useSelector((state: RootState) => state.auth.isLoading)
 	let isLogged = useSelector((state: RootState) => state.auth.isLogged)
-	let userLogged = useSelector((state: RootState) => state.auth.userLogged)
+	const userLoggedTest=useSelector((state:RootState)=>state.auth.userLogged)
+	const dispatch=useDispatch()
+	const user=useRef<any>()
+      const test=localStorage.getItem('user')
+	useEffect(()=>{
+		if (test) {
+			user.current=(JSON.parse(test) || '{}')
+			dispatch(setUserLogged({token:userLoggedTest?.token,user:user.current}))
+			dispatch(setLogged(true))
+			dispatch(setLoading(false))
+		}
+	},[test])
+	let userLogged=user.current
+	console.log(user.current)
 
-
+	// let userLogged = JSON.parse(localStorage.getItem('token')|| '');
+	// const currentUser = JSON.parse(localStorage.getItem('token')!);
 	return (
 		<div>
 			<ContextProvider>
-				{isLogged && (userLogged?.user?.role === 'admin' || userLogged?.user?.role=='superAdmin') ?
+				{isLogged && (userLogged?.role === 'admin' || userLogged?.role == 'superAdmin') ?
 					<Router>
 						{isLoding && <div className={'loader'}>
                             <img draggable={false} className={'loaderImage'} alt={''} src={loader}/>
                         </div>}
-						<NavBar/>
 						<SiderBarAdmin/>
 						<div className={'bodyContainer'}>
 							<Routes>
@@ -81,7 +95,7 @@ function App() {
 								</Route>
 								<Route path={'/etudiant'} element={<Etudiant/>}/>
 								<Route path={'/etudiant/detail/:id'} element={<DetailEtudiant/>}>
-									v								<Route index element={<HomeWordEtudiant/>}/>
+									v <Route index element={<HomeWordEtudiant/>}/>
 									<Route path={'/etudiant/detail/:id/exam'} element={<ExamEtudiant/>}/>
 
 								</Route>
@@ -102,45 +116,47 @@ function App() {
 								<Route path={'/login'} element={<Login/>}/>z
 							</Routes>
 						</div>
-					</Router> : isLogged && userLogged?.user?.role === 'prof' ?
+					</Router> : isLogged && userLogged?.role === 'prof' ?
 
 
 						<Router>
-							{isLoding && <div className={'loader'}>
-                                <img draggable={false} className={'loaderImage'} alt={''} src={loader}/>
-                            </div>}
-							<NavBar/>
-							<SiderBarAdmin/>
-							<div className={'bodyContainer'}>
-								<Routes>
-									<Route path={'/profilProf'} element={<MainPageProf/>}/>
-									<Route path={'/myClass'} element={<MyClass/>}/>
-									<Route path={'/detailAnnounce'} element={<DetailAnnounce/>}/>
+							<Layout style={{height: "100vh"}} className="layout">
+								<NavbarStudent/>
+								<Content>
+									<Routes>
+										<Route path={'/profilProf'} element={<MainPageProf/>}/>
+										<Route path={"/social_media"} element={<Home/>}/>
+										<Route path={'/detailAnnounce'} element={<DetailAnnounce/>}/>
+										<Route path={'/chat'} element={<TestChat/>}/>
+										<Route path={'/conversation'} element={<ListConversation/>}/>
+										<Route path={"*"} element={<Home/>}/>
+									</Routes>
+								</Content>
 
-								</Routes>
-							</div>
+							</Layout>
+
+
 						</Router>
 						:
-						isLogged && userLogged?.user?.role === 'student' ?
+						isLogged && userLogged?.role === 'student' ?
 							<Router>
 								<Layout style={{height: "100vh"}} className="layout">
-										<NavbarStudent/>
+									<NavbarStudent/>
 									<Content>
-											<Routes>
-												<Route path={'/profilProf'} element={<MainPageProf/>}/>
-												<Route path={"/social_media"} element={<Home/>}/>
-												<Route path={'/detailAnnounce'} element={<DetailAnnounce/>}/>
-												<Route path={'/chat'} element={<TestChat/>}/>
-												<Route path={'/conversation'} element={<ListConversation/>}/>
-												<Route path={"*"} element={<Home/>}/>
-											</Routes>
+										<Routes>
+											<Route path={'/profilProf'} element={<MainPageProf/>}/>
+											<Route path={"/social_media"} element={<Home/>}/>
+											<Route path={'/detailAnnounce'} element={<DetailAnnounce/>}/>
+											<Route path={'/chat'} element={<TestChat/>}/>
+											<Route path={'/conversation'} element={<ListConversation/>}/>
+											<Route path={"*"} element={<Home/>}/>
+										</Routes>
 									</Content>
 
 								</Layout>
 
 
 							</Router>
-
 
 
 							:
@@ -154,7 +170,6 @@ function App() {
 
 			</ContextProvider>
 		</div>
-
 
 
 	);

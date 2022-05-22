@@ -35,9 +35,10 @@ li {
     gap: 1em;
     font-size: 23px;
     /*height: 60px!important;*/
-    width: 100vw !important;
-    background-color: #fefefe;
-    background-image: linear-gradient(315deg, #fefefe 0%, #0085e43d 74%);
+    /*width: 100vw !important;*/
+    width: 100%;
+    height: 70px;
+    background-color: #f2f2f2;
 }
 .menu li:hover {
     background-color: white;

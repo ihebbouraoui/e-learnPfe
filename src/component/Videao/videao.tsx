@@ -11,6 +11,7 @@ import {SocketContext} from "../../Context";
 
 const io = require("socket.io-client");
 const socket = io('http://localhost:5000/', {transports: ['websocket']});
+
 const Videao = () => {
 	const [me, setMe] = useState<any>("")
 	const [stream, setStream] = useState<any>()
@@ -109,7 +110,7 @@ const Videao = () => {
 					</div>
 					<div className="video">
 						{callAccepted && !callEnded ?
-							<video playsInline ref={userVideo} autoPlay style={{width: "300px"}}/> :
+							<video  playsInline ref={userVideo} autoPlay style={{width: "300px"}}/> :
 							null}
 					</div>
 				</div>

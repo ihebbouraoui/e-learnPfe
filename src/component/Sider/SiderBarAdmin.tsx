@@ -3,7 +3,7 @@ import './SideBar.css'
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
-import {setUserLogged} from "../../store/modules/Auth/AuthModule";
+import {setLoading, setLogged, setUserLogged} from "../../store/modules/Auth/AuthModule";
 
 const SiderBarAdmin = () => {
 	const links = [
@@ -13,7 +13,9 @@ const SiderBarAdmin = () => {
 		{link: 'معلوماتي'},
 		{link: 'أثر'},
 		{link: 'إحصائيات'},
-		{link: 'الأبلاغ'}
+		{link: 'الأبلاغ'},
+		{link:'خروج'}
+
 
 	]
 	const linksAdmin = [
@@ -21,7 +23,7 @@ const SiderBarAdmin = () => {
 		{link: 'الاساتدة'},
 		{link: 'الطلبة'},
 		{link: 'الشكاوي'},
-		{link: 'إحصائيات'}
+		{link: 'إحصائيات'},
 	]
 	 const linksProf=[
 		{link:"معلوماتي"},
@@ -67,6 +69,12 @@ const SiderBarAdmin = () => {
 			case 6:
 				navigate('/siganl')
 				break;
+			case 7:
+				localStorage.removeItem('user');
+				dispatch(setUserLogged(''))
+				dispatch(setLogged(false))
+				dispatch(setLoading(false))
+
 		}
 
 	}
