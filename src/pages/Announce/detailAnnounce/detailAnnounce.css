@@ -1,0 +1,35 @@
+.announceCard{
+    background-color: whitesmoke;
+    width: 100%;
+    padding: 20px;
+    margin-top: 80px;
+
+}
+.leftSideDetail{
+    width: 80%;
+    height: 40%;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-start;
+
+}
+.imageAnnounce{
+    width: 500px;
+    object-fit: cover;
+    height: 100%;
+}
+.detailAnnounce{
+    background-color: whitesmoke;
+
+
+}
+.cardFooter{
+    background-color: whitesmoke;
+}
+.messageCont{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}

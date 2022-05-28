@@ -75,9 +75,14 @@ button {
     color: white;
     height: 50px;
     font-weight: bold;
-    margin-left: 10px
-}
+    margin: 0 auto;
 
+}
+.ant-modal-content{
+    height: 400px;
+    box-shadow: 0 0 20px 0px #d5d5d5;
+
+}
 .btn-error {
     background-color: red;
     color: white;

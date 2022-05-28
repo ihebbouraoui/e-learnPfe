@@ -4,8 +4,8 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {setSelectedAnnounce} from "../../store/modules/Announce/announceModule";
-import {getAnnounce, postComment} from "../../store/modules/Announce/announceService";
-import {Button, Form} from "antd";
+import {getAnnounce, newFormation, postComment, signaler} from "../../store/modules/Announce/announceService";
+import {Button, Form, Input, Modal, Select} from "antd";
 // @ts-ignore
 import alert from "../../assets/alert-svgrepo-com.svg";
 // @ts-ignore
@@ -17,12 +17,15 @@ import {setLoading} from "../../store/modules/Auth/AuthModule";
 
 const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 	const navigate = useNavigate()
+	const [isReclamOpen, setIsReclamOpen] = useState(false)
+	const {Option, OptGroup} = Select;
 	const dispatch = useDispatch()
 	const location = useLocation();
 	const [commentZone, setCommentZone] = useState<any>(false)
 	const userConnect = useSelector((state: RootState) => state.auth.userLogged)
 	const [height, setHight] = useState<any>('50px')
 	const [visible, setVisible] = useState<any>(false)
+
 	const goToDetail = (item: any) => {
 		dispatch(setSelectedAnnounce(item));
 		navigate('/detailAnnounce')
@@ -38,11 +41,11 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 		setCommentZone(!commentZone)
 		!visible ? setVisible(visible) : setVisible(!visible)
 	}
-	useEffect(() => {
-		getAnnounce().then(()=>{
-			dispatch(setLoading(true))
-		})
-	}, [])
+	// useEffect(() => {
+	// 	getAnnounce().then(() => {
+	// 		dispatch(setLoading(true))
+	// 	})
+	// }, [])
 	const commentaire = useRef<{ [key: string]: string | number }>({})
 
 	const newComment = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
@@ -54,6 +57,17 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 		})
 	}
 	const [commentForm] = Form.useForm();
+	const [commentForm2] = Form.useForm();
+
+	const onFinishReclamation = (values: any) => {
+		signaler({
+			SignalFrom:userConnect.user._id,
+			data:values.data,
+			date:moment().format('yyyy/mm/jj'),
+			cause:values.cause
+
+		}).then(()=>alert('تمت الشكوى بنجاح'))
+	}
 	const onFinish = (values: any) => {
 		setMessage({
 			messageFrom: userConnect.user.mail,
@@ -70,8 +84,67 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 		})
 	}
 
+
 	return (
 		<div>
+
+
+			<Modal width={500} style={{height: 1000}} footer={null} visible={isReclamOpen}
+				   onCancel={() => setIsReclamOpen(false)}>
+				<div className={'reclamation'}>
+					<h2 style={{fontSize: '20px', fontWeight: 'bold', fontFamily: 'fantasy', padding: '10px'}}> يرجى
+						ادخال سبب الشكوى </h2>
+					<Form onFinish={onFinishReclamation}
+						  form={commentForm}
+					>
+						<div className={'reclamContainer'}>
+							<Form.Item label="اسباب الشكوى"
+									   name="cause"
+									   rules={[{
+										   required: true,
+										   message: 'يجب ادخال  السبب'
+									   }]}>
+								<select style={{
+									width: '100%',
+									padding: '10px',
+									height: '50px',
+									border: 'unset',
+									borderRadius: '30px',
+									backgroundColor: 'whitesmoke'
+								}}>
+									<option value={'أسباب اخلاقية'}>أسباب اخلاقية</option>
+									<option value={'حساب مزور'}>حساب مزور</option>
+								</select>
+							</Form.Item>
+							<Form.Item label="معطيات أخرى حول الشكوى"
+									   name="data"
+									   rules={[{
+										   required: true,
+										   message: 'يجب ادخال  المعطيات'
+									   }]}
+									   style={{width: '50%'}}>
+								<textarea    style={{
+									border: 'unset',
+									backgroundColor: 'whitesmoke',
+									width: '300px',
+									borderRadius: '20px',
+									height: '140px',
+									padding:'20px',
+									fontSize:'14px',
+									color:'black',
+									fontWeight:'bold'
+
+								}}/>
+							</Form.Item>
+							<button  type={'submit'}  className={'btn-success'}> تأكيد </button>
+
+						</div>
+					</Form>
+
+
+
+				</div>
+			</Modal>
 			<div className="container">
 				<div className="card">
 					<img alt={''}
@@ -82,7 +155,7 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 							 width: '30px',
 							 cursor: 'pointer',
 						 }}
-						 src={alert}/>
+						 src={alert} onClick={() => setIsReclamOpen(true)}/>
 					<div className="card__body">
 						<span className="tag tag-brown">{item?.category}</span>
 						<h4 style={{wordBreak: 'break-word'}}>{moment(item.date).format('YYYY-MM-DD')}</h4>
@@ -90,7 +163,8 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 					</div>
 					<div className="card__header">
 						<img src={item?.photo} className="card__image"
-							 style={{width: '100%', objectFit: 'cover', height: '100%', marginBottom: '20px'}} alt={""}/>
+							 style={{width: '100%', objectFit: 'cover', height: '100%', marginBottom: '20px'}}
+							 alt={""}/>
 					</div>
 					<div className="card__footer">
 						<div className="user">
@@ -103,7 +177,7 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 						</div>
 					</div>
 					<div className={'tache'}>
-						{window.location.pathname === '/social_media' &&
+						{ userConnect.user._id !== item.postBy._id &&
                         <Button type={'link'} style={{
 							fontWeight: 'bolder',
 							fontSize: '20px', color: 'black',
@@ -112,16 +186,13 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 						}}
                                 onClick={() => goToDetail(item)}> انقر لقراءة المزيد </Button>}
 						{window.location.pathname !== '/detailAnnounce' &&
-                        <button style={{
+                        <Button type={'link'} style={{
+							fontWeight: 'bolder',
+							fontSize: '20px', color: 'black',
+							marginLeft: '20px', padding: '5px',
 							height: '40px',
-							borderRadius: '30px',
-							backgroundColor: 'rgb(119 125 137 / 75%)',
-							color: 'white',
-							fontSize: '15px',
-							fontStyle: 'italic',
-							fontWeight: 'bolder'
 						}} onClick={() => changeComme()}> تعليق
-                        </button>
+                        </Button>
 						}
 					</div>
 					{(!commentZone && !visible) || window.location.pathname !== '/detailAnnounce' &&
@@ -132,14 +203,20 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 							paddingLeft: '10px'
 						}}>
 							{item?.comment?.map((el: any) => (
-								<div style={{display: "flex", backgroundColor: '#fff',
-									borderRadius: '20px', margin: '10px 0'}}>
+								<div style={{
+									display: "flex",
+									borderRadius: '20px', margin: '10px 0'
+								}}>
 									<img src={el?.userId?.photo}
 										 style={{margin: "20px", width: '50px', borderRadius: '30px', height: '50px'}}/>
 									<p style={{
+										padding: '10px',
 										fontStyle: 'italic',
-										fontSize: '15px',
+										fontSize: '14px',
 										fontWeight: 'bold',
+										backgroundColor: 'white',
+										width: '100%',
+										borderRadius: '20px',
 										margin: '20px',
 										paddingTop: '10px',
 										wordBreak: 'break-word',
@@ -167,7 +244,7 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 								   }}
                                    onChange={(e) => newComment(e, 'password')}
                             />
-							<div style={{width: '10px'}} />
+                            <div style={{width: '10px'}}/>
                             <button style={{
 								borderRadius: '10px',
 								backgroundColor: 'rgb(119 125 137 / 75%)',
@@ -183,7 +260,7 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 								date: '20/10/12'
 							}).then(() => {
 								getAnnounce().then()
-							})}> valdier
+							})}> نشر
                             </button>
                         </div>
 

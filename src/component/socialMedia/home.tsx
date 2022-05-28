@@ -4,7 +4,7 @@ import {Avatar, Button, Card, Cascader, Form, Input, Modal, Select, Tabs} from "
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import './home.css'
-import {addAnnounce, getAnnounce} from "../../store/modules/Announce/announceService";
+import {addAnnounce, getAnnounce, getSubmitFormation} from "../../store/modules/Announce/announceService";
 import {LikeOutlined, WechatOutlined} from '@ant-design/icons';
 import Meta from "antd/es/card/Meta";
 // @ts-ignore
@@ -25,6 +25,7 @@ import MessageHome from "../../pages/Message/messageHome";
 import {setConv} from "../../store/modules/Auth/AuthModule";
 import {toBase64} from "../Const/const";
 import moment from "moment";
+import {setSelectedAnnounce} from "../../store/modules/Announce/announceModule";
 
 const Home = () => {
 	const {TabPane} = Tabs;
@@ -49,8 +50,12 @@ const Home = () => {
 	}
 	useEffect(() => {
 		getAnnounce().then()
+		getSubmitFormation({_id:userConnect.user._id}).then()
+
 	}, [])
 	const [listConversations, setListConversations] = useState<any>([]);
+
+	const MySubmitFormation=useSelector((state:RootState)=>state.announce.submittedAnnounce)
 	useEffect(() => {
 		getMessage().then((res: any) => {
 			let listMessages: Array<any> = [];
@@ -80,16 +85,26 @@ const Home = () => {
 			photo: imageSRC[0],
 			date: moment(),
 			category: values.category
-		}).then()
+		}).then(()=>{
+			setIsOpen(!isOpen)
+			getAnnounce().then()
+		})
+	}
+	const navigate=useNavigate()
+	const goToDetailCard=(item:any,prof:any)=>{
+		dispatch(setSelectedAnnounce({...item,postBy:prof,submit:true}));
+		navigate('/detailAnnounce')
 	}
 	return (
 
 
 		<div>
+
 			<Modal footer={null} visible={isOpen} onCancel={() => {
 				setIsOpen(false)
 				// window.location.reload()
 			}} width={"30%"} centered>
+
 				<div className={'mainAddCard'}
 					 style={{
 						 padding: "14px",
@@ -148,6 +163,8 @@ const Home = () => {
 				</div>
 
 			</Modal>
+
+
 			<div className={'rightSide'}>
 				<Tabs style={{height: '100%'}}>
 					<TabPane>
@@ -160,24 +177,28 @@ const Home = () => {
 				<div className={'hederDetail'} style={{}}>
 					<img alt={''} className={''} src={userConnect.user.photo}
 						 style={{
-							 borderRadius: '50px',
-							 position: 'relative',
-							 right: '45%',
-							 paddingTop: '20px',
-							 paddingBottom: '15px',
-							 width: 100
+							 position: 'absolute',
+							 left:'15px',
+							 zIndex:9,
+							 width: 150,
+							 height:'28.5%'
 						 }}/>
 				</div>
 
 				<div className={'detailProfil'}>
 					<Card>
 						<p style={{
-							fontSize: '20px',
+							fontSize: '18px',
+							color: 'black',
+							fontWeight: "bolder"
+						}}>{userConnect.user.username} </p>
+						<p style={{
+							fontSize: '15px',
 							color: 'black',
 							fontWeight: "bold"
-						}}> {userConnect.user.name} </p>
+						}}> {userConnect.user.mail}</p>
 						<p style={{
-							fontSize: '20px',
+							fontSize: '15px',
 							color: 'gray',
 							fontWeight: "bold"
 						}}> {userConnect.user.role}</p>
@@ -186,30 +207,44 @@ const Home = () => {
 
 
 				</div>
-				<div className={'underNav'}>
-					<div className={"top"}>
-						<img alt={''} className={'logo'} src={userConnect.user.photo}/>
-						<input type={'text'} placeholder={'ادخل المعلومات هنا'} style={{
-							width: '85%',
-							backgroundColor: 'white',
-							// border: 'black 2px solid',
-							height: '100%'
-						}} onClick={() => setIsOpen(true)}/>
-					</div>
-					<hr/>
-					{/*<div className={'bot'}>*/}
-					{/*	<Button className={'btn_add'}*/}
-					{/*			style={{width: '50%', borderRadius: '50px', paddingRight: '10px'}}*/}
-					{/*			icon={<UploadOutlined/>}>Click to Upload</Button>*/}
-					{/*	<Button className={'btn-success'} type={'primary'}*/}
-					{/*			style={{width: '50%', borderRadius: '50px'}}> Add </Button>*/}
-					{/*</div>*/}
+				<div className={'myFormation'} style={{height:'400px',overflowX:'scroll'}}>
+					<h2 style={{textAlign:'center'}}> تكوين</h2>
+					{MySubmitFormation.map((item:any)=>(
+						<div className={'card'} onClick={()=>goToDetailCard(item.announce,item.prof)} style={{ borderRadius:'20px', padding:'unset',minWidth:'100%',backgroundSize:'cover',backgroundImage:`url(${item.announce.photo})`,backgroundRepeat:'no-repeat'}}   >
+							<div className={'over'}>
+								<p style={{fontSize:'16px',fontWeight:'bold',color:'white'}}> {item.announce.category}</p>
+								<p style={{fontSize:'16px',fontWeight:'bold',color:'white'}}>  {item.announce.date} </p>
+								<p style={{fontSize:'16px',fontWeight:'bold',color:'white'}}>  {item.prof.tel}</p>
+								<p style={{fontSize:'16px',fontWeight:'bold',color:'white'}}> {item.prof.name}</p>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 			<div className={'contenu'}>
 				<div style={{
 					marginTop: '20px'
 				}}>
+					<div className={'underNav'}>
+						<div className={"top"}>
+							<img alt={''} className={'logo'} src={userConnect.user.photo}/>
+							<input type={'text'} placeholder={'ادخل المعلومات هنا'} style={{
+								width: '70%',
+								backgroundColor: 'white',
+								// border: 'black 2px solid',
+								height: '100%'
+							}} onClick={() => setIsOpen(true)}/>
+						</div>
+						<div style={{height:'10px'}}> </div>
+						<hr/>
+						{/*<div className={'bot'}>*/}
+						{/*	<Button className={'btn_add'}*/}
+						{/*			style={{width: '50%', borderRadius: '50px', paddingRight: '10px'}}*/}
+						{/*			icon={<UploadOutlined/>}>Click to Upload</Button>*/}
+						{/*	<Button className={'btn-success'} type={'primary'}*/}
+						{/*			style={{width: '50%', borderRadius: '50px'}}> Add </Button>*/}
+						{/*</div>*/}
+					</div>
 					{listAnnounce.map((item: any) => (
 						<AnnounceCard item={item}/>
 					))}

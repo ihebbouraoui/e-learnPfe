@@ -67,7 +67,6 @@ function App() {
 		}
 	},[test])
 	let userLogged=user.current
-	console.log(user.current)
 
 	// let userLogged = JSON.parse(localStorage.getItem('token')|| '');
 	// const currentUser = JSON.parse(localStorage.getItem('token')!);

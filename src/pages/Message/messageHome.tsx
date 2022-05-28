@@ -86,8 +86,9 @@ const MessageHome :React.FC<{ listConversations: Array<any> }> = ({listConversat
 const 	Conversation: React.FC<{ conv: any, openModal: Function }> = ({conv, openModal}) => {
 	return (
 
-		<div onClick={() => openModal()}>
-			<p> محادثة مع  : {conv.user} <img src={conv.photo} alt={""} style={{width: 50}}/>
+		<div className={'convBox'} onClick={() => openModal()}>
+			<img  className={'convPhoto'} src={conv.photo} alt={""} />
+			<p className={'convName'}> محادثة مع  : {conv.user}
 			</p>
 		</div>
 	)

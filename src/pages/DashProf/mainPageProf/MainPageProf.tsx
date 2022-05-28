@@ -49,38 +49,60 @@ const MainPageProf = () => {
 	const onSubmit = (data: { [key: string]: string | number }) => {
 		updateProf(data, UserLogged?.user?._id).then((res: any) => {
 			// localStorage.setItem('user',JSON.stringify({...res.user}))
-			dispatch((setUserLogged({user:res,token:UserLogged?.token})))
+			dispatch((setUserLogged({user: res, token: UserLogged?.token})))
 		})
 	}
 	return (
 		<div className={'profil'}>
 			<div className={'photoSide'}>
 				<img src={UserLogged?.user?.photo} className={'photo'} alt={''}/>
-				<input type={'file'} onChange={(e:any)=>uploadImage(e)} />
+				<input type={'file'} onChange={(e: any) => uploadImage(e)}/>
 			</div>
 			<div className={'detailSide'}>
 				<label htmlFor={'name'}> الاسم:<input id={'name'}
-													  style={{border: '1px solid black', height: '80%', width: '80%',position:'relative',right:'76px'}}
+													  style={{
+														  // border: '1px solid black',
+														  height: '80%',
+														  width: '80%',
+														  position: 'relative',
+														  right: '76px'
+													  }}
 													  type={'text'} defaultValue={UserLogged?.user?.name}
 													  placeholder={'name'} onChange={(e) => formSubmit(e, 'name')}
 
 				/>
 				</label>
 				<label htmlFor={'name'}> الاسم المستخدم:<input
-					style={{border: '1px solid black', height: '80%', width: '80%',position:'relative',right:'20px'}}  type={'text'}
+					style={{
+						height: '80%',
+						width: '80%',
+						position: 'relative',
+						right: '20px'
+					}} type={'text'}
 					defaultValue={UserLogged?.user?.username}
 					placeholder={'username'} onChange={(e) => formSubmit(e, 'username')}/> </label>
 				<label htmlFor={'name'}> البريد الألكتوني:<input
-					style={{border: '1px solid black', height: '80%', width: '80%',position:'relative',right:'23px'}} type={'text'}
+					style={{
+						height: '80%',
+						width: '80%',
+						position: 'relative',
+						right: '23px'
+					}} type={'text'}
 					defaultValue={UserLogged?.user?.mail}
 					placeholder={'email'} onChange={(e) => formSubmit(e, 'mail')}/> </label>
 				<label htmlFor={'name'}> رقم الهاتف:<input
-					style={{border: '1px solid black', height: '80%', width: '80%',position:'relative',right:'48px'}} type={'text'}
+					style={{
+						height: '80%',
+						width: '80%',
+						position: 'relative',
+						right: '48px'
+					}} type={'text'}
 					defaultValue={UserLogged?.user?.tel}
 					placeholder={'telephone'} onChange={(e) => formSubmit(e, 'tel')}/> </label>
 
 
-				<button className={'btn-success'} style={{height: 50, fontWeight: 'bolder', color: 'white',width:'100%' }}
+				<button className={'btn-success'}
+						style={{height: 50, fontWeight: 'bolder', color: 'white',width:'50%'}}
 						onClick={() => onSubmit(updateForm.current)}> تاكيد
 				</button>
 

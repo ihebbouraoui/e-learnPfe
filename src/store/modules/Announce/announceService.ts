@@ -1,6 +1,13 @@
 import {ApiCall} from "../../ApiCall";
 import {store} from "../../store";
-import {setListAnnounce, setListComment, setListSignal, setProfAnnounce} from "./announceModule";
+import {
+	setChecked,
+	setListAnnounce,
+	setListComment,
+	setListSignal,
+	setMySubmitAnnounce,
+	setProfAnnounce
+} from "./announceModule";
 import {setLoading} from "../Auth/AuthModule";
 
 
@@ -35,6 +42,40 @@ export const addComment=(data:any)=>{
 		}
 	})
 }
+export const newFormation=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/announce/newFormation/",
+		method:'post',
+		data:data,
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+		}
+	})
+}
+export const checkIfSubmited=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/announce/checkFormation/",
+		method:'get',
+		data:data,
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+			store.dispatch(setChecked(res))
+		}
+	})
+}
+export const getSubmitFormation=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/announce/getMyFormationById/",
+		method:'get',
+		data:data,
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+			store.dispatch(setMySubmitAnnounce(res))
+		}
+	})
+}
+
+
 
 export const getCommentByIdAnnounce=(data:any)=>{
 	return ApiCall({
@@ -50,7 +91,7 @@ export const getCommentByIdAnnounce=(data:any)=>{
 export const signaler=(data:any)=>{
 	console.log(data)
 	return ApiCall({
-		endPoint:"http://localhost:3002/announce/siganl/",
+		endPoint:"http://localhost:3002/announce/signal/",
 		method:'post',
 		data:data,
 		successFunction:(res:any)=>{
@@ -60,7 +101,7 @@ export const signaler=(data:any)=>{
 }
 export const getSignal=()=> {
 	return ApiCall({
-		endPoint: "http://localhost:3002/announce/getSignal/",
+			endPoint: "http://localhost:3002/announce/getSignal/",
 		method: 'get',
 		successFunction: (res: any) => {
 			store.dispatch(setLoading(true))
