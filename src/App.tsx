@@ -50,26 +50,24 @@ import {ContextProvider} from "./Context";
 import MessageHome from "./pages/Message/messageHome";
 import {getMessage} from "./store/modules/Auth/authService";
 import {setLoading, setLogged, setUserLogged} from "./store/modules/Auth/AuthModule";
+import ConfirmationFormations from "./pages/DashProf/ConfirmationFormations";
 
 function App() {
 	const isLoding = useSelector((state: RootState) => state.auth.isLoading)
 	let isLogged = useSelector((state: RootState) => state.auth.isLogged)
-	const userLoggedTest=useSelector((state:RootState)=>state.auth.userLogged)
-	const dispatch=useDispatch()
-	const user=useRef<any>()
-      const test=localStorage.getItem('user')
-	useEffect(()=>{
+	const userLoggedTest = useSelector((state: RootState) => state.auth.userLogged)
+	const dispatch = useDispatch()
+	const user = useRef<any>()
+	const test = localStorage.getItem('user')
+	useEffect(() => {
 		if (test) {
-			user.current=(JSON.parse(test) || '{}')
-			dispatch(setUserLogged({token:userLoggedTest?.token,user:user.current}))
+			user.current = (JSON.parse(test) || '{}')
+			dispatch(setUserLogged({token: userLoggedTest?.token, user: user.current}))
 			dispatch(setLogged(true))
 			dispatch(setLoading(false))
 		}
-	},[test])
-	let userLogged=user.current
-
-	// let userLogged = JSON.parse(localStorage.getItem('token')|| '');
-	// const currentUser = JSON.parse(localStorage.getItem('token')!);
+	}, [test])
+	let userLogged = user.current
 	return (
 		<div>
 			<ContextProvider>
@@ -119,7 +117,11 @@ function App() {
 
 
 						<Router>
+							{isLoding && <div className={'loader'}>
+                                <img draggable={false} className={'loaderImage'} alt={''} src={loader}/>
+                            </div>}
 							<Layout style={{height: "100vh"}} className="layout">
+
 								<NavbarStudent/>
 								<Content>
 									<Routes>
@@ -128,6 +130,7 @@ function App() {
 										<Route path={'/detailAnnounce'} element={<DetailAnnounce/>}/>
 										<Route path={'/chat'} element={<TestChat/>}/>
 										<Route path={'/conversation'} element={<ListConversation/>}/>
+										<Route path={'/myAnnounce'} element={<ConfirmationFormations/>}/>
 										<Route path={"*"} element={<Home/>}/>
 									</Routes>
 								</Content>
@@ -139,6 +142,9 @@ function App() {
 						:
 						isLogged && userLogged?.role === 'student' ?
 							<Router>
+								{isLoding && <div className={'loader'}>
+                                    <img draggable={false} className={'loaderImage'} alt={''} src={loader}/>
+                                </div>}
 								<Layout style={{height: "100vh"}} className="layout">
 									<NavbarStudent/>
 									<Content>
@@ -163,9 +169,7 @@ function App() {
 
 							<Login/>
 
-
 				}
-
 
 			</ContextProvider>
 		</div>

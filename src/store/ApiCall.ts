@@ -7,6 +7,7 @@ export interface ApiCallInterface {
 	method: "get" | "put" | "post" | "delete" ;
 	endPoint: string;
 	successFunction?: Function
+	errorFunction?:Function
 }
 
 export const ApiCall = (config: ApiCallInterface) => {
@@ -25,7 +26,8 @@ export const ApiCall = (config: ApiCallInterface) => {
 
 		})
 		.catch((err: AxiosError) => {
-			console.log(err.message)
+			config.errorFunction && config.errorFunction(err);
+
 			store.dispatch(setLoading(false))
 		});
 	});

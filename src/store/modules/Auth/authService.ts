@@ -12,7 +12,11 @@ export const AuthLogin=(data:any)=>{
 			store.dispatch(setLoading(true))
 			store.dispatch(setLogged(true))
 
+		},
+		errorFunction:(res:any)=>{
+			console.log(res)
 		}
+
 	})
 }
 export const signUpUser=(data:any)=>{

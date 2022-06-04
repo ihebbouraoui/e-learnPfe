@@ -40,7 +40,6 @@ export const updateProf=(data:any,id:any)=>{
 		data:data,
 		successFunction:(res:any)=>{
 			store.dispatch(setLoading(true))
-			store.dispatch(setUserLogged(res))
 		}
 	});
 }

@@ -119,7 +119,7 @@ td {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: unset;
 }
 
 ::-webkit-scrollbar-thumb:hover {

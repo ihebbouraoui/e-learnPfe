@@ -76,10 +76,10 @@ const Prof = () => {
 		<div className={'directorMain'}>
 			<FilterForm filterData={ProfFilterForm}/>
 			<button className={'btn-success'}
-					style={{padding: 15, backgroundColor: 'rgb(76, 112, 142)', width: '150px', margin: '0 20px'}}
+					style={{ backgroundColor: 'rgb(76 95 142 / 29%)', margin: '0 20px'}}
 					onClick={() => navigate('/addprof')}
 			> اضافة
-				مدير
+				استاذ
 			</button>
 			<TabForm filterData={{...tableModel, sendEventToParent: receive}}/>
 		</div>

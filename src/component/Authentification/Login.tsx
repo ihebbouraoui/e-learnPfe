@@ -5,16 +5,11 @@ import {useDispatch} from "react-redux";
 // @ts-ignore
 import photo from '../../assets/e-learning-mfc-min.jpg'
 import {Alert} from 'antd';
+import {  notification } from 'antd';
 
 export
 
 const Login = () => {
-	const alert = (typeAlert: any, message: string) => {
-		return(
-			<Alert message={message} type={typeAlert}/>
-
-		)
-	}
 	const loginFormRef = useRef<{ [key: string]: string | number }>({})
 	const formLogin = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
 		loginFormRef.current[name] = event.target.value.trim();
@@ -26,13 +21,21 @@ const Login = () => {
 	}
 	const login = (data: any) => {
 		if (!data.current.mail || !data.current.password) {
-			// @ts-ignore
-			alert('error','qsd')
+			notification.open({
+				message: 'تحذير',
+				description:'الرجاء ادخال الحساب',
+				onClick: () => {
+					console.log('Notification Clicked!');
+				},
+			});
+
 
 		} else {
 			AuthLogin({mail: data.current.mail, password: data.current.password}).then((res: any) => {
 				localStorage.setItem('user', JSON.stringify(res.user))
-			})
+			}).catch((res:any)=>{
+				console.log(res.msg)
+				});
 		}
 
 	}

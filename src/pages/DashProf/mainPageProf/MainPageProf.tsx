@@ -31,7 +31,6 @@ const MainPageProf = () => {
 				console.log(UserLogged)
 				updateProf({photo: res}, UserLogged?.user?._id).then(() => {
 					dispatch(setUserLogged({...UserLogged, photo: res}))
-					console.log(UserLogged)
 				})
 			})
 		}
@@ -46,10 +45,14 @@ const MainPageProf = () => {
 			}
 		})
 	}
+	console.log(UserLogged)
+	let existing = localStorage.getItem('user');
+	console.log(existing)
 	const onSubmit = (data: { [key: string]: string | number }) => {
 		updateProf(data, UserLogged?.user?._id).then((res: any) => {
 			// localStorage.setItem('user',JSON.stringify({...res.user}))
-			dispatch((setUserLogged({user: res, token: UserLogged?.token})))
+			dispatch((setUserLogged({user: res})))
+			localStorage.setItem('user', JSON.stringify(res))
 		})
 	}
 	return (

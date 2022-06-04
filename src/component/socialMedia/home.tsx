@@ -44,15 +44,25 @@ const Home = () => {
 	const [commentForm] = Form.useForm();
 	const nav = useNavigate()
 	const dispatch = useDispatch()
+	const [myFormation,setMyFormation]=useState([])
 	const goToMessage = (item: any) => {
 		dispatch(setConv(item))
 		nav('message')
 	}
 	useEffect(() => {
-		getAnnounce().then()
+		getAnnounce().then((res:any)=>{
+			res?.map((item:any)=>{
+				console.log(item)
+				if (item.userId.includes(userConnect.user._id)){
+					setMyFormation(res)
+				}
+			})
+		})
 		getSubmitFormation({_id:userConnect.user._id}).then()
 
 	}, [])
+
+	console.log(myFormation)
 	const [listConversations, setListConversations] = useState<any>([]);
 
 	const MySubmitFormation=useSelector((state:RootState)=>state.announce.submittedAnnounce)
@@ -84,7 +94,8 @@ const Home = () => {
 			data: values.data,
 			photo: imageSRC[0],
 			date: moment(),
-			category: values.category
+			category: values.category,
+			title:values.title
 		}).then(()=>{
 			setIsOpen(!isOpen)
 			getAnnounce().then()
@@ -128,6 +139,15 @@ const Home = () => {
 								style={{width: '100%'}}
 							>
 								<Input placeholder="المعلومات"
+								/>
+							</Form.Item>
+							<Form.Item
+								label="عنوان الأعلان"
+								name="title"
+								rules={[{required: false, message: 'ادخل العنوان!'}]}
+								style={{width: '100%'}}
+							>
+								<Input placeholder="العنوان "
 								/>
 							</Form.Item>
 							<Form.Item label="نوعية الأعلان" name="category"

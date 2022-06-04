@@ -23,9 +23,9 @@ export const getAnnounce=()=>{
 }
 export const getAnnounceByIdProf=(data:any)=>{
 	return ApiCall({
-		endPoint:"http://localhost:3002/announce/getAnnounceById/",
+		endPoint:"http://localhost:3002/announce/getAnnounceById",
 		method:'get',
-		data,
+		data:data,
 		successFunction:(res:any)=>{
 			store.dispatch(setLoading(true))
 			store.dispatch(setProfAnnounce(res))
@@ -44,7 +44,17 @@ export const addComment=(data:any)=>{
 }
 export const newFormation=(data:any)=>{
 	return ApiCall({
-		endPoint:"http://localhost:3002/announce/newFormation/",
+		endPoint:"http://localhost:3002/announce/submit",
+		method:'put',
+		data:data,
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+		}
+	})
+}
+export const newFormationSubmit=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/announce/newFormation",
 		method:'post',
 		data:data,
 		successFunction:(res:any)=>{

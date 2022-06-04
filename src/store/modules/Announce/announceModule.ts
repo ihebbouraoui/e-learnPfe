@@ -14,7 +14,7 @@ export interface announceInterface {
 }
 
 const initialValues: announceInterface = {
-	checkIfSubmit:undefined,
+	checkIfSubmit:false,
 	submittedAnnounce:[],
 	list_Announce:[],
 	list_Comment: [],

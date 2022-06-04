@@ -128,8 +128,7 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 		<div className={'directorMain'}>
 			<FilterForm filterData={DirectorFilterForm}/>
 			<button className={'btn-success'}
-					style={{padding: 15, backgroundColor: 'rgb(76 95 142 / 29%)', width: '150px', margin: '0 20px',fontStyle:'italic',fontSize:'large'}}
-					onClick={navigate}
+					style={{ backgroundColor: 'rgb(76 95 142 / 29%)', margin: '0 20px',fontStyle:'italic'}}
 			> اضافة
 				مدير
 			</button>

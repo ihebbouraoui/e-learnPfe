@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {getMessage, setMessage} from "../../store/modules/Auth/authService";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
-import {Button, Form, Modal} from "antd";
+import {Button, Form, Input, Modal} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import ConversationForm from "./conversationForm";
 import './messageHome.css'
@@ -44,7 +44,7 @@ const MessageHome :React.FC<{ listConversations: Array<any> }> = ({listConversat
 			<Modal footer={null} visible={isOpen} onCancel={() => {
 				setIsOpen(false)
                 // window.location.reload()
-			} } width={"30%"}  bodyStyle={{background:'linear-gradient(315deg, #aee1f9 0%, #f6ebe6 74%)',height:'50%'}} centered>
+			} } width={700}  centered>
 
 				<div className={'mainMessage'}>
 					<div className={'fromTo'}>
@@ -66,11 +66,11 @@ const MessageHome :React.FC<{ listConversations: Array<any> }> = ({listConversat
 									name="type"
 									rules={[{
 										required: true,
-										message: 'Please input your message"'
+										message: 'الرجاء كتابة الرسالة"'
 									}]}>
-									<TextArea rows={1}/>
+									<Input style={{height:'20px'}} />
 								</Form.Item>
-								<Button htmlType="submit" style={{background:'linear-gradient(352deg, #ff00f814 60%, #0008ff00)',fontWeight:'bolder',fontSize:'15px'}}>
+								<Button htmlType="submit" style={{marginRight:'10px',fontWeight:'bolder'}}>
 									&#9658;
 								</Button>
 							</div>
@@ -88,7 +88,7 @@ const 	Conversation: React.FC<{ conv: any, openModal: Function }> = ({conv, open
 
 		<div className={'convBox'} onClick={() => openModal()}>
 			<img  className={'convPhoto'} src={conv.photo} alt={""} />
-			<p className={'convName'}> محادثة مع  : {conv.user}
+			<p className={'convName'}>  {conv.user}
 			</p>
 		</div>
 	)

@@ -14,6 +14,7 @@ import { notification } from 'antd';
 
 // @ts-ignore
 import alert from "../../../assets/alert-svgrepo-com.svg";
+import {setChecked} from "../../../store/modules/Announce/announceModule";
 
 const DetailAnnounce = () => {
 	const [isReclamOpen, setIsReclamOpen] = useState(false)
@@ -22,14 +23,9 @@ const DetailAnnounce = () => {
 	const [commentForm] = Form.useForm();
 	const [commentForm2] = Form.useForm();
 	const [commentForm3] = Form.useForm();
-
+  const [check,setCheck]=useState(false)
 	const announce = useSelector((state: RootState) => state.announce.selectedAnnounce)
-	console.log(announce)
-	const check=useSelector((state:RootState)=>state.announce.checkIfSubmit)
-     useEffect(()=>{
-		 checkIfSubmited({_id:userConnect?.user?._id}).then()
-	 },[])
-	console.log(check)
+
 	useEffect(() => {
 		getUserById({_id: announce?.postBy}).then((res: any) => setPostedBy(res))
 	}, [])
@@ -50,18 +46,25 @@ const DetailAnnounce = () => {
 	}
 	const [isOpen2,setIsOpen2]=useState(false)
 	const onFinishSubmit=(values:any)=>{
-		newFormation({announce:announce._id,student:userConnect.user._id,prof:announce.postBy._id}).then(()=>{
+		newFormation({_id:announce._id,userId:userConnect.user._id}).then(()=>{
 			notification.open({
 				message: 'تنبيه',
 				description:
 					'لقد تم التقديم في التكوين بنجاح',
-				onClick: () => {
-					console.log('Notification Clicked!');
-				},
 			});
 			setIsOpen2(false)
 		})
 	}
+	useEffect(()=>{
+        announce.userSubmitted?.map((item:any)=>{
+			console.log(item)
+			if (item?.userId?.includes(userConnect.user._id)){
+				setCheck(true)
+			}
+		})
+
+	},[])
+	console.log(check)
 	const onFinishReclamation = (values: any) => {
 		signaler({
 			userToSignal:announce.postBy._id,
@@ -209,8 +212,11 @@ const DetailAnnounce = () => {
 									backgroundColor: 'whitesmoke',
 									width: '700px',
 									height: '200px',
+									resize:'none'
 
-								}}/>
+
+								}}
+								rows={1}/>
 							</Form.Item>
 							<button  className={'btn-success'} style={{position:'relative',top:'42px',right:'243px'}}  type="submit">
 								ارسال
@@ -240,13 +246,18 @@ const DetailAnnounce = () => {
 				</div>
 				<div className={'reclamation'}>
 					{
-						announce.category === 'formation' && !announce?.submit  && <Button onClick={()=>setIsOpen2(true)}   style={{
+						!check && announce.category === 'formation' && !announce?.submit  && <Button onClick={()=>setIsOpen2(true)}   style={{
 							fontWeight: 'bolder',
 							fontSize: '20px',
 							marginLeft: '20px', padding: '5px',
 							height: '40px',
 						}} type={"link"}> التقديم في التكوين </Button>
 
+					}
+					{
+						check && <Button  type={'link'}
+						>لقد قدمت مسبقا في هذا التكوين
+						</Button>
 					}
 					<Button style={{fontWeight:'bold',fontSize:'20px'}} onClick={()=>setIsReclamOpen(true)} type={'link'} > اضافة شكوى</Button>
 				</div>
