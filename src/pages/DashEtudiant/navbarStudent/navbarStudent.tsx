@@ -32,24 +32,23 @@ const NavbarStudent=()=>{
 		left: 0,
 		zIndex: 99,
 		width: '100vw',
-		height: '70px',
+		height: '50px',
 		boxShadow: '0px 6px 20px 0px #d5d5d5'
 	}}>
 		<div className="menu">
-			<li> <NavLink to={'/social_media'}> الرئيسية </NavLink> </li>
-			<li><NavLink to={'/chat'}> دردشة </NavLink> </li>
-			<li><NavLink to={'/social_media'}> تواصل </NavLink> </li>
-			<li><NavLink to={'/home'}> من نحن </NavLink> </li>
-			<li><NavLink to={'/message'}> message </NavLink> </li>
+			<li> <NavLink style={{color:'black',fontSize:'15px',fontWeight:'bold'}} to={'/social_media'}> الرئيسية </NavLink> </li>
+			<li><NavLink style={{color:'black',fontSize:'15px',fontWeight:'bold'}} to={'/chat'}> دردشة </NavLink> </li>
+			<li><NavLink style={{color:'black',fontSize:'15px',fontWeight:'bold'}} to={'/social_media'}> تواصل </NavLink> </li>
+			<li><NavLink style={{color:'black',fontSize:'15px',fontWeight:'bold'}} to={'/home'}> من نحن </NavLink> </li>
 			{
 				userConnect.user.role==='prof' &&
-				<li> <NavLink to={'/myAnnounce'}> اعلاناتي  </NavLink> </li>
+				<li> <NavLink style={{color:'black',fontSize:'15px',fontWeight:'bold'}} to={'/myAnnounce'}> اعلاناتي  </NavLink> </li>
 
 			}
 			<li className="services">
-				<a href="/"><NavLink to={'/home'}> تعديل </NavLink> </a>
+				<a href="/"><NavLink style={{color:'black',fontSize:'15px',fontWeight:'bold'}} to={'/home'}> تعديل </NavLink> </a>
 				<ul className="dropdown">
-					<li> <NavLink to={'/profilProf'}> معلوماتي </NavLink> </li>
+					<li> <NavLink style={{color:'black',fontSize:'15px',fontWeight:'bold'}} to={'/profilProf'}> معلوماتي </NavLink> </li>
 					<li onClick={()=>logout()}> <NavLink to={'/logout'}> تسجيل الخروج </NavLink>  </li></ul>
 			</li>
 		</div>

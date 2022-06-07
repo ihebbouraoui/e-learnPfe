@@ -38,6 +38,20 @@ export const setUserToHistory=(data:any)=>{
 			store.dispatch(setLoading(true))	}
 	})
 }
+export const upload=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/user/uploadFile",
+		method:'post',
+		data:data,
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+
+		}
+	})
+}
 export const setMessage=(data:any)=>{
 	return ApiCall({
 		endPoint:"http://localhost:3002/message/testMessage",

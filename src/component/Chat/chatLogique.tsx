@@ -38,7 +38,8 @@ function ChatLogique({ socket, username, room }:any) {
 			</div>
 			<div className={'chat_live'}>
 				<div className="chat-header">
-					<p>Live Chat</p>
+					<p>دردشة مباشرة</p>
+
 				</div>
 				<div className="chat-body">
 					<ScrollToBottom className="message-container">
@@ -52,7 +53,7 @@ function ChatLogique({ socket, username, room }:any) {
 										<div className="message-content">
 											<p>{messageContent.message}</p>
 										</div>
-										<div className="message-meta">
+										<div className="message-meta" >
 											<p id="time">{messageContent.time}</p>
 											<p id="author">{messageContent.author}</p>
 										</div>
@@ -66,7 +67,7 @@ function ChatLogique({ socket, username, room }:any) {
 					<input
 						type="text"
 						value={currentMessage}
-						placeholder="Hey..."
+						placeholder="ادخل الرسالة هنا"
 						onChange={(event) => {
 							setCurrentMessage(event.target.value);
 						}}

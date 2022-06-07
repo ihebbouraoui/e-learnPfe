@@ -24,24 +24,24 @@ body {
     margin-bottom: 1rem;
 }
 .joinChatContainer input {
-    width: 210px;
+    width: 300px;
     height: 40px;
     margin: 7px;
-    border: 2px solid #43a047;
-    border-radius: 5px;
+    border: 2px solid black;
+    border-radius: 10px;
     padding: 5px;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .joinChatContainer button {
-    width: 225px;
+    width: 300px;
     height: 50px;
     margin: 7px;
     border: none;
     border-radius: 5px;
     padding: 5px;
     font-size: 16px;
-    background: #43a047;
+    background: black;
     color: #fff;
     cursor: pointer;
 }
@@ -53,10 +53,8 @@ body {
 .chat-window {
     display: flex;
     justify-content: space-evenly;
-    background-color: #ffffff;
-    background-image: linear-gradient(315deg, #ffffff 0%, #91a6ff 74%);
-    width: 100vw !important;
-    height: 100vh !important;
+        width: 80vw !important;
+        height: 80vh !important;
 
 }
 .chat_live{
@@ -85,7 +83,7 @@ body {
 
 .chat-window .chat-body {
     height: calc(450px - (45px + 70px));
-    background:linear-gradient(315deg, #aee1f9 0%, #f6ebe6 74%);
+    background-color: white;
 
     position: relative;
 }
@@ -110,14 +108,14 @@ body {
     height: auto;
     min-height: 40px;
     max-width: 120px;
-    background-color: #43a047;
-    border-radius: 5px;
+    background-color: gray;
+    border-radius: 10px;
     color: white;
     display: flex;
     align-items: center;
     margin-right: 5px;
     margin-left: 5px;
-    padding-right: 5px;
+    padding-right: 10px;
     padding-left: 5px;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -152,6 +150,7 @@ body {
 
 .message-meta #author {
     margin-left: 10px;
+    padding-right: 10px;
     font-weight: bold;
 }
 
@@ -161,9 +160,9 @@ body {
 }
 
 .chat-window .chat-footer {
-    height: 40px;
     display: flex;
     margin: 10px;
+    background-color: #fbfbfbb3;
 
 }
 
@@ -172,10 +171,12 @@ body {
     flex: 85%;
     border: 0;
     padding: 0 0.7em;
-    font-size: 1em;
-    border-right: 1px dotted #607d8b;
-
-    outline: none;
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+    /*border-right: 1px dotted #607d8b;*/
+   background-color: #fbfbfbb3;
+    /*outline: ;*/
     font-family: "Open Sans", sans-serif;
 }
 

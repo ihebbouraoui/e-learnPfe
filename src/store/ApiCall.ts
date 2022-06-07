@@ -8,6 +8,7 @@ export interface ApiCallInterface {
 	endPoint: string;
 	successFunction?: Function
 	errorFunction?:Function
+	headers?: any
 }
 
 export const ApiCall = (config: ApiCallInterface) => {
@@ -17,7 +18,8 @@ export const ApiCall = (config: ApiCallInterface) => {
 			method: config.method,
 			url: config.endPoint,
 			data: config.method !== 'get'  ? config.data : null,
-			params: config.method === 'get' ? config.data : null
+			params: config.method === 'get' ? config.data : null,
+			headers: config?.headers
 		})
 		.then((res) => {
 			resolve(res.data);

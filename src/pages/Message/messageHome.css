@@ -41,8 +41,9 @@
     padding: 10px 10px;
     /*height: 100%;*/
     width: 100%;
-    overflow-x: scroll;
-    background-color: #f0f2f5;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: white;
     border-radius: 10px;
 
 }

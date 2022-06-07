@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 import photo from '../../assets/e-learning-mfc-min.jpg'
 import {Alert} from 'antd';
 import {  notification } from 'antd';
+import {useNavigate} from "react-router-dom";
 
 export
 
@@ -40,7 +41,10 @@ const Login = () => {
 
 	}
 	const dispatch = useDispatch()
-
+	const navigate=useNavigate()
+	const goTosignUp =()=>{
+		navigate('/signUp')
+	}
 	return (
 		<div className={'login'}>
 			<div className={'formLogin'}>
@@ -67,7 +71,7 @@ const Login = () => {
 					</button>
 					<button className={'btn-login'}
 							style={{width: "100%", height: '100%', margin: '20px', fontWeight: 'bold'}}
-							onClick={() => login(loginFormRef)}> تسجيل حساب
+							onClick={() => goTosignUp()}> تسجيل حساب
 					</button>
 				</div>
 			</div>

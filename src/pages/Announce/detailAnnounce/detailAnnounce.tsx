@@ -15,6 +15,7 @@ import { notification } from 'antd';
 // @ts-ignore
 import alert from "../../../assets/alert-svgrepo-com.svg";
 import {setChecked} from "../../../store/modules/Announce/announceModule";
+import {Link, useNavigate} from "react-router-dom";
 
 const DetailAnnounce = () => {
 	const [isReclamOpen, setIsReclamOpen] = useState(false)
@@ -75,6 +76,7 @@ const DetailAnnounce = () => {
 
 		}).then(()=>alert('تمت الشكوى بنجاح'))
 	}
+	const nav=useNavigate()
 	return (
 		<div className={"announceCard"}>
 			<Modal footer={null} visible={isOpen2} onCancel={()=>setIsOpen2(false)} width={500}>
@@ -258,6 +260,10 @@ const DetailAnnounce = () => {
 						check && <Button  type={'link'}
 						>لقد قدمت مسبقا في هذا التكوين
 						</Button>
+					}
+					{
+						check && <button  onClick={()=>window.open(`http://localhost:3002/${announce?.file}`)}
+                                          >تحميل الدرس</button>
 					}
 					<Button style={{fontWeight:'bold',fontSize:'20px'}} onClick={()=>setIsReclamOpen(true)} type={'link'} > اضافة شكوى</Button>
 				</div>

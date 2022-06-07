@@ -10,32 +10,32 @@ import {setUserLogged} from "../../../store/modules/Auth/AuthModule";
 // @ts-ignore
 import rename from "../../../assets/rename-svgrepo-com.svg"
 import {getUserById} from "../../../store/modules/Director/directorService";
+import {upload} from "../../../store/modules/Auth/authService";
 
 
 const MainPageProf = () => {
 	let UserLogged = useSelector((state: RootState) => state.auth.userLogged)
 	const dispatch = useDispatch()
 	const [isModal, setModal] = useState(false)
-
 	const openModel = () => {
 		setModal(true)
 	}
 	const closeEvent = () => {
 		setModal(false)
 	}
-	const [imageSRC, setImageSRC] = useState<Array<string>>([]);
-	const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event?.target?.files) {
-			toBase64(event.target.files[0]).then((res: any) => {
-				setImageSRC([...imageSRC, res as string]);
-				console.log(UserLogged)
-				updateProf({photo: res}, UserLogged?.user?._id).then(() => {
-					dispatch(setUserLogged({...UserLogged, photo: res}))
-				})
+	let existing = localStorage.getItem('user');
+
+	const handleUploadImage = (e:any) => {
+		const f = new FormData();
+		f.append('file', e.target.files[0])
+		upload(f).then((res) => {
+			updateProf({photo: res}, UserLogged?.user?._id).then(() => {
+				dispatch(setUserLogged({...UserLogged, photo: res}))
 			})
-		}
+		} )
 	}
 	const updateForm = useRef<{ [key: string]: string | number }>({})
+
 
 	const formSubmit = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
 		updateForm.current[name] = event.target.value.trim();
@@ -45,9 +45,6 @@ const MainPageProf = () => {
 			}
 		})
 	}
-	console.log(UserLogged)
-	let existing = localStorage.getItem('user');
-	console.log(existing)
 	const onSubmit = (data: { [key: string]: string | number }) => {
 		updateProf(data, UserLogged?.user?._id).then((res: any) => {
 			// localStorage.setItem('user',JSON.stringify({...res.user}))
@@ -55,11 +52,12 @@ const MainPageProf = () => {
 			localStorage.setItem('user', JSON.stringify(res))
 		})
 	}
+
 	return (
 		<div className={'profil'}>
 			<div className={'photoSide'}>
-				<img src={UserLogged?.user?.photo} className={'photo'} alt={''}/>
-				<input type={'file'} onChange={(e: any) => uploadImage(e)}/>
+				<img  src={UserLogged.user.photo} className={'photo'} />
+				<input type={'file'} multiple={true} onChange={handleUploadImage}/>
 			</div>
 			<div className={'detailSide'}>
 				<label htmlFor={'name'}> الاسم:<input id={'name'}

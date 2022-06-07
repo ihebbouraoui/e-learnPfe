@@ -36,12 +36,19 @@ code {
 
 .bodyContainer {
     position: fixed;
+    background-color: white;
     width: calc(100vw - 240px);
     height: calc(100vh - 50px);
     left: 0;
     overflow-y: scroll;
     overflow-x: hidden;
 
+}
+.ant-layout-content{
+    background-color: white;
+}
+.ant-layout-header{
+    height: 54px;
 }
 
 input {

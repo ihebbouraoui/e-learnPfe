@@ -21,22 +21,24 @@ const TestChat=()=>{
 		<div className="App">
 			{!showChat ? (
 				<div className="joinChatContainer">
-					<h3>Join A Chat</h3>
+					<h3>انضم الى الغرفة</h3>
+
 					<input
 						type="text"
-						placeholder="John..."
+						placeholder="الاسم"
 						onChange={(event) => {
 							setUsername(event.target.value);
 						}}
 					/>
 					<input
 						type="text"
-						placeholder="Room ID..."
+						placeholder="معرف الغرفة"
+
 						onChange={(event) => {
 							setRoom(event.target.value);
 						}}
 					/>
-					<button onClick={joinRoom}>Join A Room</button>
+					<button className={'btn-success'} style={{backgroundColor:'gray'}} onClick={joinRoom}>Join A Room</button>
 				</div>
 			) : (
 				<ChatLogique socket={socket} username={username} room={room} />

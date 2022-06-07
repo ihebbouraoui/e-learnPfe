@@ -51,6 +51,7 @@ import MessageHome from "./pages/Message/messageHome";
 import {getMessage} from "./store/modules/Auth/authService";
 import {setLoading, setLogged, setUserLogged} from "./store/modules/Auth/AuthModule";
 import ConfirmationFormations from "./pages/DashProf/ConfirmationFormations";
+import SignUp from "./component/Authentification/SignUp";
 
 function App() {
 	const isLoding = useSelector((state: RootState) => state.auth.isLoading)
@@ -92,7 +93,7 @@ function App() {
 								</Route>
 								<Route path={'/etudiant'} element={<Etudiant/>}/>
 								<Route path={'/etudiant/detail/:id'} element={<DetailEtudiant/>}>
-									v <Route index element={<HomeWordEtudiant/>}/>
+									 <Route index element={<HomeWordEtudiant/>}/>
 									<Route path={'/etudiant/detail/:id/exam'} element={<ExamEtudiant/>}/>
 
 								</Route>
@@ -166,10 +167,16 @@ function App() {
 
 							:
 
+							<Router>
+								<Login/>
+								<Routes>
+									<Route path={'/signUp'} element={<SignUp/>}/>
 
-							<Login/>
+								</Routes>
+							</Router>
 
-				}
+
+					}
 
 			</ContextProvider>
 		</div>

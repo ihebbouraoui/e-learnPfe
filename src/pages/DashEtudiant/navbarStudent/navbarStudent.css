@@ -37,8 +37,8 @@ li {
     /*height: 60px!important;*/
     /*width: 100vw !important;*/
     width: 100%;
-    height: 70px;
-    background-color: #f2f2f2;
+    height: 50px;
+    background-color: white;
 }
 .menu li:hover {
     background-color: white;
@@ -47,6 +47,10 @@ li {
 }
 .menu li {
     padding: 5px 14px;
+    position: relative;
+    top: -13px;
+
+
 }
 /* DROPDOWN MENU */
 .services {

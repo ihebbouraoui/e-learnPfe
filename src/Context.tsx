@@ -73,10 +73,8 @@ const ContextProvider = ({ children }:any) => {
 
 	const leaveCall = () => {
 		setCallEnded(true);
-
 		connectionRef.current.destroy();
-
-		window.location.reload();
+		// connectionRef.current.reset()
 	};
 
 	return (

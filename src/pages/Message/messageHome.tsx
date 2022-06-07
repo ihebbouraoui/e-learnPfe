@@ -3,16 +3,18 @@ import {getMessage, setMessage} from "../../store/modules/Auth/authService";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {Button, Form, Input, Modal} from "antd";
-import TextArea from "antd/es/input/TextArea";
 import ConversationForm from "./conversationForm";
 import './messageHome.css'
 import {useNavigate} from "react-router-dom";
-import {setLoading} from "../../store/modules/Auth/AuthModule";
+import { Upload, } from 'antd';
 
+
+const { Dragger } = Upload;
 const MessageHome :React.FC<{ listConversations: Array<any> }> = ({listConversations}) => {
 	// console.log(listConversations)
 	const nav=useNavigate()
 	const onFinish = (values: any) => {
+		console.log(values?.file)
 		const msg = {
 			messageFrom: userToken.user.mail,
 			messageTo: selectedConv?.user,
@@ -36,6 +38,7 @@ const MessageHome :React.FC<{ listConversations: Array<any> }> = ({listConversat
 		setSelectedConv(item);
 		setIsOpen(true);
 	}
+
 	return (
 		<div>
 			{
@@ -73,6 +76,8 @@ const MessageHome :React.FC<{ listConversations: Array<any> }> = ({listConversat
 								<Button htmlType="submit" style={{marginRight:'10px',fontWeight:'bolder'}}>
 									&#9658;
 								</Button>
+
+
 							</div>
 						</Form>
 					</div>
