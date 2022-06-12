@@ -59,6 +59,13 @@ export const setMessage=(data:any)=>{
 		data:data,
 	})
 }
+export const sendMail=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/login/sendMail",
+		method:'post',
+		data:data,
+	})
+}
 export const getMessage=()=>{
 	return ApiCall({
 		endPoint:"http://localhost:3002/message/",

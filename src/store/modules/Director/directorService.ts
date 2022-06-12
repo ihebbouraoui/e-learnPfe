@@ -25,6 +25,12 @@ export const filterDirector=(data:any)=>{
 		}
 	})
 }
+export const test=(id:any)=>{
+	return ApiCall({
+		endPoint:`http://localhost:3002/video-call/${id}`,
+		method:'get',
+	})
+}
 
 export const deleteDirector=(id:any)=>{
 	return ApiCall({

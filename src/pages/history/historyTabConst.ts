@@ -6,9 +6,9 @@ export const historyTabConst: TabConfigInterface = {
 			label: 'الوقت '
 		},
 		{
-			label: ' اسم اليوزر'
+			label: ' الادمين'
 		}, {
-			label: ' الادمين '
+			label: ' اسم المستخدم '
 		}, {
 			label: 'العملية'
 		},
@@ -19,11 +19,7 @@ export const historyTabConst: TabConfigInterface = {
 	data: [
 	],
 	btnConfig: [
-		{
-			name: 'تفاصيل',
-			style: 'btn-success',
-			type: 'detail'
-		},
+
 		{
 			name: 'ايقاف العماية',
 			style: 'btn-error',

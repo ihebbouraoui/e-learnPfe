@@ -9,6 +9,7 @@ export interface announceInterface {
 	profAnnounce:Array<any>
 	checkIfSubmit:any,
 	submittedAnnounce:Array<any>,
+	category:Array<any>
 
 
 }
@@ -20,7 +21,8 @@ const initialValues: announceInterface = {
 	list_Comment: [],
 	selectedAnnounce:undefined,
 	list_signal:[],
-	profAnnounce:[]
+	profAnnounce:[],
+	category:[]
 
 }
 export const AnnounceStore = createSlice({
@@ -48,9 +50,11 @@ export const AnnounceStore = createSlice({
 		setMySubmitAnnounce: (state, action: PayloadAction<any>) => {
 			state.submittedAnnounce=action.payload
 		},
-
+		setCategory: (state, action: PayloadAction<any>) => {
+			state.category=action.payload
+		},
 
 
 	}
 })
-export const {setListAnnounce,setListComment,setSelectedAnnounce,setListSignal,setProfAnnounce,setChecked,setMySubmitAnnounce} = AnnounceStore.actions;
+export const {setListAnnounce,setListComment,setSelectedAnnounce,setListSignal,setCategory,setProfAnnounce,setChecked,setMySubmitAnnounce} = AnnounceStore.actions;

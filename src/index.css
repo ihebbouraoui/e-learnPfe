@@ -147,6 +147,8 @@ td {
 
 .loaderImage {
     animation: rotation 3s infinite linear;
+    width: 120px;
+    height: 120px;
 }
 
 @keyframes rotation {

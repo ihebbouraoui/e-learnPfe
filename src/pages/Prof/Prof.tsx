@@ -8,6 +8,7 @@ import {RootState, store} from "../../store/store";
 import {useNavigate} from "react-router-dom";
 import {setSelectedProf} from "../../store/modules/Prof/profModule";
 import {setUserToHistory} from "../../store/modules/Auth/authService";
+import moment from "moment";
 
 export interface detailProf {
 	name: string,
@@ -49,7 +50,7 @@ const Prof = () => {
 				break;
 			case 'delete':
 				deleteProf({_id: listProf[data.index]._id}).then(() => setUserToHistory({
-					date: "10:12:200",
+					date: moment().format('MMMM Do YYYY, h:mm:ss a'),
 					adminID: user.user._id,
 					userId: listProf[data.index]._id,
 					data: listProf[data.index],

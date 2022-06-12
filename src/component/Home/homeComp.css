@@ -1,0 +1,63 @@
+.homeComponent {
+    background-image: url("https://img.freepik.com/free-photo/abstract-smooth-empty-grey-studio-well-use-as-background-business-report-digital-website-template-backdrop_1258-55967.jpg?w=2000");
+   background-size: cover;
+    background-repeat: no-repeat;
+    height: 200vh;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+}
+.us{
+    padding: 20px;
+    box-shadow: 10px 10px 8px 10px #88888817;
+    position: relative;
+    right: 350px;
+    width: 30%;
+
+}
+.navHome{
+    height: 60px;
+
+}
+.category{
+    display: grid;
+    background-repeat: no-repeat;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 15px;
+    padding: 20px ;
+    width: 60%;
+    text-align: center;
+    position: relative;
+    right: 300px;
+    box-shadow: 10px 10px 8px 10px #88888817;
+
+}
+.cardCategory{
+   /*width: 100%;*/
+   /* box-shadow: 10px 10px 8px 10px #88888817;*/
+
+}
+.auth{
+    width: 30%;
+    /*height: 100%;*/
+    box-shadow: 10px 10px 8px 10px #888888;
+    padding: 20px;
+    margin: 20px;
+    position: fixed;
+    top:0;
+    left: 10px;
+
+}
+.categoryImage{
+    width: 386px;
+    height: 300px;
+    object-fit: cover;
+}
+.title{
+    position: relative;
+    right: 350px;
+    font-weight: bold;
+}
+.text{
+    font-weight: bold;
+    font-size: 18px;
+}

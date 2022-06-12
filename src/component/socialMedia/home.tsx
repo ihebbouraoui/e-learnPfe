@@ -5,8 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import './home.css'
 import {addAnnounce, getAnnounce, getSubmitFormation} from "../../store/modules/Announce/announceService";
-import {LikeOutlined, WechatOutlined} from '@ant-design/icons';
-import Meta from "antd/es/card/Meta";
 // @ts-ignore
 import photo from '../../assets/e-learning-mfc-min.jpg'
 // @ts-ignore
@@ -26,12 +24,6 @@ import {setConv} from "../../store/modules/Auth/AuthModule";
 import {toBase64} from "../Const/const";
 import moment from "moment";
 import {setSelectedAnnounce} from "../../store/modules/Announce/announceModule";
-import { Calendar } from 'antd';
-import type { CalendarMode } from 'antd/lib/calendar/generateCalendar';
-import type { Moment } from 'moment';
-import {RcFile} from "antd/es/upload";
-import axios from "axios";
-import {UploadFile} from "antd/es/upload/interface";
 const Home = () => {
 	const {TabPane} = Tabs;
 	const userConnect = useSelector((state: RootState) => state.auth.userLogged)
@@ -39,13 +31,7 @@ const Home = () => {
 	const listAnnounce = useSelector((state: RootState) => state.announce.list_Announce)
 	const [imageSRC, setImageSRC] = useState<Array<string>>([]);
 	const [isOpen, setIsOpen] = useState(false);
-	const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event?.target?.files) {
-			toBase64(event.target.files[0]).then((res) => {
-				setImageSRC([...imageSRC, res as string]);
-			})
-		}
-	}
+
 	const {Option, OptGroup} = Select;
 	const [commentForm] = Form.useForm();
 	const nav = useNavigate()

@@ -71,7 +71,7 @@ const DetailAnnounce = () => {
 			userToSignal:announce.postBy._id,
 			SignalFrom:userConnect.user._id,
 			data:values.data,
-			date:moment().format('yyyy/mm/jj'),
+			date: moment().format('MMMM Do YYYY, h:mm:ss a'),
 			cause:values.cause
 
 		}).then(()=>alert('تمت الشكوى بنجاح'))

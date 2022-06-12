@@ -15,6 +15,7 @@ import {getSignal} from "../../store/modules/Announce/announceService";
 import {signalTabConst} from "./siganConst";
 import {deleteProf, getProfWithStatus} from "../../store/modules/Prof/profService";
 import {setUserToHistory} from "../../store/modules/Auth/authService";
+import moment from "moment";
 
 const Signal=()=>{
 	const [tableModel, setTableModel] = useState(signalTabConst)
@@ -38,7 +39,7 @@ const Signal=()=>{
 				blockUser.current=userId[data.index]
 				console.log(blockUser)
 				deleteProf({_id: blockUser.current}).then(() => setUserToHistory({
-					date: "10:12:200",
+					date: moment().format('MMMM Do YYYY, h:mm:ss a'),
 					adminID: userConnect.user._id,
 					userId: blockUser.current,
 					data: 'شكوى',

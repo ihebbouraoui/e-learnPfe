@@ -3,7 +3,7 @@ import {getAnnounceByIdProf, newFormationSubmit} from "../../store/modules/Annou
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {notification, Tabs} from 'antd';
-import {setMessage} from "../../store/modules/Auth/authService";
+import {sendMail, setMessage} from "../../store/modules/Auth/authService";
 
 const {TabPane} = Tabs;
 
@@ -17,21 +17,30 @@ const ConfirmationFormations = () => {
 	const submitToFormation = (data: any) => {
 		newFormationSubmit({
 			student: data.userId,
-			announce:data.announce,
-			prof:userConnect.user._id
-		}).then(()=>{
+			announce: data.announce,
+			prof: userConnect.user._id
+		}).then(() => {
 			setMessage({
 				messageFrom: userConnect.user.mail,
 				messageTo: data.userMail,
-				values: 'لقد تم قبولك في التكوين',
+				values: `لقد تم قبولك في تكوين${12} `,
 				avatarFrom: userConnect?.user.photo,
 				avatarTo: data.avatar
-			}).then(()=>{
-				notification.open({
-					message: 'تنبيه',
-					description:
-						`لقد تم قبول ${data.userName}`,
-				});
+			}).then(() => {
+
+				sendMail({
+					from: userConnect.user.mail,
+					to: data.userMail,
+					subject: 'confirmation',
+					html: 'لقد تم فبولك في التكوين',
+					text: 'لقد تم قبولك في التكوين'
+				}).then(() => {
+					notification.open({
+						message: 'تنبيه',
+						description:
+							`لقد تم قبول ${data.userName}`,
+					});
+				})
 			})
 		})
 	}
@@ -44,7 +53,7 @@ const ConfirmationFormations = () => {
 							<Tabs style={{padding: '20px'}} defaultActiveKey="1">
 								{item.category === 'formation' &&
 
-                                <TabPane  tab={item.title} key={1}>
+                                <TabPane tab={item.title} key={1}>
                                     <h2> list user </h2>
                                     <hr/>
 									{item.userSubmitted?.map((el: any) => {
@@ -55,9 +64,9 @@ const ConfirmationFormations = () => {
 														onClick={() => submitToFormation({
 															userId: el.userId?._id,
 															announce: item._id,
-															userName:el.userId?.name,
-															userMail:el.userId?.mail,
-															avatar:el.userId?.avatar
+															userName: el.userId?.name,
+															userMail: el.userId?.mail,
+															avatar: el.userId?.avatar
 
 														})}> قبول
 												</button>

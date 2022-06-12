@@ -12,6 +12,7 @@ import {
 import {setSelectedUser} from "../../store/modules/Student/studentModule";
 import {deleteProf, getProfWithStatus} from "../../store/modules/Prof/profService";
 import {setUserToHistory} from "../../store/modules/Auth/authService";
+import moment from "moment/moment";
 
 
 const Etudiant = () => {
@@ -28,7 +29,7 @@ const Etudiant = () => {
 				break;
 			case 'delete':
 				deleteProf({_id: listStudent[data.index]._id}).then(() => setUserToHistory({
-					date: "10:12:200",
+					date: moment().format('MMMM Do YYYY, h:mm:ss a'),
 					adminID: user.user._id,
 					userId: listStudent[data.index]._id,
 					data: listStudent[data.index],

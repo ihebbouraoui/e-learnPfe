@@ -16,6 +16,7 @@ import {deleteProf} from "../../store/modules/Prof/profService";
 import {setUserToHistory} from "../../store/modules/Auth/authService";
 import {getStudentWithStatus} from "../../store/modules/Student/studentService";
 import {stat} from "fs";
+import moment from "moment";
 
 const Director = () => {
 	const navi = useNavigate()
@@ -29,7 +30,7 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 				break;
 			case 'delete':
 				deleteProf({_id: listDirector[data.index]._id}).then(() => setUserToHistory({
-					date: "10:12:200",
+					date: moment().format('MMMM Do YYYY, h:mm:ss a'),
 					adminID: user.user._id,
 					userId: listDirector[data.index]._id,
 					data: listDirector[data.index],

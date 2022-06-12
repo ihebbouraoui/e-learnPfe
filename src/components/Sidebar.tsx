@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../Context';
 import VideoPlayer from "./VideoPlayer";
 import Notifications from "./Notifications";
-import {RootState} from "../store/store";
 
 const useStyles = makeStyles((theme) => ({
 	root: {

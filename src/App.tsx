@@ -28,7 +28,7 @@ import Stat from "./pages/Stats/stat";
 import AddNewDirector from "./pages/Director/addNewDirector";
 import ListConversation from './component/Message/listConvertation'
 // @ts-ignore
-import loader from './assets/loader-svgrepo-com.svg'
+import loader from './assets/Logo1024x1024.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store/store";
 import Login from "./component/Authentification/Login";
@@ -41,17 +41,14 @@ import History from "./pages/history/history";
 import AddProf from "./pages/Prof/addProf";
 import DetailAnnounce from "./pages/Announce/detailAnnounce/detailAnnounce";
 import Signal from "./pages/sigql/signal";
-import TestChat from "./component/Chat/chat";
-import Videao from "./component/Videao/videao";
-import VideoPlayer from "./components/VideoPlayer";
-import Sidebar from "./components/Sidebar";
-import Notifications from "./components/Notifications"
-import {ContextProvider} from "./Context";
-import MessageHome from "./pages/Message/messageHome";
-import {getMessage} from "./store/modules/Auth/authService";
+
 import {setLoading, setLogged, setUserLogged} from "./store/modules/Auth/AuthModule";
 import ConfirmationFormations from "./pages/DashProf/ConfirmationFormations";
 import SignUp from "./component/Authentification/SignUp";
+import JoinRoom from "./pageVideo/joinRoom";
+import Video from "./pageVideo/meeting";
+import HomeTest from "./component/Home/home";
+import NavbarHome from "./component/Home/navbar";
 
 function App() {
 	const isLoding = useSelector((state: RootState) => state.auth.isLoading)
@@ -71,7 +68,7 @@ function App() {
 	let userLogged = user.current
 	return (
 		<div>
-			<ContextProvider>
+			{/*<ContextProvider>*/}
 				{isLogged && (userLogged?.role === 'admin' || userLogged?.role == 'superAdmin') ?
 					<Router>
 						{isLoding && <div className={'loader'}>
@@ -129,7 +126,9 @@ function App() {
 										<Route path={'/profilProf'} element={<MainPageProf/>}/>
 										<Route path={"/social_media"} element={<Home/>}/>
 										<Route path={'/detailAnnounce'} element={<DetailAnnounce/>}/>
-										<Route path={'/chat'} element={<TestChat/>}/>
+										{/*<Route path={'/chat'} element={<TestChat/>}/>*/}
+										<Route  path={"/chat"} element={<JoinRoom/>} />
+										<Route  path={"/video/:id"} element={<Video/>} />
 										<Route path={'/conversation'} element={<ListConversation/>}/>
 										<Route path={'/myAnnounce'} element={<ConfirmationFormations/>}/>
 										<Route path={"*"} element={<Home/>}/>
@@ -153,7 +152,9 @@ function App() {
 											<Route path={'/profilProf'} element={<MainPageProf/>}/>
 											<Route path={"/social_media"} element={<Home/>}/>
 											<Route path={'/detailAnnounce'} element={<DetailAnnounce/>}/>
-											<Route path={'/chat'} element={<TestChat/>}/>
+											{/*<Route path={'/chat'} element={<TestChat/>}/>*/}
+											<Route path={'/chat'} element={<JoinRoom/>}/>
+											<Route  path={"/video/:id"} element={<Video/>} />
 											<Route path={'/conversation'} element={<ListConversation/>}/>
 											<Route path={"*"} element={<Home/>}/>
 										</Routes>
@@ -168,17 +169,22 @@ function App() {
 							:
 
 							<Router>
-								<Login/>
+								<Layout style={{height: "100vh"}} className="layout">
+									{/*<NavbarHome/>*/}
+									<HomeTest/>
+									<Content>
 								<Routes>
+									<Route path={'/login'} element={<Login/>}/>
 									<Route path={'/signUp'} element={<SignUp/>}/>
-
 								</Routes>
+									</Content>
+								</Layout>
 							</Router>
 
 
 					}
 
-			</ContextProvider>
+			{/*</ContextProvider>*/}
 		</div>
 
 

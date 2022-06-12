@@ -4,7 +4,8 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {setLoading, setLogged, setUserLogged} from "../../store/modules/Auth/AuthModule";
-
+// @ts-ignore
+import logo from '../../assets/Logo1024x1024.jpg'
 const SiderBarAdmin = () => {
 	const links = [
 		{link: "المديرين"},
@@ -149,7 +150,7 @@ const SiderBarAdmin = () => {
 	return (
 		<div className={'siderBar'}>
 			<div style={{height: '100px'}}/>
-
+			<img alt={''} style={{position:'fixed',top:'10px',width:'100px'}} src={logo}/>
 			{ userLoged?.user?.role==='admin'&& linksAdmin.map((item: any, index: number) => (
 					<div className={`sidebarElement ${selected === index}`} onClick={() => navigator3(index)}>
 						{item?.link}

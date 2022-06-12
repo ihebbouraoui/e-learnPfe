@@ -11,6 +11,9 @@ import message from '../../../assets/message-svgrepo-com.svg'
 import {Button} from "antd";
 // @ts-ignore
 import mesMessage from '../../../assets/open-email-message-svgrepo-com.svg'
+// @ts-ignore
+import logo from '../../../assets/Logo1024x1024.jpg'
+
 import "./navbarStudent.css"
 import {useDispatch, useSelector} from "react-redux";
 const NavbarStudent=()=>{
@@ -32,7 +35,7 @@ const NavbarStudent=()=>{
 		left: 0,
 		zIndex: 99,
 		width: '100vw',
-		height: '50px',
+		height: '70px',
 		boxShadow: '0px 6px 20px 0px #d5d5d5'
 	}}>
 		<div className="menu">
@@ -51,6 +54,9 @@ const NavbarStudent=()=>{
 					<li> <NavLink style={{color:'black',fontSize:'15px',fontWeight:'bold'}} to={'/profilProf'}> معلوماتي </NavLink> </li>
 					<li onClick={()=>logout()}> <NavLink to={'/logout'}> تسجيل الخروج </NavLink>  </li></ul>
 			</li>
+		</div>
+		<div>
+			<img style={{width:'60px',height:'69px' , position:'fixed',left:'10px',top:0}}  src={logo}/>
 		</div>
 	</Header>
 

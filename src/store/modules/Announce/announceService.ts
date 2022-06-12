@@ -1,6 +1,7 @@
 import {ApiCall} from "../../ApiCall";
 import {store} from "../../store";
 import {
+	setCategory,
 	setChecked,
 	setListAnnounce,
 	setListComment,
@@ -18,6 +19,16 @@ export const getAnnounce=()=>{
 		successFunction:(res:any)=>{
 			store.dispatch(setLoading(true))
 			store.dispatch(setListAnnounce(res))
+		}
+	})
+}
+export const getCategory=()=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/announce/getCategory/",
+		method:'get',
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+			store.dispatch(setCategory(res))
 		}
 	})
 }
