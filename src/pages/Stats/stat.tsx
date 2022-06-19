@@ -11,15 +11,9 @@ import './stats.css'
 Chart.register(...registerables)
 const Stat = () => {
 	return (
-		<div className={'stat'}>
-			<div className={'bar'}>
-				<div><BarWin/></div>
-				<div><BarSell/></div>
-				<div><BarAbon/></div>
-			</div>
-
+		<div className={'stat'} style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
+			<BarWin/>
 			<Pie/>
-
 		</div>
 	)
 

@@ -11,6 +11,7 @@ import {setUserLogged} from "../../../store/modules/Auth/AuthModule";
 import rename from "../../../assets/rename-svgrepo-com.svg"
 import {getUserById} from "../../../store/modules/Director/directorService";
 import {upload} from "../../../store/modules/Auth/authService";
+import {notification} from "antd";
 
 
 const MainPageProf = () => {
@@ -46,18 +47,28 @@ const MainPageProf = () => {
 		})
 	}
 	const onSubmit = (data: { [key: string]: string | number }) => {
-		updateProf(data, UserLogged?.user?._id).then((res: any) => {
-			// localStorage.setItem('user',JSON.stringify({...res.user}))
-			dispatch((setUserLogged({user: res})))
-			localStorage.setItem('user', JSON.stringify(res))
-		})
+		const EmailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		const PhoneRegex=/^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/
+
+		if(EmailRegex.test(data.mail.toString() )&& PhoneRegex.test(data.tel.toString())){
+			updateProf(data, UserLogged?.user?._id).then((res: any) => {
+				// localStorage.setItem('user',JSON.stringify({...res.user}))
+				dispatch((setUserLogged({user: res})))
+				localStorage.setItem('user', JSON.stringify(res))
+			})		}else{
+			notification.open({
+				message:'الرجاء التأكد من المعلومات'
+			})
+		}
+
 	}
 
 	return (
 		<div className={'profil'}>
 			<div className={'photoSide'}>
 				<img  src={UserLogged.user.photo} className={'photo'} />
-				<input type={'file'} multiple={true} onChange={handleUploadImage}/>
+				<input style={{display:'none'}} id={'file'} type={'file'} multiple={true} onChange={handleUploadImage}/>
+				<label  style={{cursor:'pointer'}} htmlFor={'file'}> انقر هنا لتنزيل صورة جديدة</label>
 			</div>
 			<div className={'detailSide'}>
 				<label htmlFor={'name'}> الاسم:<input id={'name'}
@@ -69,7 +80,7 @@ const MainPageProf = () => {
 														  right: '76px'
 													  }}
 													  type={'text'} defaultValue={UserLogged?.user?.name}
-													  placeholder={'name'} onChange={(e) => formSubmit(e, 'name')}
+													  placeholder={'الاسم'} onChange={(e) => formSubmit(e, 'name')}
 
 				/>
 				</label>
@@ -81,7 +92,7 @@ const MainPageProf = () => {
 						right: '20px'
 					}} type={'text'}
 					defaultValue={UserLogged?.user?.username}
-					placeholder={'username'} onChange={(e) => formSubmit(e, 'username')}/> </label>
+					placeholder={'الاسم المستخدم'} onChange={(e) => formSubmit(e, 'username')}/> </label>
 				<label htmlFor={'name'}> البريد الألكتوني:<input
 					style={{
 						height: '80%',
@@ -90,7 +101,7 @@ const MainPageProf = () => {
 						right: '23px'
 					}} type={'text'}
 					defaultValue={UserLogged?.user?.mail}
-					placeholder={'email'} onChange={(e) => formSubmit(e, 'mail')}/> </label>
+					placeholder={'البريد الالكتروني'} onChange={(e) => formSubmit(e, 'mail')}/> </label>
 				<label htmlFor={'name'}> رقم الهاتف:<input
 					style={{
 						height: '80%',
@@ -99,17 +110,12 @@ const MainPageProf = () => {
 						right: '48px'
 					}} type={'text'}
 					defaultValue={UserLogged?.user?.tel}
-					placeholder={'telephone'} onChange={(e) => formSubmit(e, 'tel')}/> </label>
-
-
+					placeholder={'رقم الهاتف'} onChange={(e) => formSubmit(e, 'tel')}/> </label>
 				<button className={'btn-success'}
 						style={{height: 50, fontWeight: 'bolder', color: 'white',width:'50%'}}
 						onClick={() => onSubmit(updateForm.current)}> تاكيد
 				</button>
 
-			</div>
-			<div className={'achivmentSide'}>
-				azeazeazeaze
 			</div>
 
 		</div>

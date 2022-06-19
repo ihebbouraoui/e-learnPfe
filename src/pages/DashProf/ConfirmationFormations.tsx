@@ -9,8 +9,14 @@ const {TabPane} = Tabs;
 
 const ConfirmationFormations = () => {
 	const userConnect = useSelector((state: RootState) => state.auth.userLogged)
+     const [random,setRandom]= useState<any>()
+
 	useEffect(() => {
 		getAnnounceByIdProf({postBy: userConnect.user._id}).then()
+		const min = 1;
+		const max = 100;
+		const rand = min + Math.random() * (max - min);
+		setRandom(rand.toString().slice(0,2))
 	}, [])
 
 	const myAnnounce = useSelector((state: RootState) => state.announce.profAnnounce)
@@ -23,7 +29,7 @@ const ConfirmationFormations = () => {
 			setMessage({
 				messageFrom: userConnect.user.mail,
 				messageTo: data.userMail,
-				values: `لقد تم قبولك في تكوين${12} `,
+				values: ` لقد تم فبولك في التكوين و معرف الغرفة هو :${random} `,
 				avatarFrom: userConnect?.user.photo,
 				avatarTo: data.avatar
 			}).then(() => {
@@ -32,8 +38,8 @@ const ConfirmationFormations = () => {
 					from: userConnect.user.mail,
 					to: data.userMail,
 					subject: 'confirmation',
-					html: 'لقد تم فبولك في التكوين',
-					text: 'لقد تم قبولك في التكوين'
+					html: ` لقد تم فبولك في التكوين و معرف الغرفة هو :${random} `,
+					text: ` لقد تم فبولك في التكوين و معرف الغرفة هو :${random} `
 				}).then(() => {
 					notification.open({
 						message: 'تنبيه',

@@ -28,8 +28,8 @@ export const ApiCall = (config: ApiCallInterface) => {
 
 		})
 		.catch((err: AxiosError) => {
+			reject(err)
 			config.errorFunction && config.errorFunction(err);
-
 			store.dispatch(setLoading(false))
 		});
 	});

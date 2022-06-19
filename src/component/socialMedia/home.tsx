@@ -124,13 +124,13 @@ const Home = () => {
 				<Modal footer={null} visible={isOpen} onCancel={() => {
 					setIsOpen(false)
 					// window.location.reload()
-				}} width={"30%"} centered>
+				}} width={"40%"} centered>
 
 					<div className={'mainAddCard'}
 						 style={{
 							 padding: "14px",
 							 display: "flex",
-							 backgroundColor: '#f0f2f5',
+							 // backgroundColor: '#f0f2f5',
 							 borderRadius: '10',
 						 }}>
 						<div className={"input"}>
@@ -146,7 +146,7 @@ const Home = () => {
 								<Form.Item
 									label="المعلومات"
 									name="data"
-									rules={[{required: false, message: 'ادخل المعلومات!'}]}
+									rules={[{required: true, message: 'ادخل المعلومات!'}]}
 									style={{width: '100%'}}
 								>
 									<Input placeholder="المعلومات"
@@ -155,7 +155,7 @@ const Home = () => {
 								<Form.Item
 									label="عنوان الأعلان"
 									name="title"
-									rules={[{required: false, message: 'ادخل العنوان!'}]}
+									rules={[{required: true, message: 'ادخل العنوان!'}]}
 									style={{width: '100%'}}
 								>
 									<Input placeholder="العنوان "
@@ -178,16 +178,20 @@ const Home = () => {
 									</Select>
 								</Form.Item>
 								<Form.Item rules={[{required: true, message: 'اختر الصورة'}]}>
-									<input title={'qsdqs'}  type={'file'}  onChange={handleUploadImage}/>
+									<input id={"file"}  title={'qsdqs'}  type={'file'} style={{display:'none'}}  onChange={handleUploadImage}/>
+									<label style={{cursor:'pointer'}} htmlFor={'file'}> انقر هنا لتنزيل صورة الأعلان</label>
 								</Form.Item>
-								<Form.Item rules={[{required: true, message: 'اختر ملف'}]}>
-									<input type={'file'} onChange={handleUploadFile} />
-								</Form.Item>
+								{userConnect.user.role==='prof' &&
+                                <Form.Item rules={[{required: true, message: 'اختر ملف'}]}>
+                                    <input id={"img"} type={'file'} onChange={handleUploadFile} style={{display:'none'}} />
+                                    <label style={{cursor:'pointer'}} htmlFor={'img'}> انقر هنا لتنزيل الدرس</label>
+                                </Form.Item>
+								}
 
 
 								<Form.Item>
 									<Button type="primary" htmlType="submit" className="login-form-button">
-										Valider
+										تاكيد
 									</Button>
 								</Form.Item>
 							</Form>

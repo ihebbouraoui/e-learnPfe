@@ -71,11 +71,6 @@ export const EtudiantTab: TabConfigInterface = {
 	],
 	btnConfig: [
 		{
-			name: 'تفاصيل',
-			style: 'btn-success',
-			type: 'detail'
-		},
-		{
 			name: 'حذف',
 			style: 'btn-error',
 			type: 'delete'
@@ -83,14 +78,4 @@ export const EtudiantTab: TabConfigInterface = {
 		}
 
 	]
-}
-export const etudiantClickedd:etudiantClicked={
-	data:[
-		{
-			nom:' احمد',
-			class:'الثاني المتوسط 1 ',
-			cin:"989887",
-		}
-	]
-
 }

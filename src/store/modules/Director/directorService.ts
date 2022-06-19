@@ -102,16 +102,7 @@ export const deleteHistory=(data:any)=>{
 	});
 }
 
-export const getProfNumber=()=>{
-	return ApiCall({
-		endPoint:"http://localhost:3002/user/getProfNumber",
-		method:'get',
-		successFunction:(res:any)=>{
-			store.dispatch(setProfNumber(res))
-			store.dispatch(setLoading(true))
-		}
-	})
-}
+
 export const getStudentNumber=()=>{
 	return ApiCall({
 		endPoint:"http://localhost:3002/user/getStudentNumber",

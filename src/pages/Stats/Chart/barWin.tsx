@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
 import {ChartItem} from "chart.js";
 import {Chart, registerables} from 'chart.js'
-import {getProfNumber, getStudentNumber} from "../../../store/modules/Director/directorService";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store/store";
 import {setProfNumber, setStudentNumber} from "../../../store/modules/Director/directorModule";
+import {getNumberProf, getNumberStudent} from "../../../store/modules/Auth/authService";
 Chart.register(...registerables)
 
 const BarWin=()=>{
@@ -21,8 +21,8 @@ const BarWin=()=>{
 
 	}, [])
 	useEffect(()=>{
-		getProfNumber().then((res:any)=>setProfNumber(res))
-		getStudentNumber().then((el:any)=>setStudentNumber(el))
+		getNumberProf().then((res:any)=>setProfNumber(res))
+		getNumberStudent().then((el:any)=>setStudentNumber(el))
 	},[])
 	const init = () => {
 		let ctx = document.getElementById('myChartBar1');
@@ -51,7 +51,7 @@ const BarWin=()=>{
 	}
 	return (
 		<div className={'stats'}>
-			<div className={'chartPie'} style={{maxWidth:'25vw', height: 'fit-content'}}>  <canvas id="myChartBar1"/></div>
+			<div className={'chartPie'} style={{width:'40vw', height: 'fit-content'}}>  <canvas id="myChartBar1"/></div>
 
 		</div>
 	)

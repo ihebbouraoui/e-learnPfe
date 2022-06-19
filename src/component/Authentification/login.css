@@ -53,13 +53,11 @@
     font-size: 18px;
 }
 .btn-login{
-    width: 100%;
-    height: 100%;
-    font-size: 25px;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    font-size: 15px;
     font-family: inherit;
     font-style: italic;
     font-stretch: initial;
     border-radius: 50px;
-    background: #f9dcd6;
-
 }

@@ -106,9 +106,7 @@ function App() {
 								</Route>
 								<Route path={'/stat'} element={<Stat/>}/>
 								<Route path={'/ajout'} element={<AddNewDirector/>}/>
-
-
-								<Route path={'/login'} element={<Login/>}/>z
+								<Route path={'/login'} element={<Login/>}/>
 							</Routes>
 						</div>
 					</Router> : isLogged && userLogged?.role === 'prof' ?
@@ -131,7 +129,8 @@ function App() {
 										<Route  path={"/video/:id"} element={<Video/>} />
 										<Route path={'/conversation'} element={<ListConversation/>}/>
 										<Route path={'/myAnnounce'} element={<ConfirmationFormations/>}/>
-										<Route path={"*"} element={<Home/>}/>
+										<Route path={'*'} element={<Navigate to={'/social_media'}/>}/>
+
 									</Routes>
 								</Content>
 
@@ -152,11 +151,10 @@ function App() {
 											<Route path={'/profilProf'} element={<MainPageProf/>}/>
 											<Route path={"/social_media"} element={<Home/>}/>
 											<Route path={'/detailAnnounce'} element={<DetailAnnounce/>}/>
-											{/*<Route path={'/chat'} element={<TestChat/>}/>*/}
 											<Route path={'/chat'} element={<JoinRoom/>}/>
 											<Route  path={"/video/:id"} element={<Video/>} />
 											<Route path={'/conversation'} element={<ListConversation/>}/>
-											<Route path={"*"} element={<Home/>}/>
+											<Route path={'*'} element={<Navigate to={'/social_media'}/>}/>
 										</Routes>
 									</Content>
 
@@ -174,8 +172,6 @@ function App() {
 									<HomeTest/>
 									<Content>
 								<Routes>
-									<Route path={'/login'} element={<Login/>}/>
-									<Route path={'/signUp'} element={<SignUp/>}/>
 								</Routes>
 									</Content>
 								</Layout>

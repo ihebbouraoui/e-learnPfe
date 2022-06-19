@@ -6,17 +6,24 @@
     justify-content: center;
 }
 .photoSide{
-    width: 20%;
+    width: 40%;
     margin: 20px;
     padding: 20px;
     box-shadow: 0 0 6px 0 #55555533;
     min-height: 327px;
+    align-items: center;
+    text-align: center;
+    align-self: center;
 
 }
 .photo{
     padding: 20px;
     object-fit: contain;
     margin: 20px;
+    width: 80%;
+    text-align: center;
+    position: relative;
+    right: 20px;
 
 }
 .detailSide{

@@ -5,12 +5,10 @@ import {useDispatch} from "react-redux";
 // @ts-ignore
 import photo from '../../assets/e-learning-mfc-min.jpg'
 import {Alert} from 'antd';
-import {  notification } from 'antd';
+import {notification} from 'antd';
 import {useNavigate} from "react-router-dom";
 
-export
-
-const Login = () => {
+export const Login = () => {
 	const loginFormRef = useRef<{ [key: string]: string | number }>({})
 	const formLogin = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
 		loginFormRef.current[name] = event.target.value.trim();
@@ -24,25 +22,20 @@ const Login = () => {
 		if (!data.current.mail || !data.current.password) {
 			notification.open({
 				message: 'تحذير',
-				description:'الرجاء ادخال الحساب',
+				description: 'الرجاء ادخال الحساب',
 				onClick: () => {
 					console.log('Notification Clicked!');
 				},
 			});
-
-
 		} else {
 			AuthLogin({mail: data.current.mail, password: data.current.password}).then((res: any) => {
 				localStorage.setItem('user', JSON.stringify(res.user))
-			}).catch((res:any)=>{
-				console.log(res.msg)
-				});
+			})
 		}
-
 	}
 	const dispatch = useDispatch()
-	const navigate=useNavigate()
-	const goTosignUp =()=>{
+	const navigate = useNavigate()
+	const goTosignUp = () => {
 		navigate('/signUp')
 	}
 	return (

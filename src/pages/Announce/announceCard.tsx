@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {setSelectedAnnounce} from "../../store/modules/Announce/announceModule";
 import {getAnnounce, newFormation, postComment, signaler} from "../../store/modules/Announce/announceService";
-import {Button, Form, Input, Modal, Select} from "antd";
+import {Button, Form, Input, Modal, notification, Select} from "antd";
 // @ts-ignore
 import alert from "../../assets/alert-svgrepo-com.svg";
 // @ts-ignore
@@ -82,6 +82,22 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 			getMessage()
 			.then()
 		})
+	}
+	const addComm=(ch:any)=>{
+	if(ch.toString().trim().length>0){
+		postComment({
+			_id: item._id,
+			userId: userConnect?.user?._id,
+			data: commentaire.current?.password,
+			date: '20/10/12'
+		}).then(() => {
+			getAnnounce().then()
+		})
+	}else{
+		notification.open({
+			message:'لا يمكن ان يكون التعليق فارغ'
+		})
+	}
 	}
 
 
@@ -253,14 +269,7 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 								fontSize: '15px',
 								fontStyle: 'italic',
 								fontWeight: 'bolder'
-							}} onClick={() => postComment({
-								_id: item._id,
-								userId: userConnect?.user?._id,
-								data: commentaire.current?.password,
-								date: '20/10/12'
-							}).then(() => {
-								getAnnounce().then()
-							})}> نشر
+							}} onClick={() => addComm(commentaire?.current.password)}> نشر
                             </button>
                         </div>
 

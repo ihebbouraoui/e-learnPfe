@@ -71,9 +71,11 @@ li {
     padding: 0.5em 1em;
     width: 8em;
     text-align: center;
+    background-color: white;
+    cursor: pointer;
 }
 .dropdown li:hover {
-    background-color: #4c9e9e;
+    background-color: dodgerblue;
 }
 .services:hover .dropdown {
     display: block;

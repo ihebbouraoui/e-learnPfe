@@ -13,7 +13,7 @@ import {
 import ModalComp from "../../component/Modal/modalComp";
 import {setSelectedDirector} from "../../store/modules/Director/directorModule";
 import {deleteProf} from "../../store/modules/Prof/profService";
-import {setUserToHistory} from "../../store/modules/Auth/authService";
+import {setUserToHistory, signUpUser} from "../../store/modules/Auth/authService";
 import {getStudentWithStatus} from "../../store/modules/Student/studentService";
 import {stat} from "fs";
 import moment from "moment";
@@ -48,11 +48,20 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 	const closeEvent = () => {
 		setModal(false)
 	}
+	const EmailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	const PhoneRegex=/^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/
 	const updateForm = useRef<{ [key: string]: string | number }>({})
 	const onSubmit = (data: { [key: string]: string | number }) => {
-		updateDirectorWithMail(data).then((res: any) => {
-			GetDirector().then(() => setModal(false))
-		})
+		if (!data.name ||!data.username ||!data.tel){
+			alert('يجب عليك كاتبة كل الخانات')
+		}else if(!EmailRegex.test(data.mail.toString() ) ||  !PhoneRegex.test(data.tel.toString())) {
+			alert('الرجاء التحقق من البريد الالكرتروني او الهاتف الجوال')
+		}else{
+			updateDirectorWithMail({...data,mail:selected.mail}).then((res: any) => {
+				GetDirector().then(() => setModal(false))
+			})
+		}
+
 	}
 	const formSubmit = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
 		updateForm.current[name] = event.target.value.trim();
@@ -71,7 +80,6 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 		}
 	}, [selected])
 	const updateDirector = (selected: any) => {
-
 		return (
 			<div className={'filterContainer'}>
 				<h2>  مدير</h2>
@@ -82,7 +90,7 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 					<label> الاسم المستخدم: </label> <input type={'text'} defaultValue={selected.username}
 															onChange={(e) => formSubmit(e, 'username')}
 															key={selected.username}/>
-					<label> البريد الالكتروني: </label> <input type={'text'} defaultValue={selected.mail}
+					<label> البريد الالكتروني: </label> <input readOnly={true} type={'text'} defaultValue={selected.mail}
 															   onChange={(e) => formSubmit(e, "mail")}
 															   key={selected.mail}/>
 					<label> رقم الهاتف الجوال: </label> <input type={'text'} defaultValue={selected.tel}
@@ -94,8 +102,6 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 				</div>
 
 			</div>
-
-
 		)
 	}
 	const navigate = () => {
@@ -128,7 +134,7 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 	return (
 		<div className={'directorMain'}>
 			<FilterForm filterData={DirectorFilterForm}/>
-			<button className={'btn-success'}
+			<button onClick={navigate} className={'btn-success'}
 					style={{ backgroundColor: 'rgb(76 95 142 / 29%)', margin: '0 20px',fontStyle:'italic'}}
 			> اضافة
 				مدير

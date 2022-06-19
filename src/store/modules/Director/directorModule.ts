@@ -5,7 +5,9 @@ export interface directorInterface {
 	listHistory:Array<any>
 	selected_History?:any
     profNumber?:Number
-	studentNumber:Number
+	studentNumber?:Number
+	formationNumber?:Number
+	announceNumber?:Number
 	postedBy?:any
 
 }
@@ -16,6 +18,8 @@ const initialValues: directorInterface = {
 	selected_History:undefined,
 	profNumber:undefined,
 	studentNumber:0,
+	formationNumber:0,
+	announceNumber:0,
 	postedBy:undefined
 }
 export const directorStore = createSlice({
@@ -43,6 +47,12 @@ export const directorStore = createSlice({
 		setPostedBy:(state, action: PayloadAction<any>)=>{
 			state.postedBy=action.payload
 		},
+		setFormationNumber:(state, action: PayloadAction<any>)=>{
+			state.formationNumber=action.payload
+		},
+		setAnnounceNumber:(state, action: PayloadAction<any>)=>{
+			state.announceNumber=action.payload
+		},
 
 
 
@@ -50,4 +60,4 @@ export const directorStore = createSlice({
 	},
 
 })
-export const {setListDirector,setSelectedDirector,setListHistory,setSelectedHistory,setProfNumber,setStudentNumber,setPostedBy} = directorStore.actions;
+export const {setListDirector,setSelectedDirector,setListHistory,setSelectedHistory,setAnnounceNumber,setFormationNumber,setProfNumber,setStudentNumber,setPostedBy} = directorStore.actions;

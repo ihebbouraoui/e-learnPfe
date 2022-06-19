@@ -46,7 +46,7 @@ export const profTab: TabConfigInterface = {
 	],
 	btnConfig: [
 		{
-			name:'تفاصيل',
+			name:'تعديل',
 			style:'btn-success',
 			type: 'detail'
 		},

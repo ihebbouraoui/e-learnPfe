@@ -1,8 +1,8 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 
 const SignUp=()=>{
 	const loginFormRef = useRef<{ [key: string]: string | number }>({})
-
+   const [open,setOpen]=useState<any>(false)
 	const formLogin = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
 		loginFormRef.current[name] = event.target.value.trim();
 		Object.keys(loginFormRef.current).forEach((key) => {
@@ -39,8 +39,9 @@ const SignUp=()=>{
 				</select>
 
 				<button className={'btn-success'}
-						onClick={() => signUp(loginFormRef)}> دخول
+						onClick={() => setOpen(true)}> دخول
 				</button>
+
 
 
 

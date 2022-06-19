@@ -1,10 +1,25 @@
 import React, {useEffect} from "react";
 import {ChartItem} from "chart.js";
 import {Chart, registerables} from 'chart.js'
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
+import {
+	getNumberAnnounce,
+	getNumberFormation,
+	getNumberProf,
+	getNumberStudent
+} from "../../../store/modules/Auth/authService";
+import {
+	setAnnounceNumber,
+	setFormationNumber,
+	setProfNumber,
+	setStudentNumber
+} from "../../../store/modules/Director/directorModule";
 
 Chart.register(...registerables)
 const Pie = () => {
-
+	const formationNumber = useSelector((state:RootState)=>state.director.formationNumber)
+	const announceNumber = useSelector((state:RootState)=>state.director.announceNumber)
 	useEffect(() => {
 		if (document.getElementById('myChart')) {
 			init()
@@ -15,22 +30,23 @@ const Pie = () => {
 		}
 
 	}, [])
-
+	useEffect(()=>{
+		getNumberFormation().then((res:any)=>setFormationNumber(res))
+		getNumberAnnounce().then((el:any)=>setAnnounceNumber(el))
+	},[])
 	const init = () => {
 		let ctx = document.getElementById('myChart');
 		const data = {
 			labels: [
-				'Red',
-				'Blue',
-				'Yellow'
+				'عدد الاعلانات',
+				'عدد التكوين',
 			],
 			datasets: [{
-				label: 'My First Dataset',
-				data: [300, 50, 100],
+				label: 'الأعلانات',
+				data: [formationNumber ,announceNumber ],
 				backgroundColor: [
 					'rgb(255, 99, 132)',
 					'rgb(54, 162, 235)',
-					'rgb(255, 205, 86)'
 				],
 				hoverOffset: 4
 			}],
@@ -45,7 +61,7 @@ const Pie = () => {
 	}
 	return (
 		<div className={'stats'}>
-		<div className={'chartPie'} style={{width:'30vw',height:'30vw'}}>  <canvas id="myChart"/></div>
+		<div className={'chartPie'} style={{width:'40vw',height:'30vw'}}>  <canvas id="myChart"/></div>
 
 		</div>
 	)

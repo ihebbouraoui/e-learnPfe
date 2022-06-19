@@ -10,8 +10,9 @@
     padding: 20px;
     box-shadow: 10px 10px 8px 10px #88888817;
     position: relative;
-    right: 350px;
-    width: 30%;
+    right: 500px;
+    width: 40%;
+    color: dodgerblue;
 
 }
 .navHome{
@@ -36,16 +37,44 @@
    /* box-shadow: 10px 10px 8px 10px #88888817;*/
 
 }
+.logoHome{
+    padding: 10px;
+    height: 250px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 266px;
+    object-fit: contain;
+}
 .auth{
-    width: 30%;
+    width: 15%;
     /*height: 100%;*/
     box-shadow: 10px 10px 8px 10px #888888;
     padding: 20px;
     margin: 20px;
     position: fixed;
     top:0;
-    left: 10px;
+    /*left: 10px;*/
 
+}
+.auth2{
+    width: 15%;
+    /*height: 100%;*/
+    box-shadow: 10px 10px 8px 10px #888888;
+    padding: 20px;
+    margin: 20px;
+    position: fixed;
+    top:200px;
+    /*left: 10px;*/
+}
+.auth3{
+    width: 15%;
+    /*height: 100%;*/
+    box-shadow: 10px 10px 8px 10px #888888;
+    padding: 20px;
+    margin: 20px;
+    position: fixed;
+    top:400px;
 }
 .categoryImage{
     width: 386px;
@@ -60,4 +89,12 @@
 .text{
     font-weight: bold;
     font-size: 18px;
+}
+.contact{
+    box-shadow: 10px 10px 8px 10px #888888;
+      width: 20%;
+    position: fixed;
+    left: 0;
+    padding: 10px;
+    top: 50%;
 }
