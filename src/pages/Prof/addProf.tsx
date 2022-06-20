@@ -35,7 +35,9 @@ const AddProf = () => {
 					data: data,
 					type: 'add'
 				}).then()
-			)
+			).catch(()=>{
+				alert('الايميل او رقم الهاتف الجوال موجودان ')
+			})
 		}
 
 	}

@@ -101,6 +101,16 @@ export const deleteHistory=(data:any)=>{
 		}
 	});
 }
+export const deleteSignal=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/announce/signalDelete/",
+		method:'delete',
+		data:data,
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+		}
+	});
+}
 
 
 export const getStudentNumber=()=>{

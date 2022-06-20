@@ -4,7 +4,7 @@ import {RootState} from "../../store/store";
 import {historyTabConst} from "../history/historyTabConst";
 import {
 	blockDelete,
-	deleteHistory,
+	deleteHistory, deleteSignal,
 	deleteWithMail,
 	getHistory,
 	getHistoryById
@@ -18,9 +18,10 @@ import {setUserToHistory} from "../../store/modules/Auth/authService";
 import moment from "moment";
 
 const Signal=()=>{
-	const [tableModel, setTableModel] = useState(signalTabConst)
+	const [tableModel, setTableModel] = useState<any>(signalTabConst)
 	const blockUser=useRef<any>()
 	const userConnect=useSelector((state:RootState)=>state.auth.userLogged)
+	const [test,setTest]=useState<any>()
 	const [userId,setUserId]=useState<Array<any>>([])
 	useEffect(()=>{
 		getSignal().then((res:any)=>{
@@ -30,21 +31,28 @@ const Signal=()=>{
 			userId.push(item.userToSignal?._id)
 
 			})
+			setTest(res)
 		})
 	},[])
 
 	const receive = (data: { index: number, btn: btnInetrface }) => {
 		switch (data.btn?.type) {
+
 			case 'detail':
 				blockUser.current=userId[data.index]
-				console.log(blockUser)
 				deleteProf({_id: blockUser.current}).then(() => setUserToHistory({
 					date: moment().format('MMMM Do YYYY, h:mm:ss a'),
 					adminID: userConnect.user._id,
 					userId: blockUser.current,
 					data: 'شكوى',
 					type: 'delete'
-				}))
+				})).then(()=>{
+					deleteSignal({id:test[data.index]._id}).then(()=>{
+						getSignal().then((res:any)=>{
+							initTable(res)
+
+						})					})
+				})
 
 
 				break;
@@ -63,12 +71,10 @@ const Signal=()=>{
 			data:item?.data,
 		}))
 		setTableModel({...temp})
-		console.log(tableModel)
 	}
 	return(
 		<div className={'directorMain'}>
 			<TabForm filterData={{...tableModel  , sendEventToParent: receive  }}/>
-
 		</div>
 	)
 }

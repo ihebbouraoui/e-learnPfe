@@ -33,9 +33,16 @@ export const signUpUser=(data:any)=>{
 		},
 	})
 }
+export const checkMail=(data:any)=>{
+	return ApiCall({
+		endPoint:`http://localhost:3002/login/checkMail`,
+		method:"get",
+		data:data
+	})
+}
 export const checkPhone=(data:any)=>{
 	return ApiCall({
-		endPoint:`http://localhost:3002/director/checkPhone`,
+		endPoint:`http://localhost:3002/login/checkPhone`,
 		method:"get",
 		data:data
 	})

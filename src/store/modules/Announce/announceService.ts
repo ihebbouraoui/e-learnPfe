@@ -148,3 +148,13 @@ export const addAnnounce=(data:any)=>{
 		data:data,
 	})
 }
+export const deleteUserFromFormation=(data:any)=> {
+	return ApiCall({
+		endPoint: "http://localhost:3002/announce/deleteUserFromFormation",
+		method: 'put',
+		data:data,
+		successFunction: (res: any) => {
+			store.dispatch(setLoading(true))
+		}
+	})
+}

@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {getAnnounceByIdProf, getCategory} from "../../store/modules/Announce/announceService";
 import {Card, Modal, notification} from "antd";
-import {AuthLogin, sendMail, setUserToHistory, signUpUser} from "../../store/modules/Auth/authService";
+import {AuthLogin, checkMail, sendMail, setUserToHistory, signUpUser} from "../../store/modules/Auth/authService";
 // @ts-ignore
 import logo from "../../assets/Logo1024x1024.jpg"
 
@@ -56,8 +56,10 @@ const HomeTest = () => {
 			AuthLogin({mail: data.current.mail, password: data.current.password}).then((res: any) => {
 				localStorage.setItem('user', JSON.stringify(res.user))
 			}).catch((res: any) => {
-				console.log(res.msg)
-			});
+				notification.open({
+					message: 'تنبيه',
+					description: 'الايمايل او كلمة المرور خاطئة'
+				});			});
 		}
 
 	}

@@ -19,8 +19,8 @@ const MessageHome :React.FC<{ listConversations: Array<any> }> = ({listConversat
 			messageFrom: userToken.user.mail,
 			messageTo: selectedConv?.user,
 			values: values.type,
-			avatarFrom: userToken.user.photo,
-			avatrTo: selectedConv?.avatar
+			avatarFrom: userToken?.user?.photo,
+			avatarTo: selectedConv?.avatar
 		}
 		setMessage(msg)
 		.then((res) => {
@@ -92,7 +92,7 @@ const 	Conversation: React.FC<{ conv: any, openModal: Function }> = ({conv, open
 	return (
 
 		<div className={'convBox'} onClick={() => openModal()}>
-			<img  className={'convPhoto'} src={conv.photo} alt={""} />
+			<img  className={'convPhoto'} src={`http://localhost:3002/${conv.photo}`} alt={""} />
 			<p className={'convName'}>  {conv.user}
 			</p>
 		</div>

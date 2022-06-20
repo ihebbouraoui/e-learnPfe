@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {getAnnounceByIdProf, newFormationSubmit} from "../../store/modules/Announce/announceService";
+import {
+	deleteUserFromFormation,
+	getAnnounceByIdProf,
+	newFormationSubmit
+} from "../../store/modules/Announce/announceService";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {notification, Tabs} from 'antd';
@@ -12,7 +16,9 @@ const ConfirmationFormations = () => {
      const [random,setRandom]= useState<any>()
 
 	useEffect(() => {
-		getAnnounceByIdProf({postBy: userConnect.user._id}).then()
+		getAnnounceByIdProf({postBy: userConnect.user._id}).then((res:any)=>{
+			console.log(res)
+		})
 		const min = 1;
 		const max = 100;
 		const rand = min + Math.random() * (max - min);
@@ -46,6 +52,13 @@ const ConfirmationFormations = () => {
 						description:
 							`لقد تم قبول ${data.userName}`,
 					});
+				}).then(()=>{
+					deleteUserFromFormation({_id:data.announce,
+						userId: data.userId,
+					}).then(()=>{
+						getAnnounceByIdProf({postBy: userConnect.user._id}).then((res:any)=>{
+						})
+					})
 				})
 			})
 		})
@@ -67,16 +80,30 @@ const ConfirmationFormations = () => {
 											<div>
 												<p> {el?.userId?.name}</p>
 												<button className={'btn-success'}
-														onClick={() => submitToFormation({
-															userId: el.userId?._id,
-															announce: item._id,
-															userName: el.userId?.name,
-															userMail: el.userId?.mail,
-															avatar: el.userId?.avatar
+														onClick={() => {
+															submitToFormation({
+																userId: el.userId?._id,
+																announce: item._id,
+																userName: el.userId?.name,
+																userMail: el.userId?.mail,
+																avatar: el.userId?.avatar
 
-														})}> قبول
+															})
+														}
+
+														}> قبول
 												</button>
-												<button className={'btn-error'} onClick={() => console.log(el)}> رفض
+												<button className={'btn-error'} onClick={() => {
+													deleteUserFromFormation({_id:item._id,
+														userId: el.userId?._id,
+													}).then(()=>{
+														notification.open({
+															message:'لقد تم الرفض بنجاحح'
+														})
+														getAnnounceByIdProf({postBy: userConnect.user._id}).then((res:any)=>{
+														})
+													})
+												}}> رفض
 												</button>
 												<hr/>
 											</div>

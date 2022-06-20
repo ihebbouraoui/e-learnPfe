@@ -9,8 +9,13 @@ import moment from "moment";
 import {Button, Form, Input, Modal} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {getMessage, setMessage} from "../../../store/modules/Auth/authService";
-import {checkIfSubmited, newFormation, signaler} from "../../../store/modules/Announce/announceService";
-import { notification } from 'antd';
+import {
+	checkIfSubmited,
+	getSubmitFormation,
+	newFormation,
+	signaler
+} from "../../../store/modules/Announce/announceService";
+import {notification} from 'antd';
 
 // @ts-ignore
 import alert from "../../../assets/alert-svgrepo-com.svg";
@@ -24,19 +29,33 @@ const DetailAnnounce = () => {
 	const [commentForm] = Form.useForm();
 	const [commentForm2] = Form.useForm();
 	const [commentForm3] = Form.useForm();
-  const [check,setCheck]=useState(false)
-	const announce = useSelector((state: RootState) => state.announce.selectedAnnounce)
+	const [check, setCheck] = useState(false)
+	const [waiting, setWaiting] = useState(false)
 
+	const announce = useSelector((state: RootState) => state.announce.selectedAnnounce)
+	const mySubmit = useSelector((state: RootState) => state.announce.submittedAnnounce)
 	useEffect(() => {
 		getUserById({_id: announce?.postBy}).then((res: any) => setPostedBy(res))
+		getSubmitFormation({_id: userConnect.user._id}).then((res: any) => {
+			console.log(res)
+		})
 	}, [])
+	useEffect(() => {
+		mySubmit?.map((item: any) => {
+
+			if ((item.student._id === userConnect.user._id) && (item.announce._id === announce._id)) {
+				setCheck(true)
+			}
+		})
+	}, [])
+	console.log(check)
 	const onFinish = (values: any) => {
 		setMessage({
 			messageFrom: userConnect.user.mail,
 			messageTo: announce?.postBy?.mail,
 			values: values.type,
 			avatarFrom: userConnect?.user.photo,
-			avatarTo: announce?.postBy?.mail
+			avatarTo: announce?.postBy?.photo
 		})
 		.then((res) => {
 			alert('message sent');
@@ -45,9 +64,9 @@ const DetailAnnounce = () => {
 			.then()
 		})
 	}
-	const [isOpen2,setIsOpen2]=useState(false)
-	const onFinishSubmit=(values:any)=>{
-		newFormation({_id:announce._id,userId:userConnect.user._id}).then(()=>{
+	const [isOpen2, setIsOpen2] = useState(false)
+	const onFinishSubmit = (values: any) => {
+		newFormation({_id: announce._id, userId: userConnect.user._id}).then(() => {
 			notification.open({
 				message: 'تنبيه',
 				description:
@@ -56,81 +75,87 @@ const DetailAnnounce = () => {
 			setIsOpen2(false)
 		})
 	}
-	useEffect(()=>{
-        announce.userSubmitted?.map((item:any)=>{
+	useEffect(() => {
+		announce.userSubmitted?.map((item: any) => {
 			console.log(item)
-			if (item?.userId?.includes(userConnect.user._id)){
-				setCheck(true)
+			if (item?.userId?.includes(userConnect.user._id)) {
+				setWaiting(true)
 			}
 		})
 
-	},[])
-	console.log(check)
+	}, [])
+
 	const onFinishReclamation = (values: any) => {
 		signaler({
-			userToSignal:announce.postBy._id,
-			SignalFrom:userConnect.user._id,
-			data:values.data,
+			userToSignal: announce.postBy._id,
+			SignalFrom: userConnect.user._id,
+			data: values.data,
 			date: moment().format('MMMM Do YYYY, h:mm:ss a'),
-			cause:values.cause
+			cause: values.cause
 
-		}).then(()=>alert('تمت الشكوى بنجاح'))
+		}).then(() => alert('تمت الشكوى بنجاح'))
 	}
-	const nav=useNavigate()
+	const nav = useNavigate()
 	return (
 		<div className={"announceCard"}>
-			<Modal footer={null} visible={isOpen2} onCancel={()=>setIsOpen2(false)} width={500}>
-				<div className={'submitToFormation'} style={{padding:'20px',width:'100%',alignItems:'center'}}>
-					<h2 style={{fontSize:'25px',fontWeight:'bold',color:'black',fontStyle:'italic',textAlign:'center'}}> تأكيد التقديم</h2>
+			<Modal footer={null} visible={isOpen2} onCancel={() => setIsOpen2(false)} width={500}>
+				<div className={'submitToFormation'} style={{padding: '20px', width: '100%', alignItems: 'center'}}>
+					<h2 style={{
+						fontSize: '25px',
+						fontWeight: 'bold',
+						color: 'black',
+						fontStyle: 'italic',
+						textAlign: 'center'
+					}}> تأكيد التقديم</h2>
 					<Form onFinish={onFinishSubmit}
 						  form={commentForm3}
 					>
-						<div className={'submitContainer'} style={{width:'100%',alignItems:'center'}}>
+						<div className={'submitContainer'} style={{width: '100%', alignItems: 'center'}}>
 							<Form.Item label="الاسم"
 									   name="name"
 
 									   rules={[{
 
-										   type:'string',
+										   type: 'string',
 										   message: 'يجب عليك ادخل الأسم',
 									   }]}
 									   style={{width: '50%'}}>
-								<Input readOnly={true}  defaultValue={userConnect?.user?.name}   style={{
-									border:'unset',
-									width:'100%',
-									backgroundColor:'whitesmoke',
-									borderRadius:'20px'
+								<Input readOnly={true} defaultValue={userConnect?.user?.name} style={{
+									border: 'unset',
+									width: '100%',
+									backgroundColor: 'whitesmoke',
+									borderRadius: '20px'
 								}}/>
 							</Form.Item>
 							<Form.Item label="الاسم المستخدم"
 									   name="username"
 									   rules={[{
-										   type:'string',
+										   type: 'string',
 										   message: 'يجب عليك ادخل الاسم المستخدم',
 									   }]}
 									   style={{width: '50%'}}>
-								<Input  readOnly={true} defaultValue={userConnect?.user?.username}   style={{
-									border:'unset',
-									width:'100%',
-									backgroundColor:'whitesmoke',
-									borderRadius:'20px'
+								<Input readOnly={true} defaultValue={userConnect?.user?.username} style={{
+									border: 'unset',
+									width: '100%',
+									backgroundColor: 'whitesmoke',
+									borderRadius: '20px'
 								}}/>
 							</Form.Item>
-							<Form.Item  label="البريد الألكتروني"
-										name="mail"
-										rules={[{
-											type:'string',
-											message: 'يجب عليك ادخل البريد الألكتروني',
-										}]}
-										style={{width: '50%'}}>
-								<Input readOnly={true} defaultValue={userConnect?.user?.mail}   style={{
-									border:'unset',
-									width:'100%',
-									backgroundColor:'whitesmoke',
-									borderRadius:'20px'
+							<Form.Item label="البريد الألكتروني"
+									   name="mail"
+									   rules={[{
+										   type: 'string',
+										   message: 'يجب عليك ادخل البريد الألكتروني',
+									   }]}
+									   style={{width: '50%'}}>
+								<Input readOnly={true} defaultValue={userConnect?.user?.mail} style={{
+									border: 'unset',
+									width: '100%',
+									backgroundColor: 'whitesmoke',
+									borderRadius: '20px'
 								}}/>
 							</Form.Item>
-							<button  type={'submit'}  className={'btn-success'}> تأكيد </button>
+							<button type={'submit'} className={'btn-success'}> تأكيد</button>
 
 						</div>
 					</Form>
@@ -170,24 +195,23 @@ const DetailAnnounce = () => {
 										   message: 'يجب ادخال  المعطيات'
 									   }]}
 									   style={{width: '50%'}}>
-								<textarea    style={{
+								<textarea style={{
 									border: 'unset',
 									backgroundColor: 'whitesmoke',
 									width: '300px',
 									borderRadius: '20px',
 									height: '140px',
-									padding:'20px',
-									fontSize:'14px',
-									color:'black',
-									fontWeight:'bold'
+									padding: '20px',
+									fontSize: '14px',
+									color: 'black',
+									fontWeight: 'bold'
 
 								}}/>
 							</Form.Item>
-							<button  type={'submit'}  className={'btn-success'}> تأكيد </button>
+							<button type={'submit'} className={'btn-success'}> تأكيد</button>
 
 						</div>
 					</Form>
-
 
 
 				</div>
@@ -199,6 +223,7 @@ const DetailAnnounce = () => {
 				<div>
 					<Form onFinish={onFinish}
 						  form={commentForm}
+
 					>
 						<div className={'messageCont'} style={{padding: '20px'}}>
 							<Form.Item label="الرسالة"
@@ -214,13 +239,14 @@ const DetailAnnounce = () => {
 									backgroundColor: 'whitesmoke',
 									width: '700px',
 									height: '200px',
-									resize:'none'
+									resize: 'none'
 
 
 								}}
-								rows={1}/>
+										  rows={1}/>
 							</Form.Item>
-							<button  className={'btn-success'} style={{position:'relative',top:'42px',right:'243px'}}  type="submit">
+							<button className={'btn-success'}
+									style={{position: 'relative', top: '42px', right: '243px'}} type="submit">
 								ارسال
 							</button>
 						</div>
@@ -243,12 +269,13 @@ const DetailAnnounce = () => {
 						<small>{moment(announce?.date).fromNow()}</small>
 					</div>
 				</div>
-				<div style={{height:'20px'}}>
+				<div style={{height: '20px'}}>
 
 				</div>
 				<div className={'reclamation'}>
 					{
-						!check && announce.category === 'formation' && !announce?.submit  && <Button onClick={()=>setIsOpen2(true)}   style={{
+						!check && !waiting && announce.category === 'formation' && !announce?.submit &&
+                        <Button onClick={() => setIsOpen2(true)} style={{
 							fontWeight: 'bolder',
 							fontSize: '20px',
 							marginLeft: '20px', padding: '5px',
@@ -257,15 +284,21 @@ const DetailAnnounce = () => {
 
 					}
 					{
-						check && <Button  type={'link'}
-						>لقد قدمت مسبقا في هذا التكوين
-						</Button>
+						check && <Button type={'link'}
+                        >لقد قدمت مسبقا في هذا التكوين
+                        </Button>
 					}
 					{
-						check && <button  onClick={()=>window.open(`http://localhost:3002/${announce?.file}`)}
-                                          >تحميل الدرس</button>
+						waiting && <Button type={'link'}
+                        > في انتضار القبول
+                        </Button>
 					}
-					<Button style={{fontWeight:'bold',fontSize:'20px'}} onClick={()=>setIsReclamOpen(true)} type={'link'} > اضافة شكوى</Button>
+					{
+						check && <button onClick={() => window.open(`http://localhost:3002/${announce?.file}`)}
+                        >تحميل الدرس</button>
+					}
+					<Button style={{fontWeight: 'bold', fontSize: '20px'}} onClick={() => setIsReclamOpen(true)}
+							type={'link'}> اضافة شكوى</Button>
 				</div>
 
 			</div>
