@@ -10,13 +10,17 @@ import {
 	GetDirector,
 	updateDirectorWithMail
 } from "../../store/modules/Director/directorService";
+import Swal from 'sweetalert2'
+
 import ModalComp from "../../component/Modal/modalComp";
 import {setSelectedDirector} from "../../store/modules/Director/directorModule";
-import {deleteProf} from "../../store/modules/Prof/profService";
+import {deleteProf, updateProf} from "../../store/modules/Prof/profService";
 import {setUserToHistory, signUpUser} from "../../store/modules/Auth/authService";
 import {getStudentWithStatus} from "../../store/modules/Student/studentService";
 import {stat} from "fs";
 import moment from "moment";
+import {notification} from "antd";
+import {setUserLogged} from "../../store/modules/Auth/AuthModule";
 
 const Director = () => {
 	const navi = useNavigate()
@@ -29,15 +33,56 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 				setModal(true)
 				break;
 			case 'delete':
-				deleteProf({_id: listDirector[data.index]._id}).then(() => setUserToHistory({
-					date: moment().format('MMMM Do YYYY, h:mm:ss a'),
-					adminID: user.user._id,
-					userId: listDirector[data.index]._id,
-					data: listDirector[data.index],
-					type: 'delete'
-				}).then(() => {
-					GetDirector().then()
-				}))
+				const swalWithBootstrapButtons = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-success',
+						cancelButton: 'btn btn-error'
+					},
+					buttonsStyling: false
+				})
+
+				swalWithBootstrapButtons.fire({
+					title: 'هل انت متأكد؟',
+					text: "هل تريد حظر المستخدم ",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'نعم',
+					cancelButtonText: 'لا',
+					reverseButtons: true
+				}).then((result) => {
+					if (result.isConfirmed) {
+						deleteProf({_id: listDirector[data.index]._id}).then(() => setUserToHistory({
+							date: moment().format('MMMM Do YYYY, h:mm:ss a'),
+							adminID: user.user._id,
+							userId: listDirector[data.index]._id,
+							data: listDirector[data.index],
+							type: 'delete'
+						}).then(() => {
+							GetDirector().then(()=>{
+							})
+						}))
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'لقد تم الحظر',
+							showConfirmButton: false,
+							timer: 1500
+						})
+
+					} else if (
+						/* Read more about handling dismissals below */
+						result.dismiss === Swal.DismissReason.cancel
+					) {
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'تم الغاء الحظر',
+							showConfirmButton: false,
+							timer: 1500
+						})
+					}
+				})
+
 
 				break;
 		}
@@ -53,13 +98,59 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 	const updateForm = useRef<{ [key: string]: string | number }>({})
 	const onSubmit = (data: { [key: string]: string | number }) => {
 		if (!data.name ||!data.username ||!data.tel){
-			alert('يجب عليك كاتبة كل الخانات')
-		}else if(!EmailRegex.test(data.mail.toString() ) ||  !PhoneRegex.test(data.tel.toString())) {
-			alert('الرجاء التحقق من البريد الالكرتروني او الهاتف الجوال')
-		}else{
-			updateDirectorWithMail({...data,mail:selected.mail}).then((res: any) => {
-				GetDirector().then(() => setModal(false))
+			Swal.fire({
+				icon: 'error',
+				title: 'المعلومات غير كافية',
+				text: 'يجب عليك تعمير كل المعلومات',
+			})		}else if(!PhoneRegex.test(data.tel.toString())) {
+			Swal.fire({
+				icon: 'error',
+				title: 'يجب ان يكون رقم من السعودية',
+				text: 'رقم الهاتف الجوال خاطئ',
+			})		}else{
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-success',
+					cancelButton: 'btn btn-error'
+				},
+				buttonsStyling: false
 			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'هل انت متأكد؟',
+				text: "هل تريد تغير معلومات المدير ",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'نعم',
+				cancelButtonText: 'لا',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					updateDirectorWithMail({...data,mail:selected.mail}).then((res: any) => {
+						GetDirector().then(() => setModal(false))
+					})
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: 'لقد تم تغير المعلومات ',
+						showConfirmButton: false,
+						timer: 1000
+					})
+
+				} else if (
+					/* Read more about handling dismissals below */
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					Swal.fire({
+						position: 'center',
+						icon: 'error',
+						title: 'تم الغاء التغير',
+						showConfirmButton: false,
+						timer: 1000
+					})
+				}
+			})
+
 		}
 
 	}

@@ -1,7 +1,7 @@
 import {ApiCall} from "../../ApiCall";
 import {host, store} from "../../store";
 import {setLoading} from "../Auth/AuthModule";
-import {setClassUser, setListStudent, setSubject, setToDo} from "./studentModule";
+import {setClassUser, setListStudent, setSelectedUser, setSubject, setToDo} from "./studentModule";
 
 export const getStudent = () => {
 	return ApiCall({
@@ -85,6 +85,17 @@ export const getToDoTest=(data:any)=>{
 		successFunction:(res:any)=>{
 			store.dispatch(setToDo(res))
 			store.dispatch(setLoading(true))
+		}
+	})
+}
+export const getStudentById=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/student/getStudentById",
+		method:'get',
+		data:data,
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+			store.dispatch(setSelectedUser(res))
 		}
 	})
 }

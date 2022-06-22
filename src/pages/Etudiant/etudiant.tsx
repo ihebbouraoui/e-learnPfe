@@ -13,6 +13,7 @@ import {setSelectedUser} from "../../store/modules/Student/studentModule";
 import {deleteProf, getProfWithStatus} from "../../store/modules/Prof/profService";
 import {setUserToHistory} from "../../store/modules/Auth/authService";
 import moment from "moment/moment";
+import Swal from "sweetalert2";
 
 
 const Etudiant = () => {
@@ -28,15 +29,55 @@ const Etudiant = () => {
 				// console.log(listStudent[data.index])
 				break;
 			case 'delete':
-				deleteProf({_id: listStudent[data.index]._id}).then(() => setUserToHistory({
-					date: moment().format('MMMM Do YYYY, h:mm:ss a'),
-					adminID: user.user._id,
-					userId: listStudent[data.index]._id,
-					data: listStudent[data.index],
-					type: 'delete'
-				}).then(() => {
-					getStudentWithStatus().then()
-				}))
+				const swalWithBootstrapButtons = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-success',
+						cancelButton: 'btn btn-error'
+					},
+					buttonsStyling: false
+				})
+
+				swalWithBootstrapButtons.fire({
+					title: 'هل انت متأكد؟',
+					text: "هل تريد حظر المستخدم ",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'نعم',
+					cancelButtonText: 'لا',
+					reverseButtons: true
+				}).then((result) => {
+					if (result.isConfirmed) {
+						deleteProf({_id: listStudent[data.index]._id}).then(() => setUserToHistory({
+							date: moment().format('MMMM Do YYYY, h:mm:ss a'),
+							adminID: user.user._id,
+							userId: listStudent[data.index]._id,
+							data: listStudent[data.index],
+							type: 'delete'
+						}).then(() => {
+							getStudentWithStatus().then()
+						}))
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'لقد تم الحظر',
+							showConfirmButton: false,
+							timer: 1500
+						})
+
+					} else if (
+						/* Read more about handling dismissals below */
+						result.dismiss === Swal.DismissReason.cancel
+					) {
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'تم الغاء الحظر',
+							showConfirmButton: false,
+							timer: 1500
+						})
+					}
+				})
+
 				break;
 		}
 	}

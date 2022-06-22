@@ -3,15 +3,18 @@ import '../mainPageProf/mainPageProf.css'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store/store";
 import {toBase64} from "../../../component/Const/const";
-import {updateProf} from "../../../store/modules/Prof/profService";
+import {deleteProf, updateProf} from "../../../store/modules/Prof/profService";
 import '../../Prof/sideBarProf.css'
 import {setUserLogged} from "../../../store/modules/Auth/AuthModule";
 
 // @ts-ignore
 import rename from "../../../assets/rename-svgrepo-com.svg"
 import {getUserById} from "../../../store/modules/Director/directorService";
-import {upload} from "../../../store/modules/Auth/authService";
+import {setUserToHistory, upload} from "../../../store/modules/Auth/authService";
 import {notification} from "antd";
+import Swal from "sweetalert2";
+import moment from "moment/moment";
+import {getStudentWithStatus} from "../../../store/modules/Student/studentService";
 
 
 const MainPageProf = () => {
@@ -50,14 +53,58 @@ const MainPageProf = () => {
 	const PhoneRegex = /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/
 	const onSubmit = (data: { [key: string]: string | number }) => {
 		if ( PhoneRegex.test(data.tel as string)) {
-			    updateProf(data, UserLogged?.user?._id).then((res: any) => {
-				// localStorage.setItem('user',JSON.stringify({...res.user}))
-				dispatch((setUserLogged({user: res})))
-				localStorage.setItem('user', JSON.stringify(res))
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-success',
+					cancelButton: 'btn btn-error'
+				},
+				buttonsStyling: false
 			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'هل انت متأكد؟',
+				text: "هل تريد تغير معلوماتك ",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'نعم',
+				cancelButtonText: 'لا',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					updateProf(data, UserLogged?.user?._id).then((res: any) => {
+						// localStorage.setItem('user',JSON.stringify({...res.user}))
+						dispatch((setUserLogged({user: res})))
+						localStorage.setItem('user', JSON.stringify(res))
+					})
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'لقد تم تغير المعلومات ',
+						showConfirmButton: false,
+						timer: 1000
+					})
+
+				} else if (
+					/* Read more about handling dismissals below */
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: 'تم الغاء التغير',
+						showConfirmButton: false,
+						timer: 1000
+					})
+				}
+			})
+
+
 		} else {
-			alert('الرجاء التأكد من رقم الهاتف')
-		}
+			Swal.fire({
+				icon: 'error',
+				title: 'رقم الهاتف الجوال غير صحيح',
+				text: 'الرجاء التثبت من رقم الهاتف الجوال',
+			})		}
 
 	}
 
@@ -111,6 +158,45 @@ const MainPageProf = () => {
 					}} type={'text'}
 					defaultValue={UserLogged?.user?.tel}
 					placeholder={'رقم الهاتف'} onChange={(e) => formSubmit(e, 'tel')}/> </label>
+				{UserLogged.user.role==='prof' &&
+                <label htmlFor={'name'}> الاختصاص:<input
+                    style={{
+						height: '80%',
+						width: '80%',
+						position: 'relative',
+						right: '48px'
+					}} type={'text'}
+                    value={UserLogged?.user?.specialite}
+                    placeholder={'الاختصاص'} onChange={(e) => formSubmit(e, 'specialite')}/> </label>
+				}
+				{
+					UserLogged.user.role==='student' &&
+                    <label htmlFor={'name'}>المستوى:<input
+                        style={{
+							height: '80%',
+							width: '80%',
+							position: 'relative',
+							right: '48px'
+						}} type={'text'}
+						readOnly={true}
+                        value={UserLogged?.user?.niveaux}
+                        placeholder={'المستوى'} onChange={(e) => formSubmit(e, 'niveaux')}/> </label>
+				}
+				{
+					UserLogged.user.role==='student' &&
+                    <label htmlFor={'name'}> رقم التسجيل:<input
+                        style={{
+							height: '80%',
+							width: '80%',
+							position: 'relative',
+							right: '48px'
+						}} type={'text'}
+                        value={UserLogged?.user?.matricule}
+						readOnly={true}
+                        placeholder={'رقم التسجيل'} onChange={(e) => formSubmit(e, 'matricule')}/> </label>
+				}
+
+
 				<button className={'btn-success'}
 						style={{height: 50, fontWeight: 'bolder', color: 'white', width: '50%'}}
 						onClick={() => onSubmit(updateForm.current)}> تاكيد

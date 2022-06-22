@@ -38,7 +38,11 @@ export const profTab: TabConfigInterface = {
 			label: 'البريد الألكتروني'
 		},  {
 			label: 'رقم الهاتف'
-		}, {
+		},
+		{
+			label: 'الاختصاص'
+		},
+		{
 			label: 'العمليات'
 		},
 	],
@@ -51,7 +55,7 @@ export const profTab: TabConfigInterface = {
 			type: 'detail'
 		},
 		{
-			name:'حذف',
+			name:'حظر',
 			style:'btn-error',
 			type: 'delete'
 		}

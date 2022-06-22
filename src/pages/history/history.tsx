@@ -11,6 +11,9 @@ import {RootState} from "../../store/store";
 import TabForm, {btnInetrface} from "../../component/Tableau/tableauxForm";
 import {historyTabConst} from "./historyTabConst";
 import ModalComp from "../../component/Modal/modalComp";
+import Swal from "sweetalert2";
+import {updateProf} from "../../store/modules/Prof/profService";
+import {setUserLogged} from "../../store/modules/Auth/AuthModule";
 
 const History=()=>{
 	const listHistory=useSelector((state:RootState)=>state.director.listHistory)
@@ -62,21 +65,61 @@ const History=()=>{
 				idHis.current=listHistory[data.index].userId._id
 				break;
 			case 'delete':
-				listHistory[data.index].type==='delete' ?
-				blockDelete({_id:listHistory[data.index].userId?._id}).then(()=>{
-                     deleteHistory({_id:listHistory[data.index]._id}).then(()=>{
-						 getHistory().then((res:any)=>{
-							 initTable(res)
-						 })
-					 })
-				}) :
-					deleteWithMail({mail:listHistory[data.index].mailUser}).then(()=>{
-						deleteHistory({_id:listHistory[data.index]._id}).then(()=>{
-							getHistory().then((res:any)=>{
-								initTable(res)
+				const swalWithBootstrapButtons = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-success',
+						cancelButton: 'btn btn-error'
+					},
+					buttonsStyling: false
+				})
+
+				swalWithBootstrapButtons.fire({
+					title: 'هل انت متأكد؟',
+					text: "هل تريد ايقاف العملية ",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'نعم',
+					cancelButtonText: 'لا',
+					reverseButtons: true
+				}).then((result) => {
+					if (result.isConfirmed) {
+						listHistory[data.index].type==='delete' ?
+							blockDelete({_id:listHistory[data.index].userId?._id}).then(()=>{
+								deleteHistory({_id:listHistory[data.index]._id}).then(()=>{
+									getHistory().then((res:any)=>{
+										initTable(res)
+									})
+								})
+							}) :
+							deleteWithMail({mail:listHistory[data.index].mailUser}).then(()=>{
+								deleteHistory({_id:listHistory[data.index]._id}).then(()=>{
+									getHistory().then((res:any)=>{
+										initTable(res)
+									})
+								})
 							})
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'لقد تم ايقاف العملية ',
+							showConfirmButton: false,
+							timer: 1000
 						})
-					})
+
+					} else if (
+						/* Read more about handling dismissals below */
+						result.dismiss === Swal.DismissReason.cancel
+					) {
+						Swal.fire({
+							position: 'center',
+							icon: 'error',
+							title: 'تم الغاء العملية',
+							showConfirmButton: false,
+							timer: 1000
+						})
+					}
+				})
+
 				break;
 		}
 

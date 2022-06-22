@@ -4,7 +4,12 @@ import {Avatar, Button, Card, Cascader, Form, Input, message, Modal, Select, Tab
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import './home.css'
-import {addAnnounce, getAnnounce, getSubmitFormation} from "../../store/modules/Announce/announceService";
+import {
+	addAnnounce,
+	getAnnounce,
+	getMyFormationProf,
+	getSubmitFormation
+} from "../../store/modules/Announce/announceService";
 // @ts-ignore
 import photo from '../../assets/e-learning-mfc-min.jpg'
 // @ts-ignore
@@ -24,11 +29,12 @@ import {setConv} from "../../store/modules/Auth/AuthModule";
 import {toBase64} from "../Const/const";
 import moment from "moment";
 import {setSelectedAnnounce} from "../../store/modules/Announce/announceModule";
+import Swal from "sweetalert2";
+import {GetDirector, updateDirectorWithMail} from "../../store/modules/Director/directorService";
 
 const Home = () => {
 	const {TabPane} = Tabs;
 	const userConnect = useSelector((state: RootState) => state.auth.userLogged)
-	console.log(userConnect)
 	const listAnnounce = useSelector((state: RootState) => state.announce.list_Announce)
 	const [imageSRC, setImageSRC] = useState<Array<string>>([]);
 	const [isOpen, setIsOpen] = useState(false);
@@ -51,11 +57,11 @@ const Home = () => {
 				}
 			})
 		})
-		getSubmitFormation({_id: userConnect.user._id}).then()
+		userConnect.user.role==='student' ?getSubmitFormation({_id: userConnect.user._id}).then():getMyFormationProf({_id: userConnect.user._id}).then()
+
 
 	}, [])
 
-	console.log(myFormation)
 	const [listConversations, setListConversations] = useState<any>([]);
 
 	const MySubmitFormation = useSelector((state: RootState) => state.announce.submittedAnnounce)
@@ -103,19 +109,58 @@ const Home = () => {
 	}
 
 	const onFinish2 = (values: any) => {
-		addAnnounce({
-			postBy: userConnect.user._id,
-			data: values.data,
-			photo: image,
-			date: moment().format('YYYY:'),
-			category: values.category,
-			title: values.title,
-			file: file
-		}).then(() => {
-			setIsOpen(!isOpen)
-			getAnnounce().then()
+		const swalWithBootstrapButtons = Swal.mixin({
+			customClass: {
+				confirmButton: 'btn btn-success',
+				cancelButton: 'btn btn-error'
+			},
+			buttonsStyling: false
 		})
-		console.log(values)
+
+		swalWithBootstrapButtons.fire({
+			title: 'هل انت متأكد؟',
+			text: "هل تريد النشر ",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'نعم',
+			cancelButtonText: 'لا',
+			reverseButtons: true
+		}).then((result) => {
+			if (result.isConfirmed) {
+				addAnnounce({
+					postBy: userConnect.user._id,
+					data: values.data,
+					photo: image,
+					date: moment().format('YYYY:'),
+					category: values.category,
+					title: values.title,
+					file: file
+				}).then(() => {
+					setIsOpen(!isOpen)
+					getAnnounce().then()
+				})
+				Swal.fire({
+					position: "center",
+					icon: 'success',
+					title: 'لقد تم النشر بنجاح ',
+					showConfirmButton: false,
+					timer: 1000
+				})
+
+			} else if (
+				/* Read more about handling dismissals below */
+				result.dismiss === Swal.DismissReason.cancel
+			) {
+				Swal.fire({
+					position: 'top-end',
+					icon: 'error',
+					title: 'تم الغاء النشر',
+					showConfirmButton: false,
+					timer: 1000
+				})
+			}
+		})
+
 	}
 	return (
 
@@ -214,7 +259,7 @@ const Home = () => {
 							 left: '15px',
 							 zIndex: 9,
 							 width: 150,
-							 height: '28.5%'
+							 height: '20%'
 						 }}/>
 				</div>
 				<div className={'detailProfil'}>
@@ -226,23 +271,18 @@ const Home = () => {
 						}}>{userConnect.user.username} </p>
 						<p style={{
 							fontSize: '15px',
-							color: 'black',
-							fontWeight: "bold"
-						}}> {userConnect.user.mail}</p>
-						<p style={{
-							fontSize: '15px',
 							color: 'gray',
 							fontWeight: "bold"
-						}}> {userConnect.user.role}</p>
+						}}> {userConnect.user.role==='prof'?'استاذ':'طالب'}</p>
 
 					</Card>
 
 
 				</div>
-				<div className={'myFormation'} style={{height: '400px', overflowX: 'scroll'}}>
-					<h2 style={{textAlign: 'center'}}> تكوين</h2>
-					{/*<Calendar defaultValue={moment()}/>*/}
+				 <div className={'myFormation'} style={{height: '400px', overflowX: 'scroll'}}>
+                    <h2 style={{textAlign: 'center'}}> تكوين</h2>
 					{MySubmitFormation.map((item: any) => {
+						console.log(item)
 							return (
 
 								<div className={'card'} onClick={() => goToDetailCard(item.announce, item.prof)}
@@ -264,24 +304,30 @@ const Home = () => {
 											fontSize: '16px',
 											fontWeight: 'bold',
 											color: 'white'
-										}}>  {item.announce.date} </p>
+										}}>  {userConnect.user.role==='student'? item.prof.tel:item.student.tel}</p>
 										<p style={{
 											fontSize: '16px',
 											fontWeight: 'bold',
 											color: 'white'
-										}}>  {item.prof.tel}</p>
-										<p style={{
+										}}> {userConnect.user.role==='student'? item.prof.name:item.student.name}</p>
+                                        <p style={{
 											fontSize: '16px',
 											fontWeight: 'bold',
 											color: 'white'
-										}}> {item.prof.name}</p>
+										}}> تاريخ البدئ:{ item?.date}</p>
+                                        <p style={{
+											fontSize: '16px',
+											fontWeight: 'bold',
+											color: 'white'
+										}}> وقت البدئ:{ item?.hour} </p>
 									</div>
 								</div>
 							)
 						}
 					)}
-				</div>
-			</div>
+
+                </div>
+			    </div>
 			<div className={'contenu'}>
 				<div style={{
 					marginTop: '20px'

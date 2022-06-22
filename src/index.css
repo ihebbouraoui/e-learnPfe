@@ -87,7 +87,7 @@ button {
 
 }
 .ant-modal-content{
-    height: 400px;
+    height: auto;
     box-shadow: 0 0 20px 0px #d5d5d5;
 
 }

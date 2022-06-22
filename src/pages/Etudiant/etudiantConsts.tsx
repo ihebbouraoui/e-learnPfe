@@ -71,7 +71,7 @@ export const EtudiantTab: TabConfigInterface = {
 	],
 	btnConfig: [
 		{
-			name: 'حذف',
+			name: 'حظر',
 			style: 'btn-error',
 			type: 'delete'
 

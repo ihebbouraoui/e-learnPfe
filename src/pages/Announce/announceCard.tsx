@@ -4,7 +4,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {setSelectedAnnounce} from "../../store/modules/Announce/announceModule";
-import {getAnnounce, newFormation, postComment, signaler} from "../../store/modules/Announce/announceService";
+import {getAnnounce, postComment, signaler} from "../../store/modules/Announce/announceService";
 import {Button, Form, Input, Modal, notification, Select} from "antd";
 // @ts-ignore
 import alert from "../../assets/alert-svgrepo-com.svg";
@@ -13,23 +13,18 @@ import sendMessage from "../../assets/message-svgrepo-com.svg";
 import TextArea from "antd/es/input/TextArea";
 import {getMessage, setMessage} from "../../store/modules/Auth/authService";
 import moment from "moment";
-import {setLoading} from "../../store/modules/Auth/AuthModule";
 
 const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 	const navigate = useNavigate()
 	const [isReclamOpen, setIsReclamOpen] = useState(false)
-	const {Option, OptGroup} = Select;
 	const dispatch = useDispatch()
-	const location = useLocation();
 	const [commentZone, setCommentZone] = useState<any>(false)
 	const userConnect = useSelector((state: RootState) => state.auth.userLogged)
 	const [height, setHight] = useState<any>('50px')
 	const [visible, setVisible] = useState<any>(false)
-
 	const goToDetail = (item: any) => {
 		dispatch(setSelectedAnnounce(item));
 		navigate('/detailAnnounce')
-
 	}
 	useEffect(() => {
 		if (item.comment) {
@@ -41,13 +36,7 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 		setCommentZone(!commentZone)
 		!visible ? setVisible(visible) : setVisible(!visible)
 	}
-	// useEffect(() => {
-	// 	getAnnounce().then(() => {
-	// 		dispatch(setLoading(true))
-	// 	})
-	// }, [])
 	const commentaire = useRef<{ [key: string]: string | number }>({})
-
 	const newComment = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
 		commentaire.current[name] = event.target.value.trim();
 		Object.keys(commentaire.current).forEach((key) => {
@@ -57,7 +46,6 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 		})
 	}
 	const [commentForm] = Form.useForm();
-	const [commentForm2] = Form.useForm();
 
 	const onFinishReclamation = (values: any) => {
 		signaler({
@@ -163,17 +151,17 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 			</Modal>
 			<div className="container">
 				<div className="card">
-					<img alt={''}
-						 style={{
-							 position: 'absolute',
-							 top: '10px',
-							 left: '10px',
-							 width: '30px',
-							 cursor: 'pointer',
-						 }}
-						 src={alert} onClick={() => setIsReclamOpen(true)}/>
+					{/*<img alt={''}*/}
+					{/*	 style={{*/}
+					{/*		 position: 'absolute',*/}
+					{/*		 top: '10px',*/}
+					{/*		 left: '10px',*/}
+					{/*		 width: '30px',*/}
+					{/*		 cursor: 'pointer',*/}
+					{/*	 }}*/}
+					{/*	 src={alert} onClick={() => setIsReclamOpen(true)}/>*/}
 					<div className="card__body">
-						<span className="tag tag-brown">{item?.category}</span>
+						<span className="tag tag-brown">{item?.category==='formation'?'تكوين':'اعلان عادي'}</span>
 						<h4 style={{wordBreak: 'break-word'}}>{moment(item.date).format('YYYY-MM-DD')}</h4>
 						<p style={{wordBreak: 'break-word'}}>{item.data}</p>
 					</div>

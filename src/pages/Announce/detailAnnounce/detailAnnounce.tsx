@@ -21,6 +21,7 @@ import {notification} from 'antd';
 import alert from "../../../assets/alert-svgrepo-com.svg";
 import {setChecked} from "../../../store/modules/Announce/announceModule";
 import {Link, useNavigate} from "react-router-dom";
+import Swal from "sweetalert2";
 
 const DetailAnnounce = () => {
 	const [isReclamOpen, setIsReclamOpen] = useState(false)
@@ -56,13 +57,13 @@ const DetailAnnounce = () => {
 			values: values.type,
 			avatarFrom: userConnect?.user.photo,
 			avatarTo: announce?.postBy?.photo
-		})
-		.then((res) => {
+		}).then((res) => {
 			alert('message sent');
 			commentForm.resetFields();
 			getMessage()
 			.then()
 		})
+
 	}
 	const [isOpen2, setIsOpen2] = useState(false)
 	const onFinishSubmit = (values: any) => {
@@ -93,7 +94,17 @@ const DetailAnnounce = () => {
 			date: moment().format('MMMM Do YYYY, h:mm:ss a'),
 			cause: values.cause
 
-		}).then(() => alert('تمت الشكوى بنجاح'))
+		}).then(() => {
+				Swal.fire({
+					icon: 'success',
+					title: 'نجاح الارسال ',
+					text: 'لقد تم ارسال الشكوى ',
+				})
+				setIsReclamOpen(false)
+
+			}
+
+		)
 	}
 	const nav = useNavigate()
 	return (
@@ -256,7 +267,7 @@ const DetailAnnounce = () => {
 			</div>
 			<div style={{height: '20px'}}></div>
 			<div className="detailAnnounce">
-				<span className="tag tag-brown">{announce?.category}</span>
+				<span className="tag tag-brown">{announce?.category==='formation'?'تكوين':'اعلان عادي'}</span>
 				<h4 style={{wordBreak: 'break-word'}}>{moment(announce.date).format('YYYY-MM-DD')}</h4>
 				<p style={{wordBreak: 'break-word'}}>{announce.data}</p>
 			</div>

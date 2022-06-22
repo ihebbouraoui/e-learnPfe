@@ -58,7 +58,7 @@ export const DirectorTab: TabConfigInterface = {
 			type: 'detail',
 		},
 		{
-			name: 'حذف',
+			name: 'حظر',
 			style: 'btn-error',
 			type: 'delete'
 		}

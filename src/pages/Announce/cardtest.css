@@ -89,7 +89,8 @@ img {
 .tag-brown {
     background: #D1913C;
     background: linear-gradient(to bottom, #FFD194, #D1913C);
-    color: #fafafa;
+    color: black;
+    font-size: 15px;
 }
 
 .tag-red {

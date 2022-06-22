@@ -95,7 +95,17 @@ export const getSubmitFormation=(data:any)=>{
 		}
 	})
 }
-
+export const getMyFormationProf=(data:any)=>{
+	return ApiCall({
+		endPoint:"http://localhost:3002/announce/getProfFormation/",
+		method:'get',
+		data:data,
+		successFunction:(res:any)=>{
+			store.dispatch(setLoading(true))
+			store.dispatch(setMySubmitAnnounce(res))
+		}
+	})
+}
 
 
 export const getCommentByIdAnnounce=(data:any)=>{

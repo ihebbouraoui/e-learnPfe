@@ -8,6 +8,7 @@ import {Card, Modal, notification} from "antd";
 import {AuthLogin, checkMail, sendMail, setUserToHistory, signUpUser} from "../../store/modules/Auth/authService";
 // @ts-ignore
 import logo from "../../assets/Logo1024x1024.jpg"
+import Swal from "sweetalert2";
 
 const HomeTest = () => {
 	const nav = useNavigate()
@@ -43,23 +44,23 @@ const HomeTest = () => {
 	}
 	const login = (data: any) => {
 		if (!data.current.mail || !data.current.password) {
-			notification.open({
-				message: 'تحذير',
-				description: 'الرجاء ادخال الحساب',
-				onClick: () => {
-					console.log('Notification Clicked!');
-				},
-			});
-
+			Swal.fire({
+				icon: 'error',
+				title: 'البريد الالكتروني او كلمة المرور ',
+				text: 'يجب تعمير كل الخانات',
+			})
 
 		} else {
 			AuthLogin({mail: data.current.mail, password: data.current.password}).then((res: any) => {
 				localStorage.setItem('user', JSON.stringify(res.user))
 			}).catch((res: any) => {
-				notification.open({
-					message: 'تنبيه',
-					description: 'الايمايل او كلمة المرور خاطئة'
-				});			});
+				Swal.fire({
+					icon: 'error',
+					title: 'البريد الالكتروني و كلمة المرور ',
+					text: 'البريد الاكتروني او كلمة مرور خاطئة',
+				})
+			
+			});
 		}
 
 	}
@@ -72,27 +73,40 @@ const HomeTest = () => {
 
 	}
 	const openVerification = (data: any) => {
-		sendMail({
-			from: 'ihebbouraoui1234@gmail.com',
-			to: data.mail,
-			subject: 'confirmation code',
-			html: `  المعرف:${random} `,
-			text: `المعرف :${random} `
-		}).then(() => {
-			notification.open({
-				message: 'تنبيه',
-				description: 'لقد تم ارسال المعرف الى الايمايل الخاص بك'
-			});
-		})
-		setOpen2(false)
-		setOpen3(true)
+		if(data.mail && data.password && data.tel && data.username)
+		{
+			sendMail({
+				from: 'ihebbouraoui1234@gmail.com',
+				to: data.mail,
+				subject: 'confirmation code',
+				html: `  المعرف:${random} `,
+				text: `المعرف :${random} `
+			}).then(() => {
+				Swal.fire({
+					icon: 'success',
+					title: 'تاكيد التسجيل ',
+					text: '   لقد تم ارسال المعرف الى الايميل',
+				})
+			})
+			setOpen2(false)
+			setOpen3(true)
+		}else
+		{
+			Swal.fire({
+				icon: 'error',
+				title: 'خطاء في المعلومات  ',
+				text: ' كل الخانات مطلوبة',
+			})
+		}
+
 	}
 	const finalConfirmation = () => {
 		setOpen3(false)
-		notification.open({
-			message: 'نجاح',
-			description: 'لقد تم انشاء الحساب'
-		});
+		Swal.fire({
+			icon: 'success',
+			title: 'نجاح التسجيل ',
+			text: 'لقد تم التسجيل بنجاح مرحبا بك !!!',
+		})
 	}
 	const signUp = (data: any) => {
 		if (data === random) {
@@ -141,10 +155,6 @@ const HomeTest = () => {
 						   onChange={(e) => formLogin(e, 'password')}
 
 					/>
-					<p className={'details'}>
-						يرجى ادخال البريد الألكتروني و كلمة المرور الخاصة بك و ان كنت غير مسجل فالرجاء النقر على تسجيل
-						الحساب لتنضم الينا
-					</p>
 					<div className={'button'}>
 						<button className={'btn-login'}
 								style={{width: "100%", height: '100%', margin: '20px', fontWeight: 'bold'}}
@@ -159,9 +169,11 @@ const HomeTest = () => {
 
 				</div>
 			</Modal>
-			<Modal footer={null} visible={open2} onCancel={() => setOpen2(false)}>
-				<div className={'signUp'}>
-					<div className={''}>
+			<Modal footer={null} visible={open2}    bodyStyle={{height: 550}}
+				   onCancel={() => setOpen2(false)}>
+				<div className={'signUp'} >
+					<div className={''} style={{textAlign:'center'}}>
+						<p style={{fontSize:'20px',fontWeight:'bold'}}> مرحبا بك </p>
 						<input required={true} className={'loginInput'} placeholder={' الاسم'} type={'text'}
 							   name={'name'}
 
@@ -186,6 +198,11 @@ const HomeTest = () => {
 
 							   onChange={(e) => formLogin(e, 'tel')}
 						/>
+						<input required={true} className={'loginInput'} placeholder={'  المستوى'} type={'text'}
+							   name={'niveaux'}
+							   onChange={(e) => formLogin(e, 'niveaux')}
+						/>
+
 
 
 						<button className={'btn-success'}
@@ -204,46 +221,43 @@ const HomeTest = () => {
 				</button>
 
 			</Modal>
-			{/*<button onClick={()=>{nav('/login')}}> log</button>*/}
-			{/*<button onClick={()=>{nav('/signUp')}}> signu</button>*/}
-			<div className={'us'}>
-				<p style={{color: 'red', fontWeight: 'bolder', fontSize: '40px'}} className={'text'}>
-					مرحبا بك في منصة كاف المتطورة
-				</p>
-
-
-			</div>
 			<div style={{width: '30%', margin: 10, padding: 10}}>
 				<img alt={''} className={'logoHome'} src={logo}/>
 			</div>
 
-			<div className={'auth'}>
-				<p>انقر هنا للدخول لحسابك </p>
-				<button onClick={() => setOpen1(true)}> دخول</button>
-			</div>
-			<div className={'auth2'}>
-				<p> انفر هنا لتسجيل حساب جديد </p>
-				<button onClick={() => setOpen2(true)}> دخول</button>
-			</div>
-			<div className={'auth3'}>
-				<p> اتصل بنا</p>
-				<p> رقم الهاتف : 059566458+</p>
-				<p> البريد الالكتروني: plateformeKef@gmail.com </p>
 
-			</div>
-			<h1 style={{fontSize: '30px', color: 'black'}} className={'title'}> مجالاتنا
+			<h1 style={{fontSize: '18px', color: 'black',fontWeight:'bold'}} className={'title'}> مجالاتنا
 			</h1>
 			<div className={'category'}>
+
 				{listCategory.map((item: any) => {
 					return (
 
 						<div className={'cardCategory'}>
-							<img className={'categoryImage'} src={item.icon}/>
-							<p style={{color: "black", fontWeight: 'bold'}}> {item.title}</p>
+							<img  className={'categoryImage'} src={item.icon}/>
+							<p style={{color: "black", fontWeight: 'bold',position:'relative',top:'15px'}}> {item.title}</p>
 						</div>
 
 					)
 				})}
+
+			</div>
+			<div className={'category2'}>
+				<div className={''}>
+					<p>انقر هنا لدخول  </p>
+					<button onClick={() => setOpen1(true)}> دخول</button>
+				</div>
+				<div className={''}>
+					<p> انقر هنا لتسجيل حساب جديد </p>
+					<button onClick={() => setOpen2(true)}> تسجيل حساب</button>
+				</div>
+				<div className={''}>
+					<p> اتصل بنا</p>
+					<p> رقم الهاتف : 059566458+</p>
+					<p> البريد الالكتروني: plateformeKef@gmail.com </p>
+
+				</div>
+
 			</div>
 
 
