@@ -11,7 +11,7 @@ import {
 } from "../../store/modules/Student/studentService";
 import {setSelectedUser} from "../../store/modules/Student/studentModule";
 import {deleteProf, getProfWithStatus} from "../../store/modules/Prof/profService";
-import {setUserToHistory} from "../../store/modules/Auth/authService";
+import {sendMail, setUserToHistory} from "../../store/modules/Auth/authService";
 import moment from "moment/moment";
 import Swal from "sweetalert2";
 
@@ -54,7 +54,15 @@ const Etudiant = () => {
 							data: listStudent[data.index],
 							type: 'delete'
 						}).then(() => {
-							getStudentWithStatus().then()
+							getStudentWithStatus().then(()=>{
+								sendMail({
+									from: 'ihebbouraoui1234@gmail.com',
+									to: listStudent[data.index].mail,
+									subject: 'confirmation',
+									html:'لقد تم حضر حسابك',
+									text:'لقد تم حضر حسابك'
+								}).then()
+							})
 						}))
 						Swal.fire({
 							position: 'center',

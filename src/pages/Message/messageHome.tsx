@@ -14,7 +14,6 @@ const MessageHome :React.FC<{ listConversations: Array<any> }> = ({listConversat
 	// console.log(listConversations)
 	const nav=useNavigate()
 	const onFinish = (values: any) => {
-		console.log(values?.file)
 		const msg = {
 			messageFrom: userToken.user.mail,
 			messageTo: selectedConv?.user,
@@ -89,10 +88,14 @@ const MessageHome :React.FC<{ listConversations: Array<any> }> = ({listConversat
 }
 
 const 	Conversation: React.FC<{ conv: any, openModal: Function }> = ({conv, openModal}) => {
+	const userToken = useSelector((state: RootState) => state.auth.userLogged);
 	return (
 
 		<div className={'convBox'} onClick={() => openModal()}>
-			<img  className={'convPhoto'} src={`http://localhost:3002/${conv.photo}`} alt={""} />
+			{userToken.user.role==='prof' &&			<img  className={'convPhoto'} src={`${conv.photo}`} alt={""} />
+			}
+			{userToken.user.role==='student' &&			<img  className={'convPhoto'} src={`${conv.photo}`} alt={""} />
+			}
 			<p className={'convName'}>  {conv.user}
 			</p>
 		</div>

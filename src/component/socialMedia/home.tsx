@@ -131,7 +131,7 @@ const Home = () => {
 					postBy: userConnect.user._id,
 					data: values.data,
 					photo: image,
-					date: moment().format('YYYY:'),
+					date: moment(),
 					category: values.category,
 					title: values.title,
 					file: file

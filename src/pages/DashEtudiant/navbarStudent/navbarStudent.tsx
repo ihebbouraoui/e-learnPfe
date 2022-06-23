@@ -50,7 +50,7 @@ const NavbarStudent = () => {
                                      to={'/myAnnounce'}> اعلاناتي </NavLink></li>
 
 					}
-					<li className="services">
+					<li className="services" style={{zIndex:99}}>
 						<a href="/"><NavLink style={{color: 'black', fontSize: '15px', fontWeight: 'bold'}}
 											 to={'/home'}> تعديل </NavLink> </a>
 						<ul className="dropdown">

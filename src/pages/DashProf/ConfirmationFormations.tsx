@@ -40,7 +40,9 @@ const ConfirmationFormations = () => {
 			setMessage({
 				messageFrom: userConnect.user.mail,
 				messageTo: data.userMail,
-				values: ` لقد تم قبولك في التكوين و معرف الغرفة هو ${random} : `,
+				values: ` لقد تم قبولك في التكوين و معرف الغرفة هو${random}
+				                                                اليوم${data.date}
+				                                                الساعة${data.hour}`,
 				avatarFrom: userConnect?.user.photo,
 				avatarTo: data.avatar
 			}).then(() => {
@@ -105,7 +107,7 @@ const ConfirmationFormations = () => {
 															announce: item._id,
 															userName: el.userId?.name,
 															userMail: el.userId?.mail,
-															avatar: el.userId?.avatar,
+															avatar: el.userId?.photo,
 															date:date,
 															hour:hour,
 														})

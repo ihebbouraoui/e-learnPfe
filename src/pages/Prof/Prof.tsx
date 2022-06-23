@@ -6,7 +6,7 @@ import {deleteProf, getProfWithStatus} from "../../store/modules/Prof/profServic
 import {useSelector} from "react-redux";
 import {RootState, store} from "../../store/store";
 import {useNavigate} from "react-router-dom";
-import {setUserToHistory} from "../../store/modules/Auth/authService";
+import {sendMail, setUserToHistory} from "../../store/modules/Auth/authService";
 import moment from "moment";
 import {GetDirector, updateDirectorWithMail} from "../../store/modules/Director/directorService";
 import ModalComp from "../../component/Modal/modalComp";
@@ -78,7 +78,15 @@ const Prof = () => {
 							data: listProf[data.index],
 							type: 'delete'
 						}).then(() => {
-							getProfWithStatus().then()
+							getProfWithStatus().then(()=>{
+								sendMail({
+									from: 'ihebbouraoui1234@gmail.com',
+									to: listProf[data.index].mail,
+									subject: 'confirmation',
+									html:'لقد تم حضر حسابك',
+									text:'لقد تم حضر حسابك'
+								}).then()
+							})
 						}))
 						Swal.fire({
 							position: 'center',

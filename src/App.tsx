@@ -172,8 +172,10 @@ function App() {
 									<HomeTest/>
 									<Content>
 								<Routes>
+									{/*<Route path={'*'} element={<HomeTest/>}/>*/}
 								</Routes>
 									</Content>
+
 								</Layout>
 							</Router>
 

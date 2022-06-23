@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import './SideBar.css'
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {setLoading, setLogged, setUserLogged} from "../../store/modules/Auth/AuthModule";
@@ -28,6 +28,7 @@ const SiderBarAdmin = () => {
 		{link:'خروج'}
 
 	]
+	const location=useLocation()
 
 
 
@@ -93,6 +94,7 @@ const SiderBarAdmin = () => {
 				break;
 			case 5:
 				localStorage.removeItem('user');
+				location.pathname='http://localhost:3000/'
 				dispatch(setUserLogged(''))
 				dispatch(setLogged(false))
 				dispatch(setLoading(false))

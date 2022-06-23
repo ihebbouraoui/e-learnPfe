@@ -175,13 +175,13 @@ const AnnounceCard: React.FC<{ item: any }> = ({item}) => {
 							<img style={{width: '50px', height: '50px', borderRadius: '50px'}} src={item?.postBy?.photo}
 								 alt={''}/>
 							<div className="user__info">
-								<h5>{item.postBy.name}</h5>
-								<small>{moment(item.date).fromNow()}</small>
+								<h5>{item?.postBy?.name}</h5>
+								<small>{moment(item?.date).fromNow()}</small>
 							</div>
 						</div>
 					</div>
 					<div className={'tache'}>
-						{ userConnect.user._id !== item.postBy._id &&
+						{ userConnect?.user?._id !== item?.postBy?._id &&
                         <Button type={'link'} style={{
 							fontWeight: 'bolder',
 							fontSize: '20px', color: 'black',

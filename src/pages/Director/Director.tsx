@@ -15,7 +15,7 @@ import Swal from 'sweetalert2'
 import ModalComp from "../../component/Modal/modalComp";
 import {setSelectedDirector} from "../../store/modules/Director/directorModule";
 import {deleteProf, updateProf} from "../../store/modules/Prof/profService";
-import {setUserToHistory, signUpUser} from "../../store/modules/Auth/authService";
+import {sendMail, setUserToHistory, signUpUser} from "../../store/modules/Auth/authService";
 import {getStudentWithStatus} from "../../store/modules/Student/studentService";
 import {stat} from "fs";
 import moment from "moment";
@@ -59,6 +59,13 @@ const user=useSelector((state:RootState)=>state.auth.userLogged)
 							type: 'delete'
 						}).then(() => {
 							GetDirector().then(()=>{
+								sendMail({
+									from: 'ihebbouraoui1234@gmail.com',
+									to: listDirector[data.index].mail,
+									subject: 'confirmation',
+									html:'لقد تم حضر حسابك',
+									text:'لقد تم حضر حسابك'
+								}).then()
 							})
 						}))
 						Swal.fire({

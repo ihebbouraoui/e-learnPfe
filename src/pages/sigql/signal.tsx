@@ -14,7 +14,7 @@ import ModalComp from "../../component/Modal/modalComp";
 import {getSignal} from "../../store/modules/Announce/announceService";
 import {signalTabConst} from "./siganConst";
 import {deleteProf, getProfWithStatus} from "../../store/modules/Prof/profService";
-import {setUserToHistory} from "../../store/modules/Auth/authService";
+import {sendMail, setUserToHistory} from "../../store/modules/Auth/authService";
 import moment from "moment";
 import Swal from "sweetalert2";
 
@@ -70,7 +70,15 @@ const Signal=()=>{
 								getSignal().then((res:any)=>{
 									initTable(res)
 
-								})					})
+								})	.then(()=>{
+									sendMail({
+										from: 'ihebbouraoui1234@gmail.com',
+										to: 'ihebbouraoui1234@gmail.com',
+										subject: 'blockage',
+										html:`لقد تم حضر حسابك بسبب ${tableModel[data.index].data}`,
+										text:`لقد تم حضر حسابك بسبب ${tableModel[data.index].data}`,
+									}).then()
+								})				})
 						})
 						Swal.fire({
 							position: 'center',
